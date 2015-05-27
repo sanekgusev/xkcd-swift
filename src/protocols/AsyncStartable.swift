@@ -7,5 +7,5 @@
 //
 
 protocol AsyncStartable {
-    func start();
+    func start()
 }

@@ -103,7 +103,7 @@ final class CoreDataComicPersistence: ComicPersistence, ComicPersistentDataSourc
         return writeOperation
     }
 
-    func retrieveComixesForNumbers(numbers: Set<Int>,
+    func retrieveComicsForNumbers(numbers: [Int],
         completion:(result: ComicCollectionResult) -> ()) -> AsyncStartable {
             let readOperation = NSBlockOperation {
                 let readManagedObjectContext = self.readManagedObjectContext
@@ -113,7 +113,7 @@ final class CoreDataComicPersistence: ComicPersistence, ComicPersistentDataSourc
                     fetchRequest.includesPendingChanges = false
                     fetchRequest.shouldRefreshRefetchedObjects = true
                     fetchRequest.returnsObjectsAsFaults = false
-                    fetchRequest.predicate = NSPredicate(format: "number IN %@", numbers as NSSet)
+                    fetchRequest.predicate = NSPredicate(format: "number IN %@", numbers as NSArray)
                     let coreDataComics = readManagedObjectContext.executeFetchRequest(fetchRequest,
                         error: &error) as? [CoreDataComic]
                     if let coreDataComics = coreDataComics {

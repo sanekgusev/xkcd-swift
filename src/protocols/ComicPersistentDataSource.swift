@@ -10,7 +10,7 @@ import Foundation
 
 protocol ComicPersistentDataSource {
     
-    func retrieveComixesForNumbers(numbers: Set<Int>,
+    func retrieveComicsForNumbers(numbers: [Int],
         completion:(result: ComicCollectionResult) -> ()) -> AsyncStartable
     
     func retrieveMostRecentComic(#completion:(result: ComicResult) -> ()) -> AsyncStartable

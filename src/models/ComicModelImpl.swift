@@ -14,6 +14,8 @@ final class ComicModelImpl {
     
     private static let maxNumberOfConcurrentNetworkRequests = 5
     private static let maxNumberOfConcurrentDatabaseReads = 5
+    private static let maxInMemoryComics = 1000
+    private static let maxNumberOfQueuedNetworkRequests = 30
     
     private static var modelURL: NSURL? {
         return NSBundle.mainBundle().URLForResource("xkcd", withExtension: "momd")
@@ -39,17 +41,17 @@ final class ComicModelImpl {
     private let comicPersistence: ComicPersistence!
     private let comicPersistentDataSource: ComicPersistentDataSource!
     
-    private var _currentMaxComicNumber: Int?
-    private var _currentComicNumberRange: Range<Int>?
+    private var _maxComicNumber: Int?
+    private var _viewedComicNumberRange: Range<Int>?
     
-    private lazy var currentMaxComicNumberObserverSet = ObserverSet<Int?>()
-    private lazy var comicAvailabilityObserverSet = ObserverSet<Int>()
+    private lazy var maxComicNumberObserverSet = ObserverSet<Int?>()
+    private lazy var comicStateObserverSet = ObserverSet<[Int]>()
 
-    private lazy var comixesForComicNumbers = [Int: Comic]()
+    private lazy var comicsCache = KeyedSet<Int, Comic>()
+    private lazy var comicLoadOperations = NSMapTable.strongToWeakObjectsMapTable()
+    private lazy var comicDownloadOperations = NSMapTable.strongToWeakObjectsMapTable()
     
-    private lazy var networkOperationsForComicNumbers = NSMapTable.weakToWeakObjectsMapTable()
-    private lazy var databaseReadOperationsForComicNumbers = NSMapTable.weakToWeakObjectsMapTable()
-    private lazy var databaseWriteOperationsForComicNumbers = NSMapTable.weakToWeakObjectsMapTable()
+    private lazy var comicDownloadErrors: [Int: NSError?] = [Int: NSError?]()
     
     private lazy var networkOperationQueue: NSOperationQueue = {
         let operationQueue = NSOperationQueue()
@@ -91,78 +93,161 @@ final class ComicModelImpl {
             return nil
         }
     }
+    
+    // MARK: Private
+    
+    private func addComicsToMemoryCache(comics: [Comic]) {
+        for comic in comics {
+            comicsCache.update(comic)
+        }
+        comicStateObserverSet.notify(map(comics) { comic in comic.number })
+    }
+    
+    private func persistComic(comic: Comic) {
+        var operation: AsynchronousOperation?
+        let startable = comicPersistence.persistComic(comic,
+            completion: { result in
+                operation?.completeOperation()
+                switch result {
+                case .Failure(let error) :
+                    print(error)
+                default:
+                    break
+                }
+        })
+        operation = AsynchronousOperation(spawnBlock: { (completion) -> () in
+            startable.start()
+        }, cancellationBlock: nil)
+        databaseWriteOperationQueue.addOperation(operation!)
+    }
+    
+    private func handleDownloadedComic(comic: Comic) {
+        addComicsToMemoryCache([comic])
+        persistComic(comic)
+    }
+    
+    private func loadPersistedComicsWithNumbers(numbers: [Int],
+        completion: (comics: Set<Comic>) -> ()) {
+            var loadOperation: AsynchronousOperation?
+            let startable = comicPersistentDataSource.retrieveComicsForNumbers(numbers,
+                completion: { (result) -> () in
+                    switch result {
+                    case .Success(let comics):
+                        self.addComicsToMemoryCache(Array(comics))
+                        completion(comics: comics)
+                    case .Failure(let error):
+                        print(error)
+                        completion(comics: Set())
+                    }
+                    loadOperation?.completeOperation()
+                })
+            loadOperation = AsynchronousOperation(spawnBlock: { (completion) -> () in
+                startable.start()
+                }, cancellationBlock: nil)
+            databaseReadOperationQueue.addOperation(loadOperation!)
+    }
+    
+    private func loadMostRecentPersistentComic(completion: (comic: Comic?) -> ()) {
+        var loadOperation: AsynchronousOperation?
+        let startable = comicPersistentDataSource.retrieveMostRecentComic { (result) -> () in
+            switch result {
+                case .Success(let comic):
+                    self.addComicsToMemoryCache([comic])
+                    completion(comic: comic)
+                case .Failure(let error):
+                    print(error)
+                    completion(comic: nil)
+            }
+            loadOperation?.completeOperation()
+        }
+        loadOperation = AsynchronousOperation(spawnBlock: { (completion) -> () in
+            startable.start()
+        }, cancellationBlock: nil)
+        databaseReadOperationQueue.addOperation(loadOperation!)
+    }
+    
+    private func initialLoadMaxComicNumber() {
+        loadMostRecentPersistentComic { (comic) -> () in
+            if let comic = comic {
+                self.maxComicNumber = comic.number
+            }
+        }
+    }
 }
 
 extension ComicModelImpl: ComicModel {
     
-    func updateCurrentMaxComicNumberWithCompletion(completion: (result: VoidResult) -> ()) -> AsyncCancellable {
-        var networkOperation: AsynchronousOperation? = nil
+    func refreshMaxComicNumberWithCompletion(completion: (result: VoidResult) -> ()) -> AsyncCancellable {
         let cancellable = comicNetworkDataSource.retrieveComicOfKind(.MostRecent,
             completion: { result in
                 switch result {
                 case .Success(let comic) :
-                    self.currentMaxComicNumber = comic.number
+                    self.handleDownloadedComic(comic)
+                    self.maxComicNumber = comic.number
                     completion(result: .Success)
                 case .Failure(let error) :
                     completion(result: .Failure(error))
                 }
-                
-                networkOperation?.completeOperation()
         })
-        networkOperation = AsynchronousOperation(spawnBlock: { completion in
-            cancellable.start()
-        },
-            cancellationBlock: { () in
-            cancellable.cancel()
-        })
-        
-        networkOperationQueue.addOperation(networkOperation!)
-        
-        return networkOperation!
+        return cancellable
     }
     
-    private(set) var currentMaxComicNumber: Int? {
+    private(set) var maxComicNumber: Int? {
         get {
-            return _currentMaxComicNumber
+            return _maxComicNumber
         }
         set {
-            _currentMaxComicNumber = newValue
-            currentMaxComicNumberObserverSet.notify(_currentMaxComicNumber)
+            _maxComicNumber = newValue
+            maxComicNumberObserverSet.notify(_maxComicNumber)
         }
     }
     
-    func addCurrentMaxComicNumberObserverWithHandler(handler: (comicNumber: Int?) -> ()) -> Any {
-        return currentMaxComicNumberObserverSet.add(handler)
+    func addMaxComicNumberObserverWithHandler(handler: (comicNumber: Int?) -> ()) -> Any {
+        return maxComicNumberObserverSet.add(handler)
     }
     
-    func removeCurrentMaxComicNumberObserver(observer: Any) {
+    func removeMaxComicNumberObserver(observer: Any) {
         if let observerSetEntry = observer as? ObserverSetEntry<Int?> {
-            currentMaxComicNumberObserverSet.remove(observerSetEntry)
+            maxComicNumberObserverSet.remove(observerSetEntry)
         }
     }
     
-    func comicWithNumber(number: Int) -> Comic? {
-        return comixesForComicNumbers[number]
+    func stateOfComicWithNumber(number: Int) -> ComicModelComicState {
+        if let comic = comicsCache[number] {
+            return .Loaded(comic)
+        }
+        if comicDownloadOperations.objectForKey(NSNumber(integer: number)) != nil {
+            return .Downloading
+        }
+        if comicLoadOperations.objectForKey(NSNumber(integer: number)) != nil {
+            return .LoadingFromPersistence
+        }
+        // TODO: return .DownloadFailed too
+        return .NotLoaded
     }
     
-    var currentComicNumberRange: Range<Int>? {
-        get { return _currentComicNumberRange }
+    var viewedComicNumberRange: Range<Int>? {
+        get { return _viewedComicNumberRange }
         set {
-            if _currentComicNumberRange != newValue {
-                _currentComicNumberRange = newValue
+            if _viewedComicNumberRange != newValue {
+                _viewedComicNumberRange = newValue
                 // TODO: trigger updates
             }
         }
     }
     
-    func addComicAvailabilityObserverWithHandler(handler: (comicNumber: Int) -> ()) -> Any {
-        return comicAvailabilityObserverSet.add(handler)
+    func addComicStateObserverWithHandler(handler: (comicNumbers: [Int]) -> ()) -> Any {
+        return comicStateObserverSet.add(handler)
     }
     
-    func removeComicAvailabilityObserver(observer: Any) {
-        if let observerSetEntry = observer as? ObserverSetEntry<Int> {
-            comicAvailabilityObserverSet.remove(observerSetEntry)
+    func removeComicStateObserver(observer: Any) {
+        if let observerSetEntry = observer as? ObserverSetEntry<[Int]> {
+            comicStateObserverSet.remove(observerSetEntry)
         }
+    }
+    
+    func redownloadComicWithNumber(number: Int, completion: (result: ComicResult) -> ()) -> AsyncCancellable {
+        return NSOperation()
     }
     
 }

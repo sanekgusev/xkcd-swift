@@ -38,6 +38,12 @@ final class Comic {
     }
 }
 
+extension Comic : UniquelyIdentifiable {
+    var identifier: Int {
+        return number
+    }
+}
+
 extension Comic : Hashable, Comparable {
     var hashValue: Int {
         return number;
