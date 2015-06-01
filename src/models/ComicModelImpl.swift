@@ -47,7 +47,7 @@ final class ComicModelImpl {
     private lazy var maxComicNumberObserverSet = ObserverSet<Int?>()
     private lazy var comicStateObserverSet = ObserverSet<[Int]>()
 
-    private lazy var comicsCache = KeyedSet<Int, Comic>()
+    private lazy var comicsCache = KeyedCollection<Int, Comic>()
     private lazy var comicLoadOperations = NSMapTable.strongToWeakObjectsMapTable()
     private lazy var comicDownloadOperations = NSMapTable.strongToWeakObjectsMapTable()
     

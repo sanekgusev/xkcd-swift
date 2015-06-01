@@ -18,14 +18,14 @@
 		F3165A101AAE4E430043FFE6 /* CoreDataComic.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3165A0F1AAE4E430043FFE6 /* CoreDataComic.swift */; };
 		F32277591ACB37E200780DE5 /* ComicResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32277581ACB37E200780DE5 /* ComicResult.swift */; };
 		F322775F1ACB3C7100780DE5 /* xkcd.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F322775D1ACB3C7100780DE5 /* xkcd.xcdatamodeld */; };
+		F3311A131B1913C3002A29D8 /* UniquedQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3311A121B1913C3002A29D8 /* UniquedQueue.swift */; };
 		F33B647C1A97E5F90020F35A /* ObserverSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33B647B1A97E5F90020F35A /* ObserverSet.swift */; };
 		F37B80E31AA7B7E700599C8D /* ImageLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37B80E21AA7B7E700599C8D /* ImageLoading.swift */; };
 		F38DBB2B1B166BB300F4380E /* NSOperation+AsyncCancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38DBB281B166BB300F4380E /* NSOperation+AsyncCancellable.swift */; };
 		F38DBB2C1B166BB300F4380E /* NSOperation+NSDiscardableContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38DBB291B166BB300F4380E /* NSOperation+NSDiscardableContent.swift */; };
 		F38DBB2D1B166BB300F4380E /* NSURLSessionTask+AsyncCancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38DBB2A1B166BB300F4380E /* NSURLSessionTask+AsyncCancellable.swift */; };
-		F38DBB341B166EB600F4380E /* CountLimitedKeyedSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38DBB311B166EB600F4380E /* CountLimitedKeyedSet.swift */; };
-		F38DBB351B166EB600F4380E /* KeyedSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38DBB321B166EB600F4380E /* KeyedSet.swift */; };
-		F38DBB361B166EB600F4380E /* OrderedSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38DBB331B166EB600F4380E /* OrderedSet.swift */; };
+		F38DBB341B166EB600F4380E /* CountLimitedKeyedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38DBB311B166EB600F4380E /* CountLimitedKeyedCollection.swift */; };
+		F38DBB351B166EB600F4380E /* KeyedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38DBB321B166EB600F4380E /* KeyedCollection.swift */; };
 		F3A3ED491A968B3500F2EF86 /* ComicDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A3ED481A968B3500F2EF86 /* ComicDownloader.swift */; };
 		F3AE52261B07CD4B00FACE5A /* AsynchronousTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3AE52251B07CD4B00FACE5A /* AsynchronousTask.swift */; };
 		F3AE52281B07D45900FACE5A /* CancellableAsynchronousTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3AE52271B07D45900FACE5A /* CancellableAsynchronousTask.swift */; };
@@ -70,14 +70,14 @@
 		F3165A0F1AAE4E430043FFE6 /* CoreDataComic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataComic.swift; sourceTree = "<group>"; };
 		F32277581ACB37E200780DE5 /* ComicResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicResult.swift; sourceTree = "<group>"; };
 		F322775E1ACB3C7100780DE5 /* xkcd.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = xkcd.xcdatamodel; sourceTree = "<group>"; };
+		F3311A121B1913C3002A29D8 /* UniquedQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UniquedQueue.swift; sourceTree = "<group>"; };
 		F33B647B1A97E5F90020F35A /* ObserverSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverSet.swift; sourceTree = "<group>"; };
 		F37B80E21AA7B7E700599C8D /* ImageLoading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoading.swift; sourceTree = "<group>"; };
 		F38DBB281B166BB300F4380E /* NSOperation+AsyncCancellable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSOperation+AsyncCancellable.swift"; sourceTree = "<group>"; };
 		F38DBB291B166BB300F4380E /* NSOperation+NSDiscardableContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSOperation+NSDiscardableContent.swift"; sourceTree = "<group>"; };
 		F38DBB2A1B166BB300F4380E /* NSURLSessionTask+AsyncCancellable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURLSessionTask+AsyncCancellable.swift"; sourceTree = "<group>"; };
-		F38DBB311B166EB600F4380E /* CountLimitedKeyedSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountLimitedKeyedSet.swift; sourceTree = "<group>"; };
-		F38DBB321B166EB600F4380E /* KeyedSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyedSet.swift; sourceTree = "<group>"; };
-		F38DBB331B166EB600F4380E /* OrderedSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderedSet.swift; sourceTree = "<group>"; };
+		F38DBB311B166EB600F4380E /* CountLimitedKeyedCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountLimitedKeyedCollection.swift; sourceTree = "<group>"; };
+		F38DBB321B166EB600F4380E /* KeyedCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyedCollection.swift; sourceTree = "<group>"; };
 		F3A3ED481A968B3500F2EF86 /* ComicDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicDownloader.swift; sourceTree = "<group>"; };
 		F3AE52251B07CD4B00FACE5A /* AsynchronousTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsynchronousTask.swift; sourceTree = "<group>"; };
 		F3AE52271B07D45900FACE5A /* CancellableAsynchronousTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancellableAsynchronousTask.swift; sourceTree = "<group>"; };
@@ -232,9 +232,9 @@
 		F38DBB301B166EB600F4380E /* collections */ = {
 			isa = PBXGroup;
 			children = (
-				F38DBB311B166EB600F4380E /* CountLimitedKeyedSet.swift */,
-				F38DBB321B166EB600F4380E /* KeyedSet.swift */,
-				F38DBB331B166EB600F4380E /* OrderedSet.swift */,
+				F38DBB311B166EB600F4380E /* CountLimitedKeyedCollection.swift */,
+				F38DBB321B166EB600F4380E /* KeyedCollection.swift */,
+				F3311A121B1913C3002A29D8 /* UniquedQueue.swift */,
 			);
 			path = collections;
 			sourceTree = "<group>";
@@ -410,14 +410,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F38DBB341B166EB600F4380E /* CountLimitedKeyedSet.swift in Sources */,
+				F38DBB341B166EB600F4380E /* CountLimitedKeyedCollection.swift in Sources */,
 				F316103C1AB2558300BA4993 /* Results.swift in Sources */,
 				F37B80E31AA7B7E700599C8D /* ImageLoading.swift in Sources */,
 				F32277591ACB37E200780DE5 /* ComicResult.swift in Sources */,
 				F38DBB2C1B166BB300F4380E /* NSOperation+NSDiscardableContent.swift in Sources */,
 				F3165A101AAE4E430043FFE6 /* CoreDataComic.swift in Sources */,
 				F3D96D991A9A8909002BA3DD /* ComicParsing.swift in Sources */,
-				F38DBB351B166EB600F4380E /* KeyedSet.swift in Sources */,
+				F3311A131B1913C3002A29D8 /* UniquedQueue.swift in Sources */,
+				F38DBB351B166EB600F4380E /* KeyedCollection.swift in Sources */,
 				F33B647C1A97E5F90020F35A /* ObserverSet.swift in Sources */,
 				F3B126DB1AAA551B00724504 /* ComicImageModel.swift in Sources */,
 				F3AE52261B07CD4B00FACE5A /* AsynchronousTask.swift in Sources */,
@@ -437,7 +438,6 @@
 				F3B126E01AAA551B00724504 /* ComicNetworkDataSource.swift in Sources */,
 				F3B126D91AAA551B00724504 /* AsyncCancellable.swift in Sources */,
 				F3B126DE1AAA551B00724504 /* ComicImagePersistentDataSource.swift in Sources */,
-				F38DBB361B166EB600F4380E /* OrderedSet.swift in Sources */,
 				F322775F1ACB3C7100780DE5 /* xkcd.xcdatamodeld in Sources */,
 				F38DBB2D1B166BB300F4380E /* NSURLSessionTask+AsyncCancellable.swift in Sources */,
 				F30EA5CE1A93F529003F019E /* ComicImageDownloader.swift in Sources */,
