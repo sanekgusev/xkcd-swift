@@ -9,6 +9,5 @@
 import Foundation
 
 protocol ComicPersistence {
-    func persistComic(comic: Comic,
-        completion: (result: VoidResult) -> ()) -> AsyncStartable
+    func persistComic(comic: Comic) -> AsynchronousTask<VoidResult>
 }

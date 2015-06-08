@@ -80,9 +80,7 @@ public struct UniquedQueue <T where T: Hashable> : CollectionType {
                 isSeparator: { element in
                     return ++counter > count
             })[0]
-            for poppedElement in poppedElements {
-                _set.remove(poppedElement)
-            }
+            _set.subtractInPlace(poppedElements)
             _array.removeRange(Range(start: 0, end: poppedElements.count))
             return [T](poppedElements)
         }

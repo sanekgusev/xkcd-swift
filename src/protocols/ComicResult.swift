@@ -14,6 +14,11 @@ enum ComicResult {
 }
 
 enum ComicCollectionResult {
-    case Success(Set<Comic>)
+    case Success(KeyedCollection<Int, Comic>)
+    case Failure(NSError?)
+}
+
+enum ComicNumbersResult {
+    case Success(Set<Int>)
     case Failure(NSError?)
 }

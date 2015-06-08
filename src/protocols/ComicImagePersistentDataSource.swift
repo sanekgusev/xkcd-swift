@@ -7,9 +7,10 @@
 //
 
 import Foundation
+import QuartzCore
 
 protocol ComicImagePersistentDataSource {
-    
-    func imageFileURLForComicWithNumber(number: Int, imageKind: ComicImageKind) -> NSURL?
-    
+    func loadImageForComic(comic: Comic,
+        imageKind: ComicImageKind,
+        maximumPixelSize: CGSize?) -> AsynchronousTask<Result<CGImage>>
 }

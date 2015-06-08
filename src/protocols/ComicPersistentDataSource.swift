@@ -9,10 +9,9 @@
 import Foundation
 
 protocol ComicPersistentDataSource {
+    func loadAllPersistedComicNumbers() -> AsynchronousTask<ComicNumbersResult>
     
-    func retrieveComicsForNumbers(numbers: [Int],
-        completion:(result: ComicCollectionResult) -> ()) -> AsyncStartable
-    
-    func retrieveMostRecentComic(#completion:(result: ComicResult) -> ()) -> AsyncStartable
-    
+    func loadComicWithNumber(number: Int) -> AsynchronousTask<Result<Comic>>
+    func loadComicsWithNumbers(numbers: Set<Int>) -> AsynchronousTask<ComicCollectionResult>
+    func loadMostRecentComic() -> AsynchronousTask<Result<Comic>>
 }

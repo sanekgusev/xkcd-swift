@@ -8,18 +8,7 @@
 
 import Foundation
 
-enum ComicImageNetworkDataSourceResult {
-    case Success(NSURL)
-    case Failure(NSError?)
-}
-
-enum ComicImageNetworkDataSourceAsyncResult {
-    case Success(AsyncCancellable)
-    case Failure(NSError?)
-}
-
 protocol ComicImageNetworkDataSource {
-    func retrieveImageForComic(comic: Comic,
-        imageKind: ComicImageKind,
-        completion: (result: Result<NSURL>) -> ()) -> ComicImageNetworkDataSourceAsyncResult
+    func downloadImageForComic(comic: Comic,
+        imageKind: ComicImageKind) -> CancellableAsynchronousTask<Result<NSURL>>
 }

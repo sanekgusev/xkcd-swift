@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum Result<T: AnyObject> {
+enum Result<T> {
     case Success(T)
     case Failure(NSError?)
 }

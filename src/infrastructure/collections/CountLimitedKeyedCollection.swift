@@ -19,6 +19,8 @@ public final class CountLimitedKeyedCollection<Key: Hashable, Value where Value:
     private var _keyedCollection : KeyedCollection<Key, Value>
     private var _accessTrackingQueue: UniquedQueue<Key>
     
+    private let _elementsEvictedObserverSet = ObserverSet<KeyedCollection<Key, Value>>();
+    
     // MARK: initializers
     
     public init(minimumCapacity: Int) {
@@ -70,6 +72,22 @@ public final class CountLimitedKeyedCollection<Key: Hashable, Value where Value:
     
     // MARK: public
     
+    public var limit : Int? {
+        didSet {
+            evictElementsIfNeeded()
+        }
+    }
+    
+    public func addElementsEvictedObserverWithHandler(handler: (evictedElements: KeyedCollection<Key, Value>) -> ()) -> Any {
+        return _elementsEvictedObserverSet.add(handler)
+    }
+    
+    public func removeElementsEvictedObserver(observer: Any) {
+        if let observerSetEntry = observer as? ObserverSetEntry<KeyedCollection<Key, Value>> {
+            _elementsEvictedObserverSet.remove(observerSetEntry)
+        }
+    }
+    
     public var values: LazyForwardCollection<MapCollectionView<[Key : Value], Value>> {
         return _keyedCollection.values;
     }
@@ -86,6 +104,7 @@ public final class CountLimitedKeyedCollection<Key: Hashable, Value where Value:
     public func tryInsert(value: Value) -> Bool {
         if (_keyedCollection.tryInsert(value)) {
             _accessTrackingQueue.pushBack(value.identifier)
+            evictElementsIfNeeded()
             return true
         }
         return false
@@ -93,7 +112,11 @@ public final class CountLimitedKeyedCollection<Key: Hashable, Value where Value:
     
     public func update(value: Value) -> Value? {
         _accessTrackingQueue.pushBack(value.identifier)
-        return _keyedCollection.update(value)
+        let oldValue = _keyedCollection.update(value)
+        if oldValue == nil {
+            evictElementsIfNeeded()
+        }
+        return oldValue
     }
     
     public func remove(value: Value) -> Value? {
@@ -166,6 +189,7 @@ public final class CountLimitedKeyedCollection<Key: Hashable, Value where Value:
     public func unionInPlace<S : SequenceType where S.Generator.Element == Value>(sequence: S, updateExisting: Bool = false) {
         _keyedCollection.unionInPlace(sequence, updateExisting: updateExisting)
         _accessTrackingQueue.pushBack(map(sequence, { $0.identifier }))
+        evictElementsIfNeeded()
     }
     
     public func subtractInPlace<S : SequenceType where S.Generator.Element == Value>(sequence: S) {
@@ -183,6 +207,19 @@ public final class CountLimitedKeyedCollection<Key: Hashable, Value where Value:
         _keyedCollection.exclusiveOrInPlace(sequence)
         _accessTrackingQueue.removeAll(keepCapacity: true)
         _accessTrackingQueue.pushBack(map(_keyedCollection, { $0.0 }))
+        evictElementsIfNeeded()
+    }
+    
+    // Mark: private
+    
+    private func evictElementsIfNeeded() {
+        if let limit = limit {
+            let numberOfElementsToRemove = count - limit
+            if numberOfElementsToRemove > 0 {
+                let removedKeys = _accessTrackingQueue.popFront(numberOfElementsToRemove)
+                _keyedCollection.subtractInPlace(removedKeys)
+            }
+        }
     }
 }
 
@@ -209,12 +246,10 @@ extension CountLimitedKeyedCollection: ArrayLiteralConvertible {
 
 extension CountLimitedKeyedCollection: Hashable {
     public var hashValue: Int {
-        // TODO: take access queue into account?
         return _keyedCollection.hashValue
     }
 }
 
 public func ==<Key, Value>(lhs: CountLimitedKeyedCollection<Key, Value>, rhs: CountLimitedKeyedCollection<Key, Value>) -> Bool {
-    // TODO: take access queue into account?
     return lhs._keyedCollection == rhs._keyedCollection
 }

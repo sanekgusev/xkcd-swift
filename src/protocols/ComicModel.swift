@@ -13,22 +13,28 @@ enum ComicModelComicState {
     case LoadingFromPersistence
     case Downloading
     case Loaded(Comic)
-    case DownloadFailed(NSError?)
+    case DownloadFailed
 }
 
 protocol ComicModel {
     
-    var maxComicNumber: Int? { get }
-    func refreshMaxComicNumberWithCompletion(completion: (result: VoidResult) -> ()) -> AsyncCancellable
+    var latestAvailableComic: Comic? { get }
+    var isUpdatingLatestAvailableComic: Bool { get }
+    func updateLatestAvailableComic() -> CancellableAsynchronousTask<Result<Comic>>;
     
-    func addMaxComicNumberObserverWithHandler(handler: (comicNumber: Int?) -> ()) -> Any
-    func removeMaxComicNumberObserver(observer: Any)
+    func addLatestAvailableComicObserverWithHandler(handler: (comic: Comic?) -> ()) -> Any
+    func removeLatestAvailableComicObserver(observer: Any)
+    
+    func addUpdatingLatestAvailableComicObserverWithHandler(handler: (isUpdating: Bool) -> ()) -> Any
+    func removeUpdatingLatestAvailableComicObserver(observer: Any)
+    
+    func updateComicWithNumber(number: Int) -> CancellableAsynchronousTask<Result<Comic>>
+    
+    var viewedComicNumbers: Set<Int>? { get set }
     
     func stateOfComicWithNumber(number: Int) -> ComicModelComicState
-    var viewedComicNumberRange: Range<Int>? { get set }
+    subscript (number: Int) -> Comic? { get }
     
-    func redownloadComicWithNumber(number: Int, completion: (result: ComicResult) -> ()) -> AsyncCancellable
-    
-    func addComicStateObserverWithHandler(handler: (comicNumbers: [Int]) -> ()) -> Any
+    func addComicStateObserverWithHandler(handler: (comicNumbers: Set<Int>) -> ()) -> Any
     func removeComicStateObserver(observer: Any)
 }

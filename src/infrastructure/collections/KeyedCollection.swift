@@ -199,8 +199,18 @@ public struct KeyedCollection<Key: Hashable, Value where Value: UniquelyIdentifi
     
     public mutating func subtractInPlace<S : SequenceType where S.Generator.Element == Value>(sequence: S) {
         let sequenceKeys = map(sequence, { $0.identifier })
-        let keysToDelete = keys.intersect(sequenceKeys)
-        keys.subtractInPlace(sequenceKeys)
+        subtractInPlace(sequenceKeys)
+    }
+    
+    public func subtract<S : SequenceType where S.Generator.Element == Key>(sequence: S) -> KeyedCollection<Key, Value> {
+        var collection = self
+        collection.subtractInPlace(sequence)
+        return collection
+    }
+    
+    public mutating func subtractInPlace<S : SequenceType where S.Generator.Element == Key>(sequence: S) {
+        let keysToDelete = keys.intersect(sequence)
+        keys.subtractInPlace(sequence)
         for key in keysToDelete {
             _valuesForKeys.removeValueForKey(key)
         }
@@ -214,11 +224,7 @@ public struct KeyedCollection<Key: Hashable, Value where Value: UniquelyIdentifi
     
     public mutating func intersectInPlace<S : SequenceType where S.Generator.Element == Value>(sequence: S, updateExisting: Bool = false) {
         let sequenceKeys = map(sequence, { $0.identifier })
-        let keysToDelete = keys.subtract(sequenceKeys)
-        for key in keysToDelete {
-            _valuesForKeys.removeValueForKey(key)
-        }
-        keys.intersectInPlace(sequenceKeys)
+        intersectInPlace(sequenceKeys)
         if updateExisting {
             for value in sequence {
                 if _valuesForKeys[value.identifier] != nil {
@@ -226,6 +232,20 @@ public struct KeyedCollection<Key: Hashable, Value where Value: UniquelyIdentifi
                 }
             }
         }
+    }
+    
+    public func intersect<S : SequenceType where S.Generator.Element == Key>(sequence: S) -> KeyedCollection<Key, Value> {
+        var collection = self
+        collection.intersectInPlace(sequence)
+        return collection
+    }
+    
+    public mutating func intersectInPlace<S : SequenceType where S.Generator.Element == Key>(sequence: S) {
+        let keysToDelete = keys.subtract(sequence)
+        for key in keysToDelete {
+            _valuesForKeys.removeValueForKey(key)
+        }
+        keys.intersectInPlace(sequence)
     }
     
     public func exclusiveOr<S : SequenceType where S.Generator.Element == Value>(sequence: S) -> KeyedCollection<Key, Value> {

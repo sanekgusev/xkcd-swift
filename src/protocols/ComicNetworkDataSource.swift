@@ -8,14 +8,6 @@
 
 import Foundation
 
-enum ComicNetworkDataSourceComicKind {
-    case ByNumber(Int)
-    case MostRecent
-}
-
 protocol ComicNetworkDataSource {
-    
-    func retrieveComicOfKind(kind: ComicNetworkDataSourceComicKind,
-        completion: (result: ComicResult) -> ()) -> AsyncCancellable
-    
+    func downloadComicOfKind(kind: ComicKind) -> CancellableAsynchronousTask<Result<Comic>>
 }

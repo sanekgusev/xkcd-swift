@@ -44,3 +44,13 @@ public class AsynchronousTask<T> {
         }
     }
 }
+
+extension AsynchronousTask : Hashable {
+    public var hashValue: Int {
+        return unsafeBitCast(_spawnBlock, Int.self)
+    }
+}
+
+public func ==<T>(lhs: AsynchronousTask<T>, rhs: AsynchronousTask<T>) -> Bool {
+    return unsafeBitCast(lhs._spawnBlock, Int.self) == unsafeBitCast(rhs._spawnBlock, Int.self)
+}
