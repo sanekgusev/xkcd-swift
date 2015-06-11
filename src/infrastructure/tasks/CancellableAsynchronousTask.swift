@@ -39,7 +39,7 @@ public final class CancellableAsynchronousTask<T> : AsynchronousTask<T> {
     }
     
     public override func start() {
-        let _ = start()
+        let _ : Bool = start()
     }
     
     public func cancel() {
