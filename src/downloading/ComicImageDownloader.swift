@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CoreImage
 
 final class ComicImageDownloader: NSObject {
     

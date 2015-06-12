@@ -10,8 +10,5 @@ import Foundation
 
 protocol ComicPersistentDataSource {
     func loadAllPersistedComicNumbers() -> AsynchronousTask<Result<Set<Int>>>
-    
-    func loadComicWithNumber(number: Int) -> AsynchronousTask<Result<Comic>>
-    func loadComicsWithNumbers(numbers: Set<Int>) -> AsynchronousTask<KeyedCollection<Int, Comic>>
-    func loadMostRecentComic() -> AsynchronousTask<Result<Comic>>
+    func loadComicsWithNumbers(numbers: Set<Int>) -> AsynchronousTask<Result<KeyedCollection<Int, Comic>>>
 }

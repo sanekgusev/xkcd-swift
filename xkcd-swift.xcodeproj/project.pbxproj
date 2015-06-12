@@ -16,7 +16,6 @@
 		F31634091A6B0E0300B8FBAC /* NavigationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31634081A6B0E0300B8FBAC /* NavigationCoordinator.swift */; };
 		F3165A0A1AAE3B640043FFE6 /* CoreDataComicPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3165A091AAE3B640043FFE6 /* CoreDataComicPersistence.swift */; };
 		F3165A101AAE4E430043FFE6 /* CoreDataComic.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3165A0F1AAE4E430043FFE6 /* CoreDataComic.swift */; };
-		F32277591ACB37E200780DE5 /* ComicResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32277581ACB37E200780DE5 /* ComicResult.swift */; };
 		F322775F1ACB3C7100780DE5 /* xkcd.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F322775D1ACB3C7100780DE5 /* xkcd.xcdatamodeld */; };
 		F3311A131B1913C3002A29D8 /* UniquedQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3311A121B1913C3002A29D8 /* UniquedQueue.swift */; };
 		F33B647C1A97E5F90020F35A /* ObserverSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33B647B1A97E5F90020F35A /* ObserverSet.swift */; };
@@ -68,7 +67,6 @@
 		F31634081A6B0E0300B8FBAC /* NavigationCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationCoordinator.swift; sourceTree = "<group>"; };
 		F3165A091AAE3B640043FFE6 /* CoreDataComicPersistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataComicPersistence.swift; sourceTree = "<group>"; };
 		F3165A0F1AAE4E430043FFE6 /* CoreDataComic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataComic.swift; sourceTree = "<group>"; };
-		F32277581ACB37E200780DE5 /* ComicResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicResult.swift; sourceTree = "<group>"; };
 		F322775E1ACB3C7100780DE5 /* xkcd.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = xkcd.xcdatamodel; sourceTree = "<group>"; };
 		F3311A121B1913C3002A29D8 /* UniquedQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UniquedQueue.swift; sourceTree = "<group>"; };
 		F33B647B1A97E5F90020F35A /* ObserverSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverSet.swift; sourceTree = "<group>"; };
@@ -256,7 +254,6 @@
 				F3B126D71AAA551B00724504 /* ComicPersistence.swift */,
 				F3B126D81AAA551B00724504 /* ComicPersistentDataSource.swift */,
 				F33F975C1B1E3E2D0016E923 /* ComicLoadingCoordinator.swift */,
-				F32277581ACB37E200780DE5 /* ComicResult.swift */,
 				F33F97601B1E55F20016E923 /* ComicKind.swift */,
 				F3B126D51AAA551B00724504 /* ComicModel.swift */,
 			);
@@ -432,7 +429,6 @@
 				F33F975D1B1E3E2D0016E923 /* ComicLoadingCoordinator.swift in Sources */,
 				F316103C1AB2558300BA4993 /* Results.swift in Sources */,
 				F37B80E31AA7B7E700599C8D /* ImageLoading.swift in Sources */,
-				F32277591ACB37E200780DE5 /* ComicResult.swift in Sources */,
 				F3165A101AAE4E430043FFE6 /* CoreDataComic.swift in Sources */,
 				F3C99C2D1B22548700105CBF /* AsynchronousTask.swift in Sources */,
 				F3D96D991A9A8909002BA3DD /* ComicParsing.swift in Sources */,
