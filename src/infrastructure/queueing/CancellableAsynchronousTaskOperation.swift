@@ -16,12 +16,23 @@ class CancellableAsynchronousTaskOperation<T>: AsynchronousTaskOperation<T> {
     
     // MARK: Init
     
-    required init(cancellableAsynchronousTask: CancellableAsynchronousTask<T>) {
+    init(cancellableAsynchronousTask: CancellableAsynchronousTask<T>) {
         _cancellableAsynchronousTask = cancellableAsynchronousTask
-        super.init(asynchronousTask: cancellableAsynchronousTask)
     }
     
     // MARK: Overrides
+    
+    override func main() {
+        let semaphore = dispatch_semaphore_create(0)
+        _cancellableAsynchronousTask.addResultObserverWithHandler({ result in
+            dispatch_semaphore_signal(semaphore)
+        })
+        _cancellableAsynchronousTask.addCancelledObserverWithHandler({
+            dispatch_semaphore_signal(semaphore)
+        })
+        _cancellableAsynchronousTask.start()
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+    }
     
     override func cancel() {
         super.cancel()

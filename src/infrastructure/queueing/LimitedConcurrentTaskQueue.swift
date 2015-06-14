@@ -15,7 +15,7 @@ public final class LimitedConcurrentTaskQueue<T> {
     
     private let _operationQueue = NSOperationQueue()
     private var _taskTrackingQueue = UniquedQueue<AsynchronousTask<T>>()
-    private var _operationsForTasks = Dictionary<AsynchronousTask<T>, AsynchronousTaskOperation<T>>()// [AsynchronousTask<T> : AsynchronousTaskOperation<T>]()
+    private var _operationsForTasks = Dictionary<AsynchronousTask<T>, AsynchronousTaskOperation<T>>()
     private let _serialQueue = dispatch_queue_create(nil, DISPATCH_QUEUE_SERIAL)
     
     // MARK: properties

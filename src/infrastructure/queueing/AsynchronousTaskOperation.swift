@@ -17,7 +17,7 @@ class AsynchronousTaskOperation<T>: NSOperation {
     
     // MARK: Init
     
-    required init(asynchronousTask: AsynchronousTask<T>) {
+    init(asynchronousTask: AsynchronousTask<T>) {
         _asynchronousTask = asynchronousTask
     }
     
