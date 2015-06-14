@@ -9,16 +9,22 @@
 import Foundation
 import Dispatch
 
-public class AsynchronousTask<T> {
+public class AsynchronousTask<T> : Hashable {
+    
+    // MARK: ivars
     
     private var _spawnBlock: ((completionBlock: (result: T) -> ()) -> ())?
     private let _observerSet = ObserverSet<T>()
     private let _semaphore: dispatch_semaphore_t
     
+    // MARK: init
+    
     public init(spawnBlock: (completionBlock: (result: T) -> ()) -> ()) {
         _spawnBlock = spawnBlock
         _semaphore = dispatch_semaphore_create(1)
     }
+    
+    // MARK: public
     
     public func start() {
         dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER)
@@ -43,9 +49,9 @@ public class AsynchronousTask<T> {
             _observerSet.remove(observer)
         }
     }
-}
-
-extension AsynchronousTask : Hashable {
+    
+    // MARK: Hashable
+    
     public var hashValue: Int {
         return unsafeBitCast(_spawnBlock, Int.self)
     }

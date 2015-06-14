@@ -8,78 +8,75 @@
 
 import Foundation
 
-final class ComicImageDownloader: NSObject {
+final class ComicImageDownloader: NSObject, NSURLSessionDownloadDelegate, ComicImageNetworkDataSource {
     
     // MARK: Ivars
     
-    private static let backgroundSessionIdentifier = "com.sanekgusev.xkcd.comic-image-queue"
+    private let _semaphore = dispatch_semaphore_create(1);
+    private let _backgroundURLSession : NSURLSession
     
-    private lazy var backgroundURLSession : NSURLSession = {
+    // MARK: Init
+    
+    init(URLSessionConfiguration: NSURLSessionConfiguration) {
         let concurrentQueue = NSOperationQueue()
         concurrentQueue.qualityOfService = NSQualityOfService.UserInitiated
-        return NSURLSession(configuration: NSURLSessionConfiguration.backgroundSessionConfiguration(backgroundSessionIdentifier),
+        _backgroundURLSession = NSURLSession(configuration: URLSessionConfiguration,
             delegate: self,
             delegateQueue: concurrentQueue)
-    }()
-    
-    // MARK: Private
-    
-    private func retrieveComicImageFrom(URL: NSURL, completion: (result: Result<NSURL>) -> ()) -> AsyncCancellable {
-        let URLRequest = NSURLRequest(URL:URL)
-        let downloadTask = backgroundURLSession.downloadTaskWithRequest(URLRequest,
-            completionHandler: { URL, response, error in
-                if let URL = URL {
-                    completion(result: .Success(URL))
-                }
-                else {
-                    completion(result: .Failure(error))
-                }
-        })
-        return downloadTask
     }
     
-}
-
-extension ComicImageDownloader: NSURLSessionDownloadDelegate {
-
-    // MARK: NSURLSessionDownloadDelegate
+    // MARK: ComicImageDataSource
     
-    func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
-        
-    }
-    
-    func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
-        
-    }
-    
-    func URLSessionDidFinishEventsForBackgroundURLSession(session: NSURLSession) {
-        
-    }
-    
-    func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        
-    }
-
-}
-
-extension ComicImageDownloader: ComicImageNetworkDataSource {
-    func retrieveImageForComic(comic: Comic,
-        imageKind: ComicImageKind,
-        completion: (result: Result<NSURL>) -> ()) -> ComicImageNetworkDataSourceAsyncResult {
-            
+    func downloadImageForComic(comic: Comic,
+        imageKind: ComicImageKind) -> CancellableAsynchronousTask<Result<NSURL>> {
         let URL: NSURL?
         switch imageKind {
         case .DefaultImage:
             URL = comic.imageURL
         }
         if let URL = URL {
-            return .Success(retrieveComicImageFrom(URL,
-                completion: { result in
-                    completion(result: result)
-            }))
+            let URLRequest = NSURLRequest(URL:URL)
+            var downloadTask : NSURLSessionDownloadTask?
+            let asynchronousTask = CancellableAsynchronousTask<Result<NSURL>>(spawnBlock: { (completionBlock) -> () in
+                dispatch_semaphore_wait(self._semaphore, DISPATCH_TIME_FOREVER)
+                downloadTask = self._backgroundURLSession.downloadTaskWithRequest(URLRequest,
+                    completionHandler: { URL, response, error in
+                        if let URL = URL {
+                            completionBlock(result: .Success(URL))
+                        }
+                        else {
+                            completionBlock(result: .Failure(error))
+                        }
+                })
+                dispatch_semaphore_signal(self._semaphore)
+                downloadTask?.resume()
+            }, cancelBlock: { () -> () in
+                // TODO: add support for resume data
+                downloadTask?.cancel()
+            })
+            return asynchronousTask
         }
         else {
-            return .Failure(nil) // FIXME
+            // FIXME: figure this out
         }
     }
+    
+    // MARK: NSURLSessionDownloadDelegate
+    
+    func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
+        // TODO
+    }
+    
+    func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
+        // TODO
+    }
+    
+    func URLSessionDidFinishEventsForBackgroundURLSession(session: NSURLSession) {
+        // TODO
+    }
+    
+    func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+        // TODO
+    }
+    
 }

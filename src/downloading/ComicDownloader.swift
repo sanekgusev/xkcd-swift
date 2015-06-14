@@ -12,16 +12,18 @@ final class ComicDownloader: NSObject, NSURLSessionDataDelegate, ComicNetworkDat
     
     // MARK: ivars
     
-    private lazy var URLSession: NSURLSession = {
-        let sessionConfiguration = NSURLSessionConfiguration.ephemeralSessionConfiguration()
-        let concurrentQueue = NSOperationQueue()
-        concurrentQueue.qualityOfService = NSQualityOfService.UserInitiated
-        return NSURLSession(configuration: sessionConfiguration,
-            delegate: nil,
-            delegateQueue: concurrentQueue)
-    }()
+    private let _semaphore = dispatch_semaphore_create(1);
+    private let _URLSession : NSURLSession
     
     // MARK: init/deinit
+    
+    init(sessionConfiguration: NSURLSessionConfiguration) {
+        let concurrentQueue = NSOperationQueue()
+        concurrentQueue.qualityOfService = NSQualityOfService.UserInitiated
+        _URLSession = NSURLSession(configuration: sessionConfiguration,
+            delegate: nil,
+            delegateQueue: concurrentQueue)
+    }
     
     // MARK: ComicDataSource
     
@@ -38,7 +40,8 @@ final class ComicDownloader: NSObject, NSURLSessionDataDelegate, ComicNetworkDat
         let URLRequest = NSURLRequest(URL:URLComponents.URL!)
         var dataTask: NSURLSessionDataTask?
         let asynchronousTask = CancellableAsynchronousTask<Result<Comic>>(spawnBlock: { completionBlock in
-            dataTask = self.URLSession.dataTaskWithRequest(URLRequest) { data, response, downloadError in
+            dispatch_semaphore_wait(self._semaphore, DISPATCH_TIME_FOREVER)
+            dataTask = self._URLSession.dataTaskWithRequest(URLRequest) { data, response, downloadError in
                 if let data = data, response = response as? NSHTTPURLResponse {
                     var parserError: NSError?
                     if let comic = ComicParsing.comicFromJSONData(data, error: &parserError) {
@@ -52,6 +55,7 @@ final class ComicDownloader: NSObject, NSURLSessionDataDelegate, ComicNetworkDat
                     completionBlock(result: .Failure(downloadError))
                 }
             }
+            dispatch_semaphore_signal(self._semaphore)
             dataTask?.resume()
         }, cancelBlock: {
             dataTask?.cancel()

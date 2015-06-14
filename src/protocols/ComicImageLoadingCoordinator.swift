@@ -11,7 +11,7 @@ import QuartzCore
 
 protocol ComicImageLoadingCoordinator {
     func downloadAndPersistImageForComic(comic: Comic,
-        imageKind: ComicImageKind) -> CancellableAsynchronousTask<VoidResult>
+        imageKind: ComicImageKind) -> CancellableAsynchronousTask<Result<Void>>
     func loadOrDownloadImageForComic(comic: Comic,
         imageKind: ComicImageKind,
         maximumPixelSize: CGSize?) -> CancellableAsynchronousTask<Result<CGImage>>
