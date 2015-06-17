@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+/*
 final class ComicModelImpl {
     
     /// MARK: Constants
@@ -251,3 +251,5 @@ extension ComicModelImpl: ComicModel {
     }
     
 }
+
+*/

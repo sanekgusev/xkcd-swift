@@ -12,8 +12,3 @@ enum Result<T> {
     case Success(T)
     case Failure(NSError?)
 }
-
-enum VoidResult {
-    case Success
-    case Failure(NSError?)
-}

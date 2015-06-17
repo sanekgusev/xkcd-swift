@@ -60,5 +60,6 @@ final class ComicDownloader: NSObject, NSURLSessionDataDelegate, ComicNetworkDat
         }, cancelBlock: {
             dataTask?.cancel()
         })
+        return asynchronousTask
     }
 }

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F30EA5CE1A93F529003F019E /* ComicImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30EA5CD1A93F529003F019E /* ComicImageDownloader.swift */; };
 		F316103A1AB2516A00BA4993 /* ComicModelImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31610391AB2516A00BA4993 /* ComicModelImpl.swift */; };
 		F316103C1AB2558300BA4993 /* Results.swift in Sources */ = {isa = PBXBuildFile; fileRef = F316103B1AB2558300BA4993 /* Results.swift */; };
 		F31634031A6B0D7400B8FBAC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F31633FA1A6B0D7400B8FBAC /* LaunchScreen.xib */; };
@@ -27,7 +26,11 @@
 		F37B80E31AA7B7E700599C8D /* ImageLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37B80E21AA7B7E700599C8D /* ImageLoading.swift */; };
 		F38DBB341B166EB600F4380E /* CountLimitedKeyedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38DBB311B166EB600F4380E /* CountLimitedKeyedCollection.swift */; };
 		F38DBB351B166EB600F4380E /* KeyedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38DBB321B166EB600F4380E /* KeyedCollection.swift */; };
-		F3A3ED491A968B3500F2EF86 /* ComicDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A3ED481A968B3500F2EF86 /* ComicDownloader.swift */; };
+		F3A2B4F61B320C410030B58A /* ComicDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A2B4F31B320C410030B58A /* ComicDownloader.swift */; };
+		F3A2B4F71B320C410030B58A /* ComicImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A2B4F41B320C410030B58A /* ComicImageDownloader.swift */; };
+		F3A2B4F81B320C410030B58A /* ComicParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A2B4F51B320C410030B58A /* ComicParsing.swift */; };
+		F3A2B4FA1B320C6E0030B58A /* ComicLoadingCoordinatorImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A2B4F91B320C6E0030B58A /* ComicLoadingCoordinatorImpl.swift */; };
+		F3A2B4FC1B3219020030B58A /* FileSystemComicImagePersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A2B4FB1B3219020030B58A /* FileSystemComicImagePersistence.swift */; };
 		F3B126CD1AAA551400724504 /* Comic.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B126CB1AAA551400724504 /* Comic.swift */; };
 		F3B126CE1AAA551400724504 /* ComicImageKinds.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B126CC1AAA551400724504 /* ComicImageKinds.swift */; };
 		F3B126DC1AAA551B00724504 /* ComicImageNetworkDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B126D21AAA551B00724504 /* ComicImageNetworkDataSource.swift */; };
@@ -41,7 +44,6 @@
 		F3C99C2D1B22548700105CBF /* AsynchronousTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C99C2B1B22548700105CBF /* AsynchronousTask.swift */; };
 		F3C99C2E1B22548700105CBF /* CancellableAsynchronousTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C99C2C1B22548700105CBF /* CancellableAsynchronousTask.swift */; };
 		F3C99C301B2254CA00105CBF /* LimitedConcurrentTaskQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C99C2F1B2254CA00105CBF /* LimitedConcurrentTaskQueue.swift */; };
-		F3D96D991A9A8909002BA3DD /* ComicParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D96D981A9A8909002BA3DD /* ComicParsing.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,7 +59,6 @@
 /* Begin PBXFileReference section */
 		7BFC3AEA9E0150776745C0B6 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		EDF50DE445677110B953A10D /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F30EA5CD1A93F529003F019E /* ComicImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicImageDownloader.swift; sourceTree = "<group>"; };
 		F31610391AB2516A00BA4993 /* ComicModelImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicModelImpl.swift; sourceTree = "<group>"; };
 		F316103B1AB2558300BA4993 /* Results.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Results.swift; sourceTree = "<group>"; };
 		F31633FB1A6B0D7400B8FBAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -78,7 +79,11 @@
 		F37B80E21AA7B7E700599C8D /* ImageLoading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoading.swift; sourceTree = "<group>"; };
 		F38DBB311B166EB600F4380E /* CountLimitedKeyedCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountLimitedKeyedCollection.swift; sourceTree = "<group>"; };
 		F38DBB321B166EB600F4380E /* KeyedCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyedCollection.swift; sourceTree = "<group>"; };
-		F3A3ED481A968B3500F2EF86 /* ComicDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicDownloader.swift; sourceTree = "<group>"; };
+		F3A2B4F31B320C410030B58A /* ComicDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicDownloader.swift; sourceTree = "<group>"; };
+		F3A2B4F41B320C410030B58A /* ComicImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicImageDownloader.swift; sourceTree = "<group>"; };
+		F3A2B4F51B320C410030B58A /* ComicParsing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicParsing.swift; sourceTree = "<group>"; };
+		F3A2B4F91B320C6E0030B58A /* ComicLoadingCoordinatorImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicLoadingCoordinatorImpl.swift; sourceTree = "<group>"; };
+		F3A2B4FB1B3219020030B58A /* FileSystemComicImagePersistence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileSystemComicImagePersistence.swift; sourceTree = "<group>"; };
 		F3B126CB1AAA551400724504 /* Comic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comic.swift; sourceTree = "<group>"; };
 		F3B126CC1AAA551400724504 /* ComicImageKinds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicImageKinds.swift; sourceTree = "<group>"; };
 		F3B126D21AAA551B00724504 /* ComicImageNetworkDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicImageNetworkDataSource.swift; sourceTree = "<group>"; };
@@ -95,7 +100,6 @@
 		F3C99C2B1B22548700105CBF /* AsynchronousTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsynchronousTask.swift; sourceTree = "<group>"; };
 		F3C99C2C1B22548700105CBF /* CancellableAsynchronousTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancellableAsynchronousTask.swift; sourceTree = "<group>"; };
 		F3C99C2F1B2254CA00105CBF /* LimitedConcurrentTaskQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LimitedConcurrentTaskQueue.swift; sourceTree = "<group>"; };
-		F3D96D981A9A8909002BA3DD /* ComicParsing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicParsing.swift; sourceTree = "<group>"; };
 		FC8FEB8BBBF3076808AE6D71 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,16 +138,6 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		F30EA5CC1A93F515003F019E /* downloading */ = {
-			isa = PBXGroup;
-			children = (
-				F30EA5CD1A93F529003F019E /* ComicImageDownloader.swift */,
-				F3A3ED481A968B3500F2EF86 /* ComicDownloader.swift */,
-				F3D96D981A9A8909002BA3DD /* ComicParsing.swift */,
-			);
-			path = downloading;
-			sourceTree = "<group>";
-		};
 		F31633F91A6B0D7400B8FBAC /* resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,6 +151,7 @@
 		F31633FE1A6B0D7400B8FBAC /* src */ = {
 			isa = PBXGroup;
 			children = (
+				F3A2B4F21B320C410030B58A /* networking */,
 				F38DBB271B166B9800F4380E /* categories */,
 				F3B126E31AAA552600724504 /* models */,
 				F3B126C91AAA54DC00724504 /* domainObjects */,
@@ -164,7 +159,6 @@
 				F31C52C21AA90FAB001E440D /* persistence */,
 				F37B80E11AA7B7CB00599C8D /* images */,
 				F33B647A1A97E5EB0020F35A /* infrastructure */,
-				F30EA5CC1A93F515003F019E /* downloading */,
 				F31633FF1A6B0D7400B8FBAC /* AppDelegate.swift */,
 				F31634011A6B0D7400B8FBAC /* ui */,
 			);
@@ -193,6 +187,7 @@
 			children = (
 				F3165A0B1AAE4CE00043FFE6 /* CoreData */,
 				F3165A091AAE3B640043FFE6 /* CoreDataComicPersistence.swift */,
+				F3A2B4FB1B3219020030B58A /* FileSystemComicImagePersistence.swift */,
 			);
 			path = persistence;
 			sourceTree = "<group>";
@@ -234,6 +229,16 @@
 			path = collections;
 			sourceTree = "<group>";
 		};
+		F3A2B4F21B320C410030B58A /* networking */ = {
+			isa = PBXGroup;
+			children = (
+				F3A2B4F31B320C410030B58A /* ComicDownloader.swift */,
+				F3A2B4F41B320C410030B58A /* ComicImageDownloader.swift */,
+				F3A2B4F51B320C410030B58A /* ComicParsing.swift */,
+			);
+			path = networking;
+			sourceTree = "<group>";
+		};
 		F3B126C91AAA54DC00724504 /* domainObjects */ = {
 			isa = PBXGroup;
 			children = (
@@ -264,6 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				F31610391AB2516A00BA4993 /* ComicModelImpl.swift */,
+				F3A2B4F91B320C6E0030B58A /* ComicLoadingCoordinatorImpl.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -424,18 +430,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3A2B4F61B320C410030B58A /* ComicDownloader.swift in Sources */,
 				F38DBB341B166EB600F4380E /* CountLimitedKeyedCollection.swift in Sources */,
 				F33F975F1B1E40C40016E923 /* ComicImageLoadingCoordinator.swift in Sources */,
 				F33F975D1B1E3E2D0016E923 /* ComicLoadingCoordinator.swift in Sources */,
 				F316103C1AB2558300BA4993 /* Results.swift in Sources */,
+				F3A2B4F71B320C410030B58A /* ComicImageDownloader.swift in Sources */,
 				F37B80E31AA7B7E700599C8D /* ImageLoading.swift in Sources */,
+				F3A2B4FA1B320C6E0030B58A /* ComicLoadingCoordinatorImpl.swift in Sources */,
 				F3165A101AAE4E430043FFE6 /* CoreDataComic.swift in Sources */,
 				F3C99C2D1B22548700105CBF /* AsynchronousTask.swift in Sources */,
-				F3D96D991A9A8909002BA3DD /* ComicParsing.swift in Sources */,
 				F3311A131B1913C3002A29D8 /* UniquedQueue.swift in Sources */,
 				F38DBB351B166EB600F4380E /* KeyedCollection.swift in Sources */,
 				F33B647C1A97E5F90020F35A /* ObserverSet.swift in Sources */,
-				F3A3ED491A968B3500F2EF86 /* ComicDownloader.swift in Sources */,
+				F3A2B4F81B320C410030B58A /* ComicParsing.swift in Sources */,
 				F3B126DF1AAA551B00724504 /* ComicModel.swift in Sources */,
 				F3C99C2E1B22548700105CBF /* CancellableAsynchronousTask.swift in Sources */,
 				F316103A1AB2516A00BA4993 /* ComicModelImpl.swift in Sources */,
@@ -452,8 +460,8 @@
 				F3B126DE1AAA551B00724504 /* ComicImagePersistentDataSource.swift in Sources */,
 				F33F97611B1E55F20016E923 /* ComicKind.swift in Sources */,
 				F3C99C301B2254CA00105CBF /* LimitedConcurrentTaskQueue.swift in Sources */,
+				F3A2B4FC1B3219020030B58A /* FileSystemComicImagePersistence.swift in Sources */,
 				F322775F1ACB3C7100780DE5 /* xkcd.xcdatamodeld in Sources */,
-				F30EA5CE1A93F529003F019E /* ComicImageDownloader.swift in Sources */,
 				F34A08F51B2A29D90050A9CD /* AsynchronousTaskOperation.swift in Sources */,
 				F31634061A6B0D7400B8FBAC /* AppDelegate.swift in Sources */,
 			);

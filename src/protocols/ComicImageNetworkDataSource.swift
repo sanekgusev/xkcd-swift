@@ -10,5 +10,5 @@ import Foundation
 
 protocol ComicImageNetworkDataSource {
     func downloadImageForComic(comic: Comic,
-        imageKind: ComicImageKind) -> CancellableAsynchronousTask<Result<NSURL>>
+        imageKind: ComicImageKind) -> CancellableAsynchronousTask<Result<NSURL>>?
 }

@@ -18,6 +18,7 @@ class CancellableAsynchronousTaskOperation<T>: AsynchronousTaskOperation<T> {
     
     init(cancellableAsynchronousTask: CancellableAsynchronousTask<T>) {
         _cancellableAsynchronousTask = cancellableAsynchronousTask
+        super.init(asynchronousTask: cancellableAsynchronousTask)
     }
     
     // MARK: Overrides

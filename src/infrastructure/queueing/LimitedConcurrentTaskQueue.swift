@@ -85,7 +85,7 @@ public final class LimitedConcurrentTaskQueue<T> {
             })
             }, cancelBlock: { () in
                 wrappingOperation.cancel()
-        })
+            })
     }
     
     private func cancelOldOperationsIfNeeded() {

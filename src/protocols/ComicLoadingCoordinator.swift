@@ -9,5 +9,6 @@
 import Foundation
 
 protocol ComicLoadingCoordinator {
-    func downloadAndPersistComicOfKind(kind: ComicKind) -> CancellableAsynchronousTask<Result<Comic>>
+    func downloadAndPersistComicOfKind(kind: ComicKind,
+        qualityOfService: NSQualityOfService) -> CancellableAsynchronousTask<Result<Comic>>
 }

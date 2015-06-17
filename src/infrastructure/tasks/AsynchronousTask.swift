@@ -9,35 +9,44 @@
 import Foundation
 import Dispatch
 
+private enum AsynchronousTaskState {
+    case NotStarted
+    case Running
+    case Finished
+}
+
 public class AsynchronousTask<T> : Hashable {
     
     // MARK: ivars
     
-    private var _spawnBlock: ((completionBlock: (result: T) -> ()) -> ())?
+    private let _spawnBlock: ((completionBlock: (result: T) -> ()) -> ())
     private let _observerSet = ObserverSet<T>()
-    private let _semaphore: dispatch_semaphore_t
+    private var _state = AsynchronousTaskState.NotStarted
+    private let _serialQueue = dispatch_queue_create(nil, DISPATCH_QUEUE_SERIAL)
     
     // MARK: init
     
     public init(spawnBlock: (completionBlock: (result: T) -> ()) -> ()) {
         _spawnBlock = spawnBlock
-        _semaphore = dispatch_semaphore_create(1)
     }
     
     // MARK: public
     
     public func start() {
-        dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER)
-        if let spawnBlock = _spawnBlock {
-            _spawnBlock = nil
-            spawnBlock(completionBlock: { result in
-                self._observerSet.notify(result)
-            })
-        }
-        else {
-            assert(false, "cannot invoke start() more than once")
-        }
-        dispatch_semaphore_signal(_semaphore)
+        dispatch_async(_serialQueue, { () -> Void in
+            switch self._state {
+            case .NotStarted:
+                self._spawnBlock(completionBlock: { result in
+                    dispatch_async(self._serialQueue, { () -> Void in
+                        self._state = .Finished
+                        self._observerSet.notify(result)
+                    })
+                })
+                self._state = .Running
+            default:
+                assert(false, "cannot invoke start() more than once")
+            }
+        })
     }
     
     public func addResultObserverWithHandler(handler: (result: T) -> ()) -> Any {

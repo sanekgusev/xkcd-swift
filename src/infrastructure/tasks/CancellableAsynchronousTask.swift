@@ -8,17 +8,22 @@
 
 import Foundation
 
+private enum CancellableAsynchronousTaskState {
+    case NotStarted
+    case Running
+    case Finished
+}
+
 public final class CancellableAsynchronousTask<T> : AsynchronousTask<T> {
     
     // MARK: ivars
     
-    private var _spawnBlock: ((completionBlock: (result: T) -> ()) -> ())?
-    private var _cancelBlock: () -> ()
-    private var _finished = false
+    private let _spawnBlock: ((completionBlock: (result: T) -> ()) -> ())
+    private let _cancelBlock: () -> ()
+    private var _state = CancellableAsynchronousTaskState.NotStarted
     private let _completedObserverSet = ObserverSet<T>()
     private let _cancelledObserverSet = ObserverSet<Void>()
-    private let _semaphore = dispatch_semaphore_create(1)
-    private let _completionSemaphore = dispatch_semaphore_create(1)
+    private let _serialQueue = dispatch_queue_create(nil, DISPATCH_QUEUE_SERIAL)
     
     // MARK: init
     
@@ -26,32 +31,30 @@ public final class CancellableAsynchronousTask<T> : AsynchronousTask<T> {
         cancelBlock:() -> ()) {
         _spawnBlock = spawnBlock
         _cancelBlock = cancelBlock
+        super.init(spawnBlock: spawnBlock)
     }
     
     // MARK: public
     
     public override func start() {
-        dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER)
-        if !_finished {
-            if let spawnBlock = _spawnBlock {
-                _spawnBlock = nil
-                spawnBlock(completionBlock: { result in
-                    var shouldNotifyObservers = false
-                    dispatch_semaphore_wait(self._completionSemaphore, DISPATCH_TIME_FOREVER)
-                    if !self._finished {
-                        shouldNotifyObservers = true
-                    }
-                    dispatch_semaphore_signal(self._completionSemaphore)
-                    if shouldNotifyObservers {
-                        self._completedObserverSet.notify(result)
-                    }
+        dispatch_async(_serialQueue, { () -> Void in
+            switch self._state {
+            case .NotStarted:
+                self._spawnBlock(completionBlock: { result in
+                    dispatch_async(self._serialQueue, { () -> Void in
+                        switch self._state {
+                        case .Running:
+                            self._state = .Finished
+                            self._completedObserverSet.notify(result)
+                        default: ()
+                        }
+                    })
                 })
-            }
-            else {
+                self._state = .Running
+            default:
                 assert(false, "cannot invoke start() more than once")
             }
-        }
-        dispatch_semaphore_signal(_semaphore)
+        })
     }
     
     public override func addResultObserverWithHandler(handler: (result: T) -> ()) -> Any {
@@ -65,19 +68,15 @@ public final class CancellableAsynchronousTask<T> : AsynchronousTask<T> {
     }
     
     public func cancel() {
-        var shouldNotifyObservers = false
-        dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER)
-        dispatch_semaphore_wait(_completionSemaphore, DISPATCH_TIME_FOREVER)
-        if !_finished {
-            _finished = true;
-            _cancelBlock()
-            shouldNotifyObservers = true
-        }
-        dispatch_semaphore_signal(_completionSemaphore)
-        dispatch_semaphore_signal(_semaphore)
-        if shouldNotifyObservers {
-            _cancelledObserverSet.notify()
-        }
+        dispatch_async(_serialQueue, { () -> Void in
+            switch self._state {
+                case .Running:
+                    self._cancelBlock()
+                    self._state = .Finished
+                    self._cancelledObserverSet.notify()
+                default: ()
+            }
+        })
     }
     
     public func addCancelledObserverWithHandler(handler: () -> ()) -> Any {

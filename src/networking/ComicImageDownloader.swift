@@ -13,13 +13,14 @@ final class ComicImageDownloader: NSObject, NSURLSessionDownloadDelegate, ComicI
     // MARK: Ivars
     
     private let _semaphore = dispatch_semaphore_create(1);
-    private let _backgroundURLSession : NSURLSession
+    private var _backgroundURLSession : NSURLSession!
     
     // MARK: Init
     
     init(URLSessionConfiguration: NSURLSessionConfiguration) {
         let concurrentQueue = NSOperationQueue()
         concurrentQueue.qualityOfService = NSQualityOfService.UserInitiated
+        super.init()
         _backgroundURLSession = NSURLSession(configuration: URLSessionConfiguration,
             delegate: self,
             delegateQueue: concurrentQueue)
@@ -28,11 +29,11 @@ final class ComicImageDownloader: NSObject, NSURLSessionDownloadDelegate, ComicI
     // MARK: ComicImageDataSource
     
     func downloadImageForComic(comic: Comic,
-        imageKind: ComicImageKind) -> CancellableAsynchronousTask<Result<NSURL>> {
+        imageKind: ComicImageKind) -> CancellableAsynchronousTask<Result<NSURL>>? {
         let URL: NSURL?
         switch imageKind {
-        case .DefaultImage:
-            URL = comic.imageURL
+            case .DefaultImage:
+                URL = comic.imageURL
         }
         if let URL = URL {
             let URLRequest = NSURLRequest(URL:URL)
@@ -56,9 +57,7 @@ final class ComicImageDownloader: NSObject, NSURLSessionDownloadDelegate, ComicI
             })
             return asynchronousTask
         }
-        else {
-            // FIXME: figure this out
-        }
+        return nil
     }
     
     // MARK: NSURLSessionDownloadDelegate
