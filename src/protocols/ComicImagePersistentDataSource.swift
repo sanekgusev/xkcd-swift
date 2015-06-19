@@ -9,8 +9,13 @@
 import Foundation
 import QuartzCore
 
+enum ComicImagePersistentDataSourceSize {
+    case FullResolution
+    case Thumbnail(maxPizelSize: CGFloat)
+}
+
 protocol ComicImagePersistentDataSource {
     func loadImageForComic(comic: Comic,
         imageKind: ComicImageKind,
-        maximumPixelSize: CGSize?) -> AsynchronousTask<Result<CGImage>>
+        size: ComicImagePersistentDataSourceSize) -> AsynchronousTask<Result<CGImage>>
 }

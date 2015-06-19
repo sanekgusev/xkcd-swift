@@ -49,12 +49,26 @@ final class FileSystemComicImagePersistence : ComicImagePersistence,
     
     func loadImageForComic(comic: Comic,
         imageKind: ComicImageKind,
-        maximumPixelSize: CGSize?) -> AsynchronousTask<Result<CGImage>> {
+        size: ComicImagePersistentDataSourceSize) -> AsynchronousTask<Result<CGImage>> {
         return AsynchronousTask<Result<CGImage>>(spawnBlock: { (completionBlock) -> () in
             if let imageFileURL = self.imageFileURLForComic(comic,
                 imageKind: imageKind) {
-                dispatch_async(_imageLoadingQueue, { () -> Void in
-//                    ImageLoading.l
+                dispatch_async(self._imageLoadingQueue, { () -> Void in
+                    let loadingMode: ImageLoading.LoadingMode
+                    switch size {
+                        case .FullResolution:
+                            loadingMode = .FullResolution
+                        case .Thumbnail(let maxPixelSize):
+                            loadingMode = .Thumbnail(maxDimension:maxPixelSize)
+                    }
+                    if let image = ImageLoading.loadImage(imageFileURL,
+                        loadingMode: loadingMode,
+                        shouldCache: true) {
+                            completionBlock(result: .Success(image))
+                    }
+                    else {
+                        completionBlock(result: .Failure(nil)) // TODO: add error
+                    }
                 })
             }
             else {
