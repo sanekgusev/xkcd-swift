@@ -18,71 +18,97 @@ final class ImageLoading {
         case Thumbnail(maxDimension: CGFloat)
     }
     
-    class func loadImage(fileURL: NSURL, loadingMode: LoadingMode, shouldCache: Bool = true) -> CGImage? {
-        assert(fileURL.fileURL, "fileURL should be a file URL");
-        let UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
-            fileURL.pathExtension,
-            nil)
-        let imageSource = CGImageSourceCreateWithURL(fileURL,
-            UTI == nil ? nil : [ kCGImageSourceTypeIdentifierHint as! String: UTI.takeRetainedValue() ])
-        var options: [String: AnyObject] = [ kCGImageSourceShouldCache as! String: shouldCache,
-            kCGImageSourceCreateThumbnailFromImageAlways as! String: true,
-            kCGImageSourceCreateThumbnailWithTransform as! String: true ]
+    enum ImageLoadingError : ErrorType {
+        case NotAFileURL
+        case UTICreationFailed
+        case ImageSourceCreationFailed
+        case ImageCreationFailed
+    }
+    
+    class func loadImage(fileURL: NSURL, loadingMode: LoadingMode, shouldCache: Bool = true) throws -> CGImage {
+        guard fileURL.fileURL, let pathExtension = fileURL.pathExtension else {
+            throw ImageLoadingError.NotAFileURL
+        }
+        guard let UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
+            pathExtension,
+            nil)?.takeRetainedValue() as? String else {
+            throw ImageLoadingError.UTICreationFailed
+        }
+        guard let imageSource = CGImageSourceCreateWithURL(fileURL,
+            [ kCGImageSourceTypeIdentifierHint as String : UTI ]) else {
+                throw ImageLoadingError.ImageSourceCreationFailed
+        }
+        var options: [String: AnyObject] = [ kCGImageSourceShouldCache as String: shouldCache,
+            kCGImageSourceCreateThumbnailFromImageAlways as String: true,
+            kCGImageSourceCreateThumbnailWithTransform as String: true ]
         switch loadingMode {
             case .Thumbnail(maxDimension: let maxDimension):
-                options[kCGImageSourceThumbnailMaxPixelSize as! String!] = maxDimension
+                options[kCGImageSourceThumbnailMaxPixelSize as String] = maxDimension
             default:()
         }
 
-        return CGImageSourceCreateImageAtIndex(imageSource, 0, options)
+        guard let image = CGImageSourceCreateImageAtIndex(imageSource, 0, options) else {
+            throw ImageLoadingError.ImageCreationFailed
+        }
+        return image
     }
     
-    class func uncompressImage(image: CGImage) -> CGImage? {
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
+    enum ImageUncompressionError : ErrorType {
+        case ColorSpaceCreationFailed
+        case ContextCreationFailed
+        case ImageCreationFailed
+    }
+    
+    class func uncompressImage(image: CGImage) throws -> CGImage {
+        guard let colorSpace = CGColorSpaceCreateDeviceRGB() else {
+            throw ImageUncompressionError.ColorSpaceCreationFailed
+        }
         var bitmapInfo = CGImageGetBitmapInfo(image)
         
-        let alphaInfo = CGImageAlphaInfo(rawValue: (bitmapInfo & CGBitmapInfo.AlphaInfoMask).rawValue)
-        let anyNonAlpha = (alphaInfo == CGImageAlphaInfo.None ||
-            alphaInfo == CGImageAlphaInfo.NoneSkipFirst ||
-            alphaInfo == CGImageAlphaInfo.NoneSkipLast);
+        let alphaInfo = CGImageAlphaInfo(rawValue: (bitmapInfo.intersect(.AlphaInfoMask)).rawValue)
+        let anyNonAlpha = (alphaInfo == .None ||
+            alphaInfo == .NoneSkipFirst ||
+            alphaInfo == .NoneSkipLast);
         
         // CGBitmapContextCreate doesn't support kCGImageAlphaNone with RGB.
         // https://developer.apple.com/library/mac/#qa/qa1037/_index.html
-        if (alphaInfo == CGImageAlphaInfo.None &&
+        if (alphaInfo == .None &&
             CGColorSpaceGetNumberOfComponents(colorSpace) > 1) {
             // Unset the old alpha info.
-            bitmapInfo &= ~CGBitmapInfo.AlphaInfoMask
+            bitmapInfo.subtractInPlace(.AlphaInfoMask)
             
             // Set noneSkipFirst.
-            bitmapInfo |= CGBitmapInfo(rawValue: CGImageAlphaInfo.NoneSkipFirst.rawValue)
+            bitmapInfo.unionInPlace(CGBitmapInfo(rawValue: CGImageAlphaInfo.NoneSkipFirst.rawValue))
         }
             // Some PNGs tell us they have alpha but only 3 components. Odd.
         else if (!anyNonAlpha &&
             CGColorSpaceGetNumberOfComponents(colorSpace) == 3) {
             // Unset the old alpha info.
-            bitmapInfo &= ~CGBitmapInfo.AlphaInfoMask
-            bitmapInfo |= CGBitmapInfo(rawValue: CGImageAlphaInfo.PremultipliedFirst.rawValue)
+            bitmapInfo.subtractInPlace(.AlphaInfoMask)
+            bitmapInfo.unionInPlace(CGBitmapInfo(rawValue: CGImageAlphaInfo.PremultipliedFirst.rawValue))
         }
         
         let imageWidth = CGImageGetWidth(image)
         let imageHeight = CGImageGetHeight(image)
         // It calculates the bytes-per-row based on the bitsPerComponent and width arguments.
-        let context = CGBitmapContextCreate(nil,
+        guard let context = CGBitmapContextCreate(nil,
             imageWidth,
             imageHeight,
             CGImageGetBitsPerComponent(image),
             0,
             colorSpace,
-            bitmapInfo);
-        
-        if (context == nil) {
-            return nil
+            bitmapInfo.rawValue) else {
+                throw ImageUncompressionError.ContextCreationFailed
         }
         
-        let imageRect = CGRect(origin: CGPoint.zeroPoint, size: CGSize(width: Int(imageWidth),
-            height: Int(imageHeight)))
+        let imageRect = CGRect(origin: .zeroPoint, size: CGSize(width: imageWidth,
+            height: imageHeight))
         
         CGContextDrawImage(context, imageRect, image)
-        return CGBitmapContextCreateImage(context)
+        guard let image = CGBitmapContextCreateImage(context) else {
+            throw ImageUncompressionError.ImageCreationFailed
+        }
+        
+        return image
     }
 }

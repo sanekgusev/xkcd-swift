@@ -10,47 +10,45 @@ import Foundation
 
 final class ComicParsing {
     
-    static let ErrorDomain = "ComicParsing"
-    static let ComicNumberMissingCode = 0
+    private static let calendar : NSCalendar! = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
     
-    private static let calendar : NSCalendar? = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
+    enum Error : ErrorType {
+        case NotADictionary
+        case ComicNumberMissing
+    }
     
-    class func comicFromJSONData(JSONData: NSData, error: NSErrorPointer) -> Comic? {
-        if let
-            comicDict = NSJSONSerialization.JSONObjectWithData(JSONData, options: nil, error: error) as? [String: AnyObject] {
-                if let num = comicDict["num"] as? Int {
-                    let imageURL: NSURL?
-                    if let img = comicDict["img"] as? String {
-                        imageURL = NSURL(string: img)
-                    }
-                    else {
-                        imageURL = nil
-                    }
-                    let date: NSDate?
-                    if let day = comicDict["day"] as? Int,
-                        month = comicDict["month"] as? Int,
-                        year = comicDict["year"] as? Int {
-                            date = dateFrom(day, month: month, year: year)
-                    }
-                    else {
-                        date = nil
-                    }
-                    return Comic(number: num,
-                        date: date, 
-                        title: comicDict["title"] as? String,
-                        link: comicDict["link"] as? String,
-                        news: comicDict["news"] as? String,
-                        imageURL: imageURL,
-                        transcript: comicDict["transcript"] as? String,
-                        alt: comicDict["alt"] as? String)
-                }
-                else {
-                    if error != nil {
-                        error.memory = NSError(domain: ErrorDomain, code: ComicNumberMissingCode, userInfo: nil)
-                    }
-                }
+    class func comicFromJSONData(JSONData: NSData) throws -> Comic {
+        guard let comicDict = try NSJSONSerialization.JSONObjectWithData(JSONData, options: []) as? [String: AnyObject] else {
+            throw Error.NotADictionary
         }
-        return nil
+        guard let num = comicDict["num"] as? Int else {
+            throw Error.ComicNumberMissing
+        }
+        
+        let imageURL = (comicDict["img"] as? String).flatMap({NSURL(string: $0)})
+
+        let nullableDate: NSDateComponents?
+        if let day = comicDict["day"] as? Int,
+            month = comicDict["month"] as? Int,
+            year = comicDict["year"] as? Int {
+                
+            let date = NSDateComponents()
+            date.day = day
+            date.month = month
+            date.year = year
+            nullableDate = date
+        }
+        else {
+            nullableDate = nil
+        }
+        return Comic(number: num,
+            date: nullableDate,
+            title: comicDict["title"] as? String,
+            link: comicDict["link"] as? String,
+            news: comicDict["news"] as? String,
+            imageURL: imageURL,
+            transcript: comicDict["transcript"] as? String,
+            alt: comicDict["alt"] as? String)
     }
     
     private class func dateFrom(day: Int, month: Int, year: Int) -> NSDate? {
@@ -59,6 +57,6 @@ final class ComicParsing {
         dateComponents.month = month
         dateComponents.year = year
         
-        return calendar?.dateFromComponents(dateComponents)
+        return calendar.dateFromComponents(dateComponents)
     }
 }

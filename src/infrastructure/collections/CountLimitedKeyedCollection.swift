@@ -130,8 +130,8 @@ public final class CountLimitedKeyedCollection<Key: Hashable, Value where Value:
     }
     
     public func removeAll(keepCapacity: Bool = false) {
-        _keyedCollection.removeAll(keepCapacity: keepCapacity)
-        _accessTrackingQueue.removeAll(keepCapacity: keepCapacity)
+        _keyedCollection.removeAll(keepCapacity)
+        _accessTrackingQueue.removeAll(keepCapacity)
     }
     
     public var count: Int {
@@ -199,14 +199,14 @@ public final class CountLimitedKeyedCollection<Key: Hashable, Value where Value:
     
     public func intersectInPlace<S : SequenceType where S.Generator.Element == Value>(sequence: S, updateExisting: Bool = false) {
         _keyedCollection.intersectInPlace(sequence, updateExisting: updateExisting)
-        _accessTrackingQueue.removeAll(keepCapacity: true)
-        _accessTrackingQueue.pushBack(map(_keyedCollection, { $0.0 }))
+        _accessTrackingQueue.removeAll(true)
+        _accessTrackingQueue.pushBack(_keyedCollection.map({ $0.0 }))
     }
     
     public func exclusiveOrInPlace<S : SequenceType where S.Generator.Element == Value>(sequence: S) {
         _keyedCollection.exclusiveOrInPlace(sequence)
-        _accessTrackingQueue.removeAll(keepCapacity: true)
-        _accessTrackingQueue.pushBack(map(_keyedCollection, { $0.0 }))
+        _accessTrackingQueue.removeAll(true)
+        _accessTrackingQueue.pushBack(_keyedCollection.map({ $0.0 }))
         evictElementsIfNeeded()
     }
     
@@ -223,7 +223,7 @@ public final class CountLimitedKeyedCollection<Key: Hashable, Value where Value:
     }
 }
 
-extension CountLimitedKeyedCollection : Printable, DebugPrintable {
+extension CountLimitedKeyedCollection : CustomStringConvertible, CustomDebugStringConvertible {
     
     public var description: String {
         return "Keyed collection: \(_keyedCollection.description)\n" +

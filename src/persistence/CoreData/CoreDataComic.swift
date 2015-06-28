@@ -12,7 +12,9 @@ import CoreData
 final class CoreDataComic: NSManagedObject {
 
     @NSManaged var number: Int
-    @NSManaged var date: NSTimeInterval
+    @NSManaged var day: Int
+    @NSManaged var month: Int
+    @NSManaged var year: Int
     @NSManaged var title: String?
     @NSManaged var link: String?
     @NSManaged var news: String?
@@ -34,7 +36,9 @@ extension CoreDataComic {
             inManagedObjectContext: context) as? CoreDataComic
         if let coreDataComic = coreDataComic {
             coreDataComic.number = comic.number
-            coreDataComic.date = comic.date?.timeIntervalSinceReferenceDate ?? 0
+            coreDataComic.day = comic.date?.day ?? 0
+            coreDataComic.month = comic.date?.month ?? 0
+            coreDataComic.year = comic.date?.year ?? 0
             coreDataComic.title = comic.title
             coreDataComic.link = comic.link
             coreDataComic.news = comic.news
@@ -44,12 +48,24 @@ extension CoreDataComic {
     }
     
     func comic() -> Comic {
+        let nullableDateComponents : NSDateComponents?
+        if day > 0 && month > 0 && year > 0 {
+            let dateComponents = NSDateComponents()
+            dateComponents.day = day
+            dateComponents.month = month
+            dateComponents.year = year
+            nullableDateComponents = dateComponents
+        }
+        else {
+            nullableDateComponents = nil
+        }
+        
         let comic = Comic(number: number,
-            date: NSDate(timeIntervalSinceReferenceDate: date),
+            date: nullableDateComponents,
             title: title,
             link: link,
             news: news,
-            imageURL: imageURL == nil ? nil : NSURL(string: imageURL!),
+            imageURL: imageURL.flatMap({NSURL(string: $0)}),
             transcript: transcript,
             alt: alt)
         return comic

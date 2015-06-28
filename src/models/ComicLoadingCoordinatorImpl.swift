@@ -48,7 +48,7 @@ final class ComicLoadingCoordinatorImpl : ComicLoadingCoordinator {
                         persistTask.addResultObserverWithHandler( { (result) -> () in
                             switch result {
                                 case .Failure(let error) :
-                                    println(error)
+                                    print(error)
                                 default: ()
                             }
                         })

@@ -44,11 +44,14 @@ final class ComicDownloader: NSObject, NSURLSessionDataDelegate, ComicNetworkDat
             dataTask = self._URLSession.dataTaskWithRequest(URLRequest) { data, response, downloadError in
                 if let data = data, response = response as? NSHTTPURLResponse {
                     var parserError: NSError?
-                    if let comic = ComicParsing.comicFromJSONData(data, error: &parserError) {
+                    do {
+                        let comic = try ComicParsing.comicFromJSONData(data)
                         completionBlock(result: .Success(comic))
-                    }
-                    else {
+                    } catch var error as NSError {
+                        parserError = error
                         completionBlock(result: .Failure(parserError))
+                    } catch {
+                        fatalError()
                     }
                 }
                 else {

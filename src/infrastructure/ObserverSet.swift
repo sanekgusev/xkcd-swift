@@ -20,7 +20,7 @@ public class ObserverSetEntry<Parameters> {
 }
 
 
-public class ObserverSet<Parameters>: Printable {
+public class ObserverSet<Parameters>: CustomStringConvertible {
     // Locking support
     
     private var queue = dispatch_queue_create("com.mikeash.ObserverSet", nil)

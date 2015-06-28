@@ -8,34 +8,15 @@
 
 import Foundation
 
-final class Comic {
-    let number: Int;
-    let date: NSDate?;
-    let title: String?;
-    let link: String?;
-    let news: String?;
-    let imageURL: NSURL?;
-    let transcript: String?;
-    let alt: String?;
-    
-    init(number: Int,
-        date: NSDate?,
-        title: String?,
-        link: String?,
-        news: String?,
-        imageURL: NSURL?,
-        transcript: String?,
-        alt: String?){
-            
-            self.number = number;
-            self.date = date;
-            self.title = title;
-            self.link = link;
-            self.news = news;
-            self.imageURL = imageURL;
-            self.transcript = transcript;
-            self.alt = alt;
-    }
+struct Comic {
+    let number: Int
+    let date: NSDateComponents?
+    let title: String?
+    let link: String?
+    let news: String?
+    let imageURL: NSURL?
+    let transcript: String?
+    let alt: String?
 }
 
 extension Comic : UniquelyIdentifiable {

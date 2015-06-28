@@ -137,7 +137,7 @@ public struct KeyedCollection<Key: Hashable, Value where Value: UniquelyIdentifi
     }
     
     public func isSubsetOf<S : SequenceType where S.Generator.Element == Value>(sequence: S) -> Bool {
-        return isSubsetOf(map(sequence, { $0.identifier }))
+        return isSubsetOf(sequence.map({ $0.identifier }))
     }
     
     public func isStrictSubsetOf<S : SequenceType where S.Generator.Element == Key>(sequence: S) -> Bool {
@@ -145,7 +145,7 @@ public struct KeyedCollection<Key: Hashable, Value where Value: UniquelyIdentifi
     }
     
     public func isStrictSubsetOf<S : SequenceType where S.Generator.Element == Value>(sequence: S) -> Bool {
-        return isStrictSubsetOf(map(sequence, { $0.identifier }))
+        return isStrictSubsetOf(sequence.map( { $0.identifier }))
     }
     
     public func isSupersetOf<S : SequenceType where S.Generator.Element == Key>(sequence: S) -> Bool {
@@ -153,7 +153,7 @@ public struct KeyedCollection<Key: Hashable, Value where Value: UniquelyIdentifi
     }
     
     public func isSupersetOf<S : SequenceType where S.Generator.Element == Value>(sequence: S) -> Bool {
-        return isSupersetOf(map(sequence, { $0.identifier }))
+        return isSupersetOf(sequence.map({ $0.identifier }))
     }
     
     public func isStrictSupersetOf<S : SequenceType where S.Generator.Element == Key>(sequence: S) -> Bool {
@@ -161,7 +161,7 @@ public struct KeyedCollection<Key: Hashable, Value where Value: UniquelyIdentifi
     }
     
     public func isStrictSupersetOf<S : SequenceType where S.Generator.Element == Value>(sequence: S) -> Bool {
-        return isStrictSupersetOf(map(sequence, { $0.identifier }))
+        return isStrictSupersetOf(sequence.map({ $0.identifier }))
     }
     
     public func isDisjointWith<S : SequenceType where S.Generator.Element == Key>(sequence: S) -> Bool {
@@ -169,7 +169,7 @@ public struct KeyedCollection<Key: Hashable, Value where Value: UniquelyIdentifi
     }
     
     public func isDisjointWith<S : SequenceType where S.Generator.Element == Value>(sequence: S) -> Bool {
-        return isDisjointWith(map(sequence, { $0.identifier }))
+        return isDisjointWith(sequence.map({ $0.identifier }))
     }
     
     // MARK:
@@ -198,7 +198,7 @@ public struct KeyedCollection<Key: Hashable, Value where Value: UniquelyIdentifi
     }
     
     public mutating func subtractInPlace<S : SequenceType where S.Generator.Element == Value>(sequence: S) {
-        let sequenceKeys = map(sequence, { $0.identifier })
+        let sequenceKeys = sequence.map({ $0.identifier })
         subtractInPlace(sequenceKeys)
     }
     
@@ -223,7 +223,7 @@ public struct KeyedCollection<Key: Hashable, Value where Value: UniquelyIdentifi
     }
     
     public mutating func intersectInPlace<S : SequenceType where S.Generator.Element == Value>(sequence: S, updateExisting: Bool = false) {
-        let sequenceKeys = map(sequence, { $0.identifier })
+        let sequenceKeys = sequence.map({ $0.identifier })
         intersectInPlace(sequenceKeys)
         if updateExisting {
             for value in sequence {
@@ -249,7 +249,7 @@ public struct KeyedCollection<Key: Hashable, Value where Value: UniquelyIdentifi
     }
     
     public func exclusiveOr<S : SequenceType where S.Generator.Element == Value>(sequence: S) -> KeyedCollection<Key, Value> {
-        var collection = self
+        let collection = self
         collection.exclusiveOr(sequence)
         return collection
     }
@@ -259,7 +259,7 @@ public struct KeyedCollection<Key: Hashable, Value where Value: UniquelyIdentifi
             self.tryInsert(value)
         }
         
-        let sequenceKeys = map(sequence, { $0.identifier })
+        let sequenceKeys = sequence.map({ $0.identifier })
         let keysToDelete = keys.intersect(sequenceKeys)
         for key in keysToDelete {
             _valuesForKeys.removeValueForKey(key)
@@ -268,7 +268,7 @@ public struct KeyedCollection<Key: Hashable, Value where Value: UniquelyIdentifi
     }
 }
 
-extension KeyedCollection : Printable, DebugPrintable {
+extension KeyedCollection : CustomStringConvertible, CustomDebugStringConvertible {
     
     public var description: String {
         return "Keys: \(keys.description)\n" +

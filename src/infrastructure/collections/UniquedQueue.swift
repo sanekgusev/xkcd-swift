@@ -57,7 +57,7 @@ public struct UniquedQueue <T where T: Hashable> : CollectionType {
         for element in sequence {
             _array.append(element)
             if _set.contains(element) {
-                if let firstIndex = find(_array, element) {
+                if let firstIndex = _array.indexOf(element) {
                     _array.removeAtIndex(firstIndex)
                 }
             }
@@ -142,7 +142,7 @@ public func ==<T>(lhs: UniquedQueue<T>, rhs: UniquedQueue<T>) -> Bool {
     return lhs._array == rhs._array
 }
 
-extension UniquedQueue : Printable, DebugPrintable {
+extension UniquedQueue : CustomStringConvertible, CustomDebugStringConvertible {
     
     public var description: String {
         return "Set: \(_set.description)\n" +

@@ -33,13 +33,15 @@ final class CoreDataComicPersistence: ComicPersistence, ComicPersistentDataSourc
                 "locking_mode": "EXCLUSIVE",
         ]]
         
-        if let persistentStore = readPersistentStoreCoordinator.addPersistentStoreWithType(NSSQLiteStoreType,
-            configuration: nil,
-            URL: _storeURL,
-            options: readOptions,
-            error: &error) {
+        do {
+            let persistentStore = try readPersistentStoreCoordinator.addPersistentStoreWithType(NSSQLiteStoreType,
+                configuration: nil,
+                URL: _storeURL,
+                options: readOptions)
             managedObjectContext.persistentStoreCoordinator = readPersistentStoreCoordinator
             return managedObjectContext
+        } catch var error1 as NSError {
+            error = error1
         }
         return nil
     }
@@ -66,9 +68,12 @@ final class CoreDataComicPersistence: ComicPersistence, ComicPersistentDataSourc
                     "locking_mode": "EXCLUSIVE",
                     "auto-vacuum": "FULL"
             ]]
-            if writePersistentStoreCoordinator.addPersistentStoreWithType(NSSQLiteStoreType,
-                configuration: nil, URL: storeURL, options: writeOptions, error: &error) == nil {
-                    println(error)
+            do {
+                try writePersistentStoreCoordinator.addPersistentStoreWithType(NSSQLiteStoreType,
+                                configuration: nil, URL: storeURL, options: writeOptions)
+            } catch var error1 as NSError {
+                error = error1
+                    print(error)
                     return nil
             }
             writeManagedObjectContext.persistentStoreCoordinator = writePersistentStoreCoordinator
@@ -86,12 +91,15 @@ final class CoreDataComicPersistence: ComicPersistence, ComicPersistentDataSourc
                 if let coreDataComic = CoreDataComic.comicFromComic(comic,
                     insertIntoManagedObjectContext: self.writeManagedObjectContext) {
                         var error: NSError?
-                        if self.writeManagedObjectContext.save(&error) {
+                        do {
+                            try self.writeManagedObjectContext.save()
                             self.writeManagedObjectContext.reset()
                             completionBlock(result: .Success())
-                        }
-                        else {
+                        } catch var error1 as NSError {
+                            error = error1
                             completionBlock(result: .Failure(error))
+                        } catch {
+                            fatalError()
                         }
                 }
                 else {
@@ -106,15 +114,14 @@ final class CoreDataComicPersistence: ComicPersistence, ComicPersistentDataSourc
         let asynchronousTask = AsynchronousTask<Result<Set<Int>>>(spawnBlock: { (completionBlock) -> () in
             if let readManagedObjectContext = self.readManagedObjectContext {
                 readManagedObjectContext.performBlock {
-                    var error: NSError?
+                    let error: NSError?
                     let fetchRequest = NSFetchRequest(entityName: CoreDataComic.entityName)
                     fetchRequest.includesPendingChanges = false
                     fetchRequest.shouldRefreshRefetchedObjects = true
                     fetchRequest.returnsObjectsAsFaults = false
                     fetchRequest.propertiesToFetch = ["number"]
                     fetchRequest.resultType = .DictionaryResultType
-                    let coreDataComicDictionaries = readManagedObjectContext.executeFetchRequest(fetchRequest,
-                        error: &error) as? [NSDictionary]
+                    let coreDataComicDictionaries = readManagedObjectContext.executeFetchRequest(fetchRequest) as? [NSDictionary]
                     if let coreDataComicDictionaries = coreDataComicDictionaries {
                         let comicNumbers = coreDataComicDictionaries.map { coreDataComicDictionary -> Int in
                             if let number = coreDataComicDictionary["number"] as? NSNumber {
@@ -140,13 +147,12 @@ final class CoreDataComicPersistence: ComicPersistence, ComicPersistentDataSourc
         let asynchronousTask = AsynchronousTask<Result<KeyedCollection<Int, Comic>>>(spawnBlock: { (completionBlock) -> () in
             if let readManagedObjectContext = self.readManagedObjectContext {
                 readManagedObjectContext.performBlock {
-                    var error: NSError?
+                    let error: NSError?
                     let fetchRequest = NSFetchRequest(entityName: CoreDataComic.entityName)
                     fetchRequest.shouldRefreshRefetchedObjects = true
                     fetchRequest.returnsObjectsAsFaults = false
                     fetchRequest.predicate = NSPredicate(format: "number IN %@", numbers as NSSet)
-                    let coreDataComics = readManagedObjectContext.executeFetchRequest(fetchRequest,
-                        error: &error) as? [CoreDataComic]
+                    let coreDataComics = readManagedObjectContext.executeFetchRequest(fetchRequest) as? [CoreDataComic]
                     if let coreDataComics = coreDataComics {
                         let comics = coreDataComics.map { coreDataComic in
                             return coreDataComic.comic()

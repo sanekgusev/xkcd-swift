@@ -31,15 +31,15 @@ final class FileSystemComicImagePersistence : ComicImagePersistence,
     func persistComicImageAtURL(URL: NSURL,
         forComic comic: Comic,
         imageKind: ComicImageKind) -> Result<Void> {
+            
         let imageDirectoryURL = directoryURLForComic(comic,
             imageKind: imageKind)
         let imageURL = imageDirectoryURL.URLByAppendingPathComponent(URL.lastPathComponent!)
-        
-        // TODO: remove any other files in this directory
             
-        var error: NSError?
-        if !NSFileManager.defaultManager().moveItemAtURL(URL,
-            toURL: imageURL, error: &error) {
+        do {
+            try NSFileManager.defaultManager().moveItemAtURL(URL,
+                        toURL: imageURL)
+        } catch let error as NSError {
             return .Failure(error)
         }
         return .Success()
@@ -61,13 +61,14 @@ final class FileSystemComicImagePersistence : ComicImagePersistence,
                         case .Thumbnail(let maxPixelSize):
                             loadingMode = .Thumbnail(maxDimension:maxPixelSize)
                     }
-                    if let image = ImageLoading.loadImage(imageFileURL,
-                        loadingMode: loadingMode,
-                        shouldCache: true) {
-                            completionBlock(result: .Success(image))
+                    do {
+                        let image = try ImageLoading.loadImage(imageFileURL,
+                            loadingMode: loadingMode,
+                            shouldCache: true)
+                        completionBlock(result: .Success(image))
                     }
-                    else {
-                        completionBlock(result: .Failure(nil)) // TODO: add error
+                    catch let error {
+                        completionBlock(result: .Failure(error as NSError)) // TODO: fix
                     }
                 })
             }
@@ -106,10 +107,13 @@ final class FileSystemComicImagePersistence : ComicImagePersistence,
     
     private func ensureDirectoryExistsAtURL(directoryURL: NSURL) {
         var error: NSError?
-        if !NSFileManager.defaultManager().createDirectoryAtURL(directoryURL,
-            withIntermediateDirectories: true,
-            attributes: nil, error: &error) {
-            println(error)
+        do {
+            try NSFileManager.defaultManager().createDirectoryAtURL(directoryURL,
+                        withIntermediateDirectories: true,
+                        attributes: nil)
+        } catch var error1 as NSError {
+            error = error1
+            print(error)
         }
     }
 }
