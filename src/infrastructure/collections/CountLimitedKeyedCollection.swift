@@ -35,7 +35,7 @@ public final class CountLimitedKeyedCollection<Key: Hashable, Value where Value:
     public convenience init<S : SequenceType where S.Generator.Element == Value>(_ sequence: S) {
         self.init()
         _keyedCollection.unionInPlace(sequence, updateExisting: true)
-        _accessTrackingQueue.pushBack(map(sequence, { $0.identifier }))
+        _accessTrackingQueue.pushBack(sequence.map({ $0.identifier }))
     }
     
     // MARK: CollectionType
@@ -188,13 +188,13 @@ public final class CountLimitedKeyedCollection<Key: Hashable, Value where Value:
     
     public func unionInPlace<S : SequenceType where S.Generator.Element == Value>(sequence: S, updateExisting: Bool = false) {
         _keyedCollection.unionInPlace(sequence, updateExisting: updateExisting)
-        _accessTrackingQueue.pushBack(map(sequence, { $0.identifier }))
+        _accessTrackingQueue.pushBack(sequence.map({ $0.identifier }))
         evictElementsIfNeeded()
     }
     
     public func subtractInPlace<S : SequenceType where S.Generator.Element == Value>(sequence: S) {
         _keyedCollection.subtractInPlace(sequence)
-        _accessTrackingQueue.subtractInPlace(map(sequence, { $0.identifier }))
+        _accessTrackingQueue.subtractInPlace(sequence.map({ $0.identifier }))
     }
     
     public func intersectInPlace<S : SequenceType where S.Generator.Element == Value>(sequence: S, updateExisting: Bool = false) {
