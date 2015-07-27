@@ -74,7 +74,7 @@ public struct KeyedCollection<Key: Hashable, Value where Value: UniquelyIdentifi
     
     // MARK: public
     
-    public var values: LazyForwardCollection<MapCollectionView<[Key : Value], Value>> {
+    public var values: LazyForwardCollection<MapCollection<[Key : Value], Value>> {
         return _valuesForKeys.values;
     }
     

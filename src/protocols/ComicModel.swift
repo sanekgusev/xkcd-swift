@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftTask
 
 enum ComicModelComicState {
     case NotLoaded
@@ -20,7 +21,7 @@ protocol ComicModel {
     
     var latestAvailableComic: Comic? { get }
     var isUpdatingLatestAvailableComic: Bool { get }
-    func updateLatestAvailableComic() -> CancellableAsynchronousTask<Result<Comic>>;
+    func updateLatestAvailableComic() -> Task<Float, Comic, ErrorType>
     
     func addLatestAvailableComicObserverWithHandler(handler: (comic: Comic?) -> ()) -> Any
     func removeLatestAvailableComicObserver(observer: Any)
@@ -28,7 +29,7 @@ protocol ComicModel {
     func addUpdatingLatestAvailableComicObserverWithHandler(handler: (isUpdating: Bool) -> ()) -> Any
     func removeUpdatingLatestAvailableComicObserver(observer: Any)
     
-    func updateComicWithNumber(number: Int) -> CancellableAsynchronousTask<Result<Comic>>
+    func updateComicWithNumber(number: Int) -> Task<Float, Comic, ErrorType>
     
     var viewedComicNumbers: Set<Int>? { get set }
     

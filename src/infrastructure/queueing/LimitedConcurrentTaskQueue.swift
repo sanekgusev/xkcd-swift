@@ -8,31 +8,45 @@
 
 import Foundation
 import Dispatch
+import SwiftTask
 
-public final class LimitedConcurrentTaskQueue<T> {
+public enum LimitedConcurrentTaskQueueError : ErrorType {
+    case TaskNotPaused
+}
+
+public final class LimitedConcurrentTaskQueue<Progress, Value, Error> {
     
     // MARK: ivars
     
-    private let _operationQueue = NSOperationQueue()
-    private var _taskTrackingQueue = UniquedQueue<AsynchronousTask<T>>()
-    private var _operationsForTasks = Dictionary<AsynchronousTask<T>, AsynchronousTaskOperation<T>>()
-    private let _serialQueue = dispatch_queue_create(nil, DISPATCH_QUEUE_SERIAL)
+    private lazy var operationQueue = NSOperationQueue()
+    private lazy var taskTrackingQueue = [Task<Progress, Value, Error>]()
+    private lazy var operationsForTasks = Dictionary<Task<Progress, Value, Error>, TaskOperation<Progress, Value, Error>>()
+    private lazy var synchronizationQueue = dispatch_queue_create(nil, DISPATCH_QUEUE_SERIAL)
     
     // MARK: properties
     
-    public var maxConcurrentTaskCount : Int? {
+    public var qualityOfService: NSQualityOfService {
         get {
-            return _operationQueue.maxConcurrentOperationCount == NSOperationQueueDefaultMaxConcurrentOperationCount ?
-                nil : _operationQueue.maxConcurrentOperationCount
+            return operationQueue.qualityOfService
         }
         set {
-            _operationQueue.maxConcurrentOperationCount = newValue ?? NSOperationQueueDefaultMaxConcurrentOperationCount
+            operationQueue.qualityOfService = newValue
+        }
+    }
+    
+    public var maxConcurrentTaskCount : Int? {
+        get {
+            return operationQueue.maxConcurrentOperationCount == NSOperationQueueDefaultMaxConcurrentOperationCount ?
+                nil : operationQueue.maxConcurrentOperationCount
+        }
+        set {
+            operationQueue.maxConcurrentOperationCount = newValue ?? NSOperationQueueDefaultMaxConcurrentOperationCount
         }
     }
     
     public var maxQueueLength : Int? {
         didSet {
-            dispatch_async(_serialQueue, { () -> Void in
+            dispatch_async(synchronizationQueue, { _ in
                 self.cancelOldOperationsIfNeeded()
             })
         }
@@ -40,64 +54,75 @@ public final class LimitedConcurrentTaskQueue<T> {
     
     // MARK: public
     
-    public func taskForEnqueueingTask(task: AsynchronousTask<T>,
+    public func taskForEnqueueingTask(task: Task<Progress, Value, Error>,
         queuePriority: NSOperationQueuePriority = .Normal,
-        qualityOfService: NSQualityOfService = .Background) -> CancellableAsynchronousTask<T> {
-            
-        return taskForEnqueueingTask(task,
-            wrappingOperation: AsynchronousTaskOperation(asynchronousTask: task),
-            queuePriority: queuePriority,
-            qualityOfService: qualityOfService)
-    }
-    
-    public func taskForEnqueueingTask(task: CancellableAsynchronousTask<T>,
-        queuePriority: NSOperationQueuePriority = .Normal,
-        qualityOfService: NSQualityOfService = .Background) -> CancellableAsynchronousTask<T> {
+        qualityOfService: NSQualityOfService = .Background) throws -> Task<Progress, Value, Error> {
         
-        return taskForEnqueueingTask(task,
-            wrappingOperation: CancellableAsynchronousTaskOperation(cancellableAsynchronousTask: task),
-            queuePriority: queuePriority,
-            qualityOfService: qualityOfService)
+            if task.state != .Paused {
+                throw LimitedConcurrentTaskQueueError.TaskNotPaused
+            }
+            
+            return taskForEnqueueingTask(task,
+                wrappingOperation: TaskOperation(task: task),
+                queuePriority: queuePriority,
+                qualityOfService: qualityOfService)
     }
     
     // MARK: private
     
-    private func taskForEnqueueingTask(task: AsynchronousTask<T>,
-        wrappingOperation: AsynchronousTaskOperation<T>,
+    private func taskForEnqueueingTask(task: Task<Progress, Value, Error>,
+        wrappingOperation: TaskOperation<Progress, Value, Error>,
         queuePriority: NSOperationQueuePriority,
-        qualityOfService: NSQualityOfService) -> CancellableAsynchronousTask<T> {
+        qualityOfService: NSQualityOfService) -> Task<Progress, Value, Error> {
             
         wrappingOperation.queuePriority = queuePriority
         wrappingOperation.qualityOfService = qualityOfService
         wrappingOperation.completionBlock = { () in
-            dispatch_async(self._serialQueue, { () -> Void in
-                self._taskTrackingQueue.remove(task)
-                self._operationsForTasks.removeValueForKey(task)
+            dispatch_async(self.synchronizationQueue, { _ in
+                self.taskTrackingQueue.removeAtIndex(self.taskTrackingQueue.indexOf({ $0 == task })!)
+                self.operationsForTasks.removeValueForKey(task)
             })
         }
-        return CancellableAsynchronousTask(spawnBlock: { completionBlock in
-            task.addResultObserverWithHandler(completionBlock)
-            self._operationQueue.addOperation(wrappingOperation)
-            dispatch_async(self._serialQueue, { () -> Void in
-                self._taskTrackingQueue.pushBack(task)
-                self._operationsForTasks[task] = wrappingOperation
-                self.cancelOldOperationsIfNeeded()
-            })
-            }, cancelBlock: { () in
-                wrappingOperation.cancel()
+        return Task(weakified: false,
+            paused: true,
+            initClosure: { (progress, fulfill, reject, configure) -> Void in
+                configure.resume = {
+                    task.then({ (value, errorInfo) -> Void in
+                        if let value = value {
+                            fulfill(value)
+                        }
+                        if let error = errorInfo?.error {
+                            reject(error)
+                        }
+                    })
+                    task.progress({ (oldProgress, newProgress) -> Void in
+                        progress(newProgress)
+                    })
+                    self.operationQueue.addOperation(wrappingOperation)
+                    dispatch_async(self.synchronizationQueue, { _ in
+                        self.taskTrackingQueue.append(task)
+                        self.operationsForTasks[task] = wrappingOperation
+                        self.cancelOldOperationsIfNeeded()
+                    })
+                }
+                configure.cancel = wrappingOperation.cancel
             })
     }
     
     private func cancelOldOperationsIfNeeded() {
-        if let maxQueueLength = maxQueueLength {
-            let numberOfOperationsToCancel = _taskTrackingQueue.count - maxQueueLength
-            if numberOfOperationsToCancel > 0 {
-                let tasksToCancel = _taskTrackingQueue.popFront(numberOfOperationsToCancel)
-                for task in tasksToCancel {
-                    if let operation = _operationsForTasks.removeValueForKey(task) {
-                        operation.cancel()
-                    }
-                }
+        guard let maxQueueLength = maxQueueLength else {
+            return;
+        }
+        let numberOfOperationsToCancel = taskTrackingQueue.count - maxQueueLength
+        if numberOfOperationsToCancel <= 0 {
+            return
+        }
+        let toBeCancelledRange = Range(start: 0, end: numberOfOperationsToCancel)
+        let tasksToCancel = taskTrackingQueue[toBeCancelledRange]
+        taskTrackingQueue.removeRange(toBeCancelledRange)
+        for task in tasksToCancel {
+            if let operation = operationsForTasks.removeValueForKey(task) {
+                operation.cancel()
             }
         }
     }

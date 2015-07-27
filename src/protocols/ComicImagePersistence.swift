@@ -11,5 +11,5 @@ import Foundation
 protocol ComicImagePersistence {
     func persistComicImageAtURL(URL: NSURL,
         forComic comic: Comic,
-        imageKind: ComicImageKind) -> Result<Void>
+        imageKind: ComicImageKind) throws
 }

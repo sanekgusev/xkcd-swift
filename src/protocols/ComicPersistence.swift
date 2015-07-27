@@ -7,7 +7,8 @@
 //
 
 import Foundation
+import SwiftTask
 
 protocol ComicPersistence {
-    func persistComic(comic: Comic) -> AsynchronousTask<Result<Void>>
+    func persistComic(comic: Comic) -> Task<Void, Void, ErrorType>
 }

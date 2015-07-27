@@ -31,10 +31,9 @@ extension CoreDataComic {
     }
     
     class func comicFromComic(comic: Comic,
-        insertIntoManagedObjectContext context: NSManagedObjectContext) -> CoreDataComic? {
-        let coreDataComic = NSEntityDescription.insertNewObjectForEntityForName(entityName,
-            inManagedObjectContext: context) as? CoreDataComic
-        if let coreDataComic = coreDataComic {
+        insertIntoManagedObjectContext context: NSManagedObjectContext) -> CoreDataComic {
+            let coreDataComic = NSEntityDescription.insertNewObjectForEntityForName(entityName,
+                inManagedObjectContext: context) as! CoreDataComic
             coreDataComic.number = comic.number
             coreDataComic.day = comic.date?.day ?? 0
             coreDataComic.month = comic.date?.month ?? 0
@@ -43,7 +42,6 @@ extension CoreDataComic {
             coreDataComic.link = comic.link
             coreDataComic.news = comic.news
             coreDataComic.imageURL = comic.imageURL?.absoluteString
-        }
         return coreDataComic
     }
     

@@ -88,7 +88,7 @@ public final class CountLimitedKeyedCollection<Key: Hashable, Value where Value:
         }
     }
     
-    public var values: LazyForwardCollection<MapCollectionView<[Key : Value], Value>> {
+    public var values: LazyForwardCollection<MapCollection<[Key : Value], Value>> {
         return _keyedCollection.values;
     }
     

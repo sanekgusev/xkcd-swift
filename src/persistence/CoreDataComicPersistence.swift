@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import SwiftTask
 
 final class CoreDataComicPersistence: ComicPersistence, ComicPersistentDataSource {
     
@@ -15,6 +16,9 @@ final class CoreDataComicPersistence: ComicPersistence, ComicPersistentDataSourc
     
     enum Error : ErrorType {
         case FailedToCreateManagedObjectModel
+        case FailedToCreateReadManagedObjectContext
+        case FailedToGetEntityDescription
+        case FailedToGetPropertyDescription
     }
     
     /// MARK: Ivars
@@ -78,92 +82,90 @@ final class CoreDataComicPersistence: ComicPersistence, ComicPersistentDataSourc
         writeManagedObjectContext.persistentStoreCoordinator = writePersistentStoreCoordinator
     }
     
-    func persistComic(comic: Comic) -> AsynchronousTask<Result<Void>> {
-        let asynchronousTask = AsynchronousTask<Result<Void>>(spawnBlock: { (completionBlock) -> () in
-            self.writeManagedObjectContext.performBlock {
-                guard let _ = CoreDataComic.comicFromComic(comic,
-                    insertIntoManagedObjectContext: self.writeManagedObjectContext) else {
-                    completionBlock(result: .Failure(nil)) // FIXME: add error
-                    return
-                }
-                do {
-                    try self.writeManagedObjectContext.save()
-                    self.writeManagedObjectContext.reset()
-                    completionBlock(result: .Success())
-                } catch let error as NSError {
-                    completionBlock(result: .Failure(error))
-                } catch {
-                    fatalError()
-                }
-            }
-        })
-        return asynchronousTask
-    }
-    
-    func loadAllPersistedComicNumbers() -> AsynchronousTask<Result<Set<Int>>> {
-        let asynchronousTask = AsynchronousTask<Result<Set<Int>>>(spawnBlock: { (completionBlock) -> () in
-            guard let readManagedObjectContext = self.readManagedObjectContext else {
-                completionBlock(result: .Failure(nil)) // FIXME: figure out
-                return
-            }
-            readManagedObjectContext.performBlock {
-                let fetchRequest = NSFetchRequest(entityName: CoreDataComic.entityName)
-                fetchRequest.includesPendingChanges = false
-                fetchRequest.shouldRefreshRefetchedObjects = true
-                fetchRequest.returnsObjectsAsFaults = false
-                fetchRequest.propertiesToFetch = ["number"]
-                fetchRequest.resultType = .DictionaryResultType
-                do {
-                    guard let coreDataComicDictionaries = try readManagedObjectContext.executeFetchRequest(fetchRequest) as? [NSDictionary] else {
-                        completionBlock(result: .Failure(nil))
-                        return
-                    }
-                    let comicNumbers = coreDataComicDictionaries.map { coreDataComicDictionary -> Int in
-                        if let number = coreDataComicDictionary["number"] as? NSNumber {
-                            return number.integerValue
+    func persistComic(comic: Comic) -> Task<Void, Void, ErrorType> {
+        return Task<Void, Void, ErrorType>(weakified: false,
+            paused: true) { (progress, fulfill, reject, configure) -> Void in
+                configure.resume = {
+                    self.writeManagedObjectContext.performBlock({ () -> Void in
+                        do {
+                            try self.writeManagedObjectContext.save()
+                            self.writeManagedObjectContext.reset()
+                            fulfill()
+                        } catch let error as NSError {
+                            reject(error)
+                        } catch {
+                            fatalError()
                         }
-                        return 0
-                    }
-                    completionBlock(result: .Success(Set(comicNumbers)))
+                    })
                 }
-                catch let error as NSError {
-                    completionBlock(result: .Failure(error))
-                }
-                catch {
-                    fatalError()
-                }
-            }
-        })
-        return asynchronousTask
+        }
     }
 
-    func loadComicsWithNumbers(numbers: Set<Int>) -> AsynchronousTask<Result<KeyedCollection<Int, Comic>>> {
-        let asynchronousTask = AsynchronousTask<Result<KeyedCollection<Int, Comic>>>(spawnBlock: { (completionBlock) -> () in
-            guard let readManagedObjectContext = self.readManagedObjectContext else {
-                completionBlock(result: .Failure(nil)) // TODO: figure out
-                return
-            }
-            readManagedObjectContext.performBlock {
-                let fetchRequest = NSFetchRequest(entityName: CoreDataComic.entityName)
-                fetchRequest.shouldRefreshRefetchedObjects = true
-                fetchRequest.returnsObjectsAsFaults = false
-                fetchRequest.predicate = NSPredicate(format: "number IN %@", numbers as NSSet)
-                do {
-                    guard let coreDataComics = try readManagedObjectContext.executeFetchRequest(fetchRequest) as? [CoreDataComic] else {
-                        completionBlock(result: .Failure(nil))
+    func loadComicsWithNumbers(numbers: Set<Int>) -> Task<Void, KeyedCollection<Int, Comic>, ErrorType> {
+        return Task<Void, KeyedCollection<Int, Comic>, ErrorType>(weakified: false,
+            paused: true) { (progress, fulfill, reject, configure) -> Void in
+                configure.resume = {
+                    guard let readManagedObjectContext = self.readManagedObjectContext else {
+                        reject(Error.FailedToCreateReadManagedObjectContext)
                         return
                     }
-                    let comics = coreDataComics.map { $0.comic() }
-                    completionBlock(result: .Success(KeyedCollection(comics)))
+                    readManagedObjectContext.performBlock {
+                        let fetchRequest = NSFetchRequest(entityName: CoreDataComic.entityName)
+                        fetchRequest.shouldRefreshRefetchedObjects = true
+                        fetchRequest.returnsObjectsAsFaults = false
+                        fetchRequest.predicate = NSPredicate(format: "number IN %@", numbers as NSSet)
+                        do {
+                            let coreDataComics = try readManagedObjectContext.executeFetchRequest(fetchRequest) as! [CoreDataComic]
+                            let comics = coreDataComics.map { $0.comic() }
+                            fulfill(KeyedCollection(comics))
+                        }
+                        catch let error as NSError {
+                            reject(error)
+                        }
+                        catch {
+                            fatalError()
+                        }
+                    }
                 }
-                catch let error as NSError {
-                    completionBlock(result: .Failure(error))
+        }
+    }
+    
+    func fetchPersistedComicNumbers(numbers: Set<Int>) -> Task<Void, Set<Int>, ErrorType> {
+        return Task<Void, Set<Int>, ErrorType>(weakified: false,
+            paused: true,
+            initClosure: { (progress, fulfill, reject, configure) -> Void in
+                guard let readManagedObjectContext = self.readManagedObjectContext else {
+                    reject(Error.FailedToCreateReadManagedObjectContext)
+                    return
                 }
-                catch {
-                    fatalError()
+                readManagedObjectContext.performBlock {
+                    let fetchRequest = NSFetchRequest(entityName: CoreDataComic.entityName)
+                    fetchRequest.returnsObjectsAsFaults = true
+                    fetchRequest.includesPendingChanges = false
+                    fetchRequest.resultType = .DictionaryResultType
+                    guard let entityDescription = NSEntityDescription.entityForName(CoreDataComic.entityName,
+                        inManagedObjectContext: readManagedObjectContext) else {
+                            reject(Error.FailedToGetEntityDescription)
+                            return
+                    }
+                    guard let numberPropertyDescription = entityDescription.propertiesByName["number"] else {
+                        reject(Error.FailedToGetPropertyDescription)
+                        return
+                    }
+                    fetchRequest.propertiesToFetch = [numberPropertyDescription]
+                    fetchRequest.predicate = NSPredicate(format: "number IN %@", numbers as NSSet)
+                    do {
+                        let coreDataComics = try readManagedObjectContext.executeFetchRequest(fetchRequest) as! [NSDictionary]
+                        let comicNumbers = coreDataComics.map { $0["number"] as! Int }
+                        fulfill(Set(comicNumbers))
+                    }
+                    catch let error as NSError {
+                        reject(error)
+                    }
+                    catch {
+                        fatalError()
+                    }
                 }
-            }
         })
-        return asynchronousTask
     }
 }

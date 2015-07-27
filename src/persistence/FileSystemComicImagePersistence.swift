@@ -8,21 +8,31 @@
 
 import Foundation
 import CoreGraphics
+import SwiftTask
 
 final class FileSystemComicImagePersistence : ComicImagePersistence,
     ComicImagePersistentDataSource {
     
+    // MARK: errors
+    
+    enum Error : ErrorType {
+        case FailedToGetImageFileName
+        case NoPersistedImageForComic
+    }
+    
     // MARK: ivar
     
-    let _rootDirectoryURL: NSURL
-    let _imageLoadingQueue: dispatch_queue_t
+    private let _rootDirectoryURL: NSURL
+    private lazy var _imageLoadingQueue : NSOperationQueue = {
+        let operationQueue = NSOperationQueue()
+        operationQueue.name = "com.sanekgusev.FileSystemComicImagePersistence"
+        return operationQueue
+    }()
     
     // MARK: init
     
     init(rootDirectoryURL: NSURL) {
         _rootDirectoryURL = rootDirectoryURL
-        _imageLoadingQueue = dispatch_queue_create("com.sanekgusev.FileSystemComicImagePersistence",
-            DISPATCH_QUEUE_CONCURRENT)
         ensureDirectoryExistsAtURL(_rootDirectoryURL)
     }
 
@@ -30,52 +40,61 @@ final class FileSystemComicImagePersistence : ComicImagePersistence,
     
     func persistComicImageAtURL(URL: NSURL,
         forComic comic: Comic,
-        imageKind: ComicImageKind) -> Result<Void> {
-            
-        let imageDirectoryURL = directoryURLForComic(comic,
-            imageKind: imageKind)
-        let imageURL = imageDirectoryURL.URLByAppendingPathComponent(URL.lastPathComponent!)
-            
-        do {
+        imageKind: ComicImageKind) throws {
+            let imageDirectoryURL = directoryURLForComic(comic,
+                imageKind: imageKind)
+            guard let imageFileName = URL.lastPathComponent else {
+                throw Error.FailedToGetImageFileName
+            }
+            let imageURL = imageDirectoryURL.URLByAppendingPathComponent(imageFileName)
             try NSFileManager.defaultManager().moveItemAtURL(URL,
-                        toURL: imageURL)
-        } catch let error as NSError {
-            return .Failure(error)
-        }
-        return .Success()
+                toURL: imageURL)
     }
     
     // MARK: ComicImagePersistentDataSource
     
     func loadImageForComic(comic: Comic,
         imageKind: ComicImageKind,
-        size: ComicImagePersistentDataSourceSize) -> AsynchronousTask<Result<CGImage>> {
-        return AsynchronousTask<Result<CGImage>>(spawnBlock: { (completionBlock) -> () in
-            if let imageFileURL = self.imageFileURLForComic(comic,
-                imageKind: imageKind) {
-                dispatch_async(self._imageLoadingQueue, { () -> Void in
-                    let loadingMode: ImageLoading.LoadingMode
-                    switch size {
+        size: ComicImagePersistentDataSourceSize,
+        priority: NSOperationQueuePriority,
+        qualityOfService: NSQualityOfService) -> Task<Float, CGImage, ErrorType> {
+            return Task(weakified: false, paused: true,
+                initClosure: { (progress, fulfill, reject, configure) -> Void in
+                    let operation = NSBlockOperation(block: { () -> Void in
+                        guard let imageFileURL = self.imageFileURLForComic(comic,
+                            imageKind: imageKind) else {
+                                reject(Error.NoPersistedImageForComic)
+                                return
+                        }
+                        let loadingMode: ImageLoading.LoadingMode
+                        switch size {
                         case .FullResolution:
                             loadingMode = .FullResolution
                         case .Thumbnail(let maxPixelSize):
                             loadingMode = .Thumbnail(maxDimension:maxPixelSize)
+                        }
+                        do {
+                            let image = try ImageLoading.loadImage(imageFileURL,
+                                loadingMode: loadingMode,
+                                shouldCache: true)
+                            fulfill(image)
+                        }
+                        catch let error as NSError {
+                            reject(error)
+                        }
+                        catch {
+                            fatalError()
+                        }
+                    })
+                    operation.queuePriority = priority
+                    operation.qualityOfService = qualityOfService
+                    configure.resume = {
+                        self._imageLoadingQueue.addOperation(operation)
                     }
-                    do {
-                        let image = try ImageLoading.loadImage(imageFileURL,
-                            loadingMode: loadingMode,
-                            shouldCache: true)
-                        completionBlock(result: .Success(image))
+                    configure.cancel = {
+                        operation.cancel()
                     }
-                    catch let error {
-                        completionBlock(result: .Failure(error as NSError)) // TODO: fix
-                    }
-                })
-            }
-            else {
-                completionBlock(result: .Failure(nil)) // TODO: add error
-            }
-        })
+            })
     }
     
     // MARK: private
@@ -106,13 +125,12 @@ final class FileSystemComicImagePersistence : ComicImagePersistence,
     }
     
     private func ensureDirectoryExistsAtURL(directoryURL: NSURL) {
-        var error: NSError?
         do {
             try NSFileManager.defaultManager().createDirectoryAtURL(directoryURL,
                         withIntermediateDirectories: true,
                         attributes: nil)
-        } catch var error1 as NSError {
-            error = error1
+        } catch let error as NSError {
+            // TODO: check error and possibly rethrow
             print(error)
         }
     }

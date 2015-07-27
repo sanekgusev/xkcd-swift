@@ -7,63 +7,65 @@
 //
 
 import Foundation
+import SwiftTask
 
 final class ComicLoadingCoordinatorImpl : ComicLoadingCoordinator {
     
     // MARK: ivars
     
-    private let _concurrentTaskQueue = LimitedConcurrentTaskQueue<Result<Comic>>()
-    private let _comicNetworkDataSource: ComicNetworkDataSource
-    private let _comicPersistence: ComicPersistence
+    private lazy var concurrentTaskQueue = LimitedConcurrentTaskQueue<Float, Comic, ErrorType>()
+    private let comicNetworkDataSource: ComicNetworkDataSource
+    private let comicPersistence: ComicPersistence
+    private let comicPersistentDataSource: ComicPersistentDataSource
     
     // MARK: init
     
     init(comicNetworkDataSource: ComicNetworkDataSource,
-        comicPersistence: ComicPersistence) {
-        _comicNetworkDataSource = comicNetworkDataSource
-        _comicPersistence = comicPersistence
+        comicPersistence: ComicPersistence,
+        comicPersistentDataSource: ComicPersistentDataSource) {
+            self.comicNetworkDataSource = comicNetworkDataSource
+            self.comicPersistence = comicPersistence
+            self.comicPersistentDataSource = comicPersistentDataSource
     }
     
     // MARK: public
     
     var maxConcurrentDownloadsCount: Int? {
         get {
-            return _concurrentTaskQueue.maxConcurrentTaskCount
+            return concurrentTaskQueue.maxConcurrentTaskCount
         }
         set {
-            _concurrentTaskQueue.maxConcurrentTaskCount = newValue
+            concurrentTaskQueue.maxConcurrentTaskCount = newValue
+        }
+    }
+    
+    var maxDownloadQueueLength: Int? {
+        get {
+            return concurrentTaskQueue.maxQueueLength
+        }
+        set {
+            concurrentTaskQueue.maxQueueLength = newValue
+        }
+    }
+    
+    var qualityOfService: NSQualityOfService {
+        get {
+            return concurrentTaskQueue.qualityOfService
+        }
+        set {
+            concurrentTaskQueue.qualityOfService = newValue
         }
     }
     
     // MARK: ComicLoadingCoordinator
     
-    func downloadAndPersistComicOfKind(kind: ComicKind,
-            qualityOfService: NSQualityOfService) -> CancellableAsynchronousTask<Result<Comic>> {
-        let downloadTask = _comicNetworkDataSource.downloadComicOfKind(kind)
-        let downloadAndPersistTask = CancellableAsynchronousTask<Result<Comic>>(spawnBlock: { (completionBlock) -> () in
-            downloadTask.addResultObserverWithHandler({ (result) -> () in
-                switch result {
-                    case .Success(let comic):
-                        let persistTask = self._comicPersistence.persistComic(comic)
-                        persistTask.addResultObserverWithHandler( { (result) -> () in
-                            switch result {
-                                case .Failure(let error) :
-                                    print(error)
-                                default: ()
-                            }
-                        })
-                        persistTask.start()
-                    default: ()
-                }
-                completionBlock(result: result)
-            })
-            downloadTask.start()
-        }) { () -> () in
-            downloadTask.cancel()
+    func downloadAndPersistComicOfKind(kind: ComicKind) -> Task<Float, Comic, ErrorType> {
+        let downloadTask = comicNetworkDataSource.downloadComicOfKind(kind)
+        let downloadAndPersistTask = downloadTask.success { comic -> Comic in
+            let persistTask = self.comicPersistence.persistComic(comic)
+            persistTask.resume()
+            return comic
         }
-        return _concurrentTaskQueue.taskForEnqueueingTask(downloadAndPersistTask,
-            queuePriority: .Normal,
-            qualityOfService: qualityOfService)
+        return try! concurrentTaskQueue.taskForEnqueueingTask(downloadAndPersistTask)
     }
-    
 }

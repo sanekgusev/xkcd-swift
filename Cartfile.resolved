@@ -1,0 +1,3 @@
+github "antitypical/Result" "0.6-beta.1"
+github "ReactKit/SwiftTask" "3c3a4bb0d96a50c513505fcca194403cc8dbee60"
+github "jspahrsummers/xcconfigs" "0.8.1"

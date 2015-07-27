@@ -7,8 +7,15 @@
 //
 
 import Foundation
+import SwiftTask
 
 final class ComicImageDownloader: NSObject, NSURLSessionDownloadDelegate, ComicImageNetworkDataSource {
+    
+    // MARK: Errors
+    
+    private enum Error: ErrorType {
+        case MissingImageURL
+    }
     
     // MARK: Ivars
     
@@ -29,35 +36,36 @@ final class ComicImageDownloader: NSObject, NSURLSessionDownloadDelegate, ComicI
     // MARK: ComicImageDataSource
     
     func downloadImageForComic(comic: Comic,
-        imageKind: ComicImageKind) -> CancellableAsynchronousTask<Result<NSURL>>? {
-        let URL: NSURL?
+        imageKind: ComicImageKind) throws -> Task<Float, NSURL, ErrorType> {
+        var URLFromComic: NSURL?
         switch imageKind {
             case .DefaultImage:
-                URL = comic.imageURL
+                URLFromComic = comic.imageURL
         }
-        if let URL = URL {
-            let URLRequest = NSURLRequest(URL:URL)
-            var downloadTask : NSURLSessionDownloadTask?
-            let asynchronousTask = CancellableAsynchronousTask<Result<NSURL>>(spawnBlock: { (completionBlock) -> () in
+        guard let URL = URLFromComic else {
+            throw Error.MissingImageURL
+        }
+        let URLRequest = NSURLRequest(URL:URL)
+        
+        return Task(weakified: false, paused: true,
+            initClosure: { (progress, fulfill, reject, configure) -> Void in
                 dispatch_semaphore_wait(self._semaphore, DISPATCH_TIME_FOREVER)
-                downloadTask = self._backgroundURLSession.downloadTaskWithRequest(URLRequest,
-                    completionHandler: { URL, response, error in
-                        if let URL = URL {
-                            completionBlock(result: .Success(URL))
+                let downloadTask = self._backgroundURLSession.downloadTaskWithRequest(URLRequest,
+                    completionHandler: { (url, response, error) -> Void in
+                        guard let url = url else {
+                            reject(error!)
+                            return
                         }
-                        else {
-                            completionBlock(result: .Failure(error))
-                        }
+                        fulfill(url)
                 })
                 dispatch_semaphore_signal(self._semaphore)
-                downloadTask?.resume()
-            }, cancelBlock: { () -> () in
-                // TODO: add support for resume data
-                downloadTask?.cancel()
-            })
-            return asynchronousTask
-        }
-        return nil
+                configure.resume = {
+                    downloadTask?.resume()
+                }
+                configure.cancel = {
+                    downloadTask?.cancel()
+                }
+        })
     }
     
     // MARK: NSURLSessionDownloadDelegate

@@ -7,7 +7,8 @@
 //
 
 import Foundation
+import SwiftTask
 
 protocol ComicNetworkDataSource {
-    func downloadComicOfKind(kind: ComicKind) -> CancellableAsynchronousTask<Result<Comic>>
+    func downloadComicOfKind(kind: ComicKind) -> Task<Float, Comic, ErrorType>
 }

@@ -8,11 +8,12 @@
 
 import Foundation
 import QuartzCore
+import SwiftTask
 
 protocol ComicImageLoadingCoordinator {
     func downloadAndPersistImageForComic(comic: Comic,
-        imageKind: ComicImageKind) -> CancellableAsynchronousTask<Result<Void>>
+        imageKind: ComicImageKind) -> Task<Float, Void, ErrorType>
     func loadOrDownloadImageForComic(comic: Comic,
         imageKind: ComicImageKind,
-        maximumPixelSize: CGSize?) -> CancellableAsynchronousTask<Result<CGImage>>
+        maximumPixelSize: CGSize?) -> Task<Float, CGImage, ErrorType>
 }
