@@ -11,8 +11,8 @@ import Foundation
 public final class CountLimitedKeyedCollection<Key: Hashable, Value where Value: UniquelyIdentifiable, Value.Identifier == Key> :
     CollectionType {
     
-    typealias Index = KeyedCollection<Key, Value>.Index
-    typealias Generator = KeyedCollection<Key, Value>.Generator
+    public typealias Index = KeyedCollection<Key, Value>.Index
+    public typealias Generator = KeyedCollection<Key, Value>.Generator
     
     // MARK: ivars
     
@@ -237,7 +237,7 @@ extension CountLimitedKeyedCollection : CustomStringConvertible, CustomDebugStri
 }
 
 extension CountLimitedKeyedCollection: ArrayLiteralConvertible {
-    typealias Element = Value
+    public typealias Element = Value
     
     public convenience init(arrayLiteral elements: Element...) {
         self.init(elements)

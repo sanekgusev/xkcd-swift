@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="8118.17" systemVersion="14D136" minimumToolsVersion="Xcode 4.3">
+<model userDefinedModelVersionIdentifier="1.0" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="8154.4" systemVersion="14E46" minimumToolsVersion="Automatic">
     <entity name="Comic" representedClassName="CoreDataComic" syncable="YES">
         <attribute name="alt" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="day" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>

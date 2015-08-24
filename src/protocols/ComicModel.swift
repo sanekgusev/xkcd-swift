@@ -11,17 +11,16 @@ import SwiftTask
 
 enum ComicModelComicState {
     case NotLoaded
-    case LoadingFromPersistence
-    case Downloading
+    case Loading
     case Loaded(Comic)
-    case DownloadFailed
+    case LoadFailed(ErrorType)
 }
 
 protocol ComicModel {
     
     var latestAvailableComic: Comic? { get }
     var isUpdatingLatestAvailableComic: Bool { get }
-    func updateLatestAvailableComic() -> Task<Float, Comic, ErrorType>
+    func updateLatestAvailableComic() -> Task<NormalizedProgressValue, Comic, ErrorType>
     
     func addLatestAvailableComicObserverWithHandler(handler: (comic: Comic?) -> ()) -> Any
     func removeLatestAvailableComicObserver(observer: Any)
@@ -29,13 +28,13 @@ protocol ComicModel {
     func addUpdatingLatestAvailableComicObserverWithHandler(handler: (isUpdating: Bool) -> ()) -> Any
     func removeUpdatingLatestAvailableComicObserver(observer: Any)
     
-    func updateComicWithNumber(number: Int) -> Task<Float, Comic, ErrorType>
+    func updateComicWithNumber(number: ComicNumber) -> Task<NormalizedProgressValue, Comic, ErrorType>
     
-    var viewedComicNumbers: Set<Int>? { get set }
+    var viewedComicNumbers: Set<ComicNumber>? { get set }
     
-    func stateOfComicWithNumber(number: Int) -> ComicModelComicState
+    func stateOfComicWithNumber(number: ComicNumber) -> ComicModelComicState
     subscript (number: Int) -> Comic? { get }
     
-    func addComicStateObserverWithHandler(handler: (comicNumbers: Set<Int>) -> ()) -> Any
+    func addComicStateObserverWithHandler(handler: (comicNumbers: Set<ComicNumber>) -> ()) -> Any
     func removeComicStateObserver(observer: Any)
 }

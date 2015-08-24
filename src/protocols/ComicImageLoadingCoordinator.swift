@@ -10,10 +10,18 @@ import Foundation
 import QuartzCore
 import SwiftTask
 
+enum ComicImageLoadingCoordinatorMode {
+    case FullResolution
+    case Thumbnail(maxPixelSize: CGFloat)
+}
+
 protocol ComicImageLoadingCoordinator {
-    func downloadAndPersistImageForComic(comic: Comic,
-        imageKind: ComicImageKind) -> Task<Float, Void, ErrorType>
-    func loadOrDownloadImageForComic(comic: Comic,
+    func downloadAndPersistIfMissingImageForComic(comic: Comic,
+        imageKind: ComicImageKind) -> Task<NormalizedProgressValue, Void, ErrorType>
+    func downloadPersistAndLoadImageForComic(comic: Comic,
         imageKind: ComicImageKind,
-        maximumPixelSize: CGSize?) -> Task<Float, CGImage, ErrorType>
+        mode: ComicImageLoadingCoordinatorMode) -> Task<NormalizedProgressValue, CGImage, ErrorType>
+    func loadStoredOrDownloadPersistAndLoadImageForComic(comic: Comic,
+        imageKind: ComicImageKind,
+        mode: ComicImageLoadingCoordinatorMode) -> Task<NormalizedProgressValue, CGImage, ErrorType>
 }

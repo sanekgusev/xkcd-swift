@@ -19,18 +19,25 @@ final class ComicImageDownloader: NSObject, NSURLSessionDownloadDelegate, ComicI
     
     // MARK: Ivars
     
-    private let _semaphore = dispatch_semaphore_create(1);
-    private var _backgroundURLSession : NSURLSession!
+    private lazy var semaphore = dispatch_semaphore_create(1);
+    private let URLSessionConfiguration: NSURLSessionConfiguration
+    private let completionQueueQualityOfService: NSQualityOfService
+    private lazy var URLSession: NSURLSession = {
+        let completionQueue = NSOperationQueue()
+        completionQueue.qualityOfService = self.completionQueueQualityOfService
+        completionQueue.maxConcurrentOperationCount = 1
+        completionQueue.name = "com.sanekgusev.xkcd.ComicImageDownloader.completionQueue"
+        return NSURLSession(configuration: self.URLSessionConfiguration,
+            delegate: self,
+            delegateQueue: completionQueue)
+    }()
     
     // MARK: Init
     
-    init(URLSessionConfiguration: NSURLSessionConfiguration) {
-        let concurrentQueue = NSOperationQueue()
-        concurrentQueue.qualityOfService = NSQualityOfService.UserInitiated
-        super.init()
-        _backgroundURLSession = NSURLSession(configuration: URLSessionConfiguration,
-            delegate: self,
-            delegateQueue: concurrentQueue)
+    init(URLSessionConfiguration: NSURLSessionConfiguration,
+        completionQueueQualityOfService: NSQualityOfService) {
+            self.URLSessionConfiguration = URLSessionConfiguration
+            self.completionQueueQualityOfService = completionQueueQualityOfService
     }
     
     // MARK: ComicImageDataSource
@@ -49,21 +56,21 @@ final class ComicImageDownloader: NSObject, NSURLSessionDownloadDelegate, ComicI
         
         return Task(weakified: false, paused: true,
             initClosure: { (progress, fulfill, reject, configure) -> Void in
-                dispatch_semaphore_wait(self._semaphore, DISPATCH_TIME_FOREVER)
-                let downloadTask = self._backgroundURLSession.downloadTaskWithRequest(URLRequest,
-                    completionHandler: { (url, response, error) -> Void in
+                dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER)
+                let downloadTask = self.URLSession.downloadTaskWithRequest(URLRequest,
+                    completionHandler: { (url: NSURL?, response: NSURLResponse?, error: NSError?) -> Void in
                         guard let url = url else {
                             reject(error!)
                             return
                         }
                         fulfill(url)
                 })
-                dispatch_semaphore_signal(self._semaphore)
+                dispatch_semaphore_signal(self.semaphore)
                 configure.resume = {
-                    downloadTask?.resume()
+                    downloadTask.resume()
                 }
                 configure.cancel = {
-                    downloadTask?.cancel()
+                    downloadTask.cancel()
                 }
         })
     }

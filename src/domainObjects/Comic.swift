@@ -8,8 +8,10 @@
 
 import Foundation
 
+typealias ComicNumber = Int
+
 struct Comic {
-    let number: Int
+    let number: ComicNumber
     let date: NSDateComponents?
     let title: String?
     let link: String?
@@ -20,7 +22,7 @@ struct Comic {
 }
 
 extension Comic : UniquelyIdentifiable {
-    var identifier: Int {
+    var identifier: ComicNumber {
         return number
     }
 }

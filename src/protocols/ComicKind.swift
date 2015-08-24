@@ -9,6 +9,6 @@
 import Foundation
 
 enum ComicKind {
-    case ByNumber(Int)
+    case ByNumber(ComicNumber)
     case LatestAvailable
 }

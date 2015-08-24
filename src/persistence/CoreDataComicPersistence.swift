@@ -101,33 +101,24 @@ final class CoreDataComicPersistence: ComicPersistence, ComicPersistentDataSourc
         }
     }
 
+    func loadAllPersistedComics() -> Task<Void, KeyedCollection<ComicNumber, Comic>, ErrorType> {
+        return loadComicsWithFetchRequestGenerator({ () in
+            let fetchRequest = NSFetchRequest(entityName: CoreDataComic.entityName)
+            fetchRequest.shouldRefreshRefetchedObjects = true
+            fetchRequest.returnsObjectsAsFaults = false
+            fetchRequest.predicate = NSPredicate(value: true)
+            return fetchRequest
+        })
+    }
+    
     func loadComicsWithNumbers(numbers: Set<Int>) -> Task<Void, KeyedCollection<Int, Comic>, ErrorType> {
-        return Task<Void, KeyedCollection<Int, Comic>, ErrorType>(weakified: false,
-            paused: true) { (progress, fulfill, reject, configure) -> Void in
-                configure.resume = {
-                    guard let readManagedObjectContext = self.readManagedObjectContext else {
-                        reject(Error.FailedToCreateReadManagedObjectContext)
-                        return
-                    }
-                    readManagedObjectContext.performBlock {
-                        let fetchRequest = NSFetchRequest(entityName: CoreDataComic.entityName)
-                        fetchRequest.shouldRefreshRefetchedObjects = true
-                        fetchRequest.returnsObjectsAsFaults = false
-                        fetchRequest.predicate = NSPredicate(format: "number IN %@", numbers as NSSet)
-                        do {
-                            let coreDataComics = try readManagedObjectContext.executeFetchRequest(fetchRequest) as! [CoreDataComic]
-                            let comics = coreDataComics.map { $0.comic() }
-                            fulfill(KeyedCollection(comics))
-                        }
-                        catch let error as NSError {
-                            reject(error)
-                        }
-                        catch {
-                            fatalError()
-                        }
-                    }
-                }
-        }
+        return loadComicsWithFetchRequestGenerator({ () in
+            let fetchRequest = NSFetchRequest(entityName: CoreDataComic.entityName)
+            fetchRequest.shouldRefreshRefetchedObjects = true
+            fetchRequest.returnsObjectsAsFaults = false
+            fetchRequest.predicate = NSPredicate(format: "number IN %@", numbers as NSSet)
+            return fetchRequest
+        })
     }
     
     func fetchPersistedComicNumbers(numbers: Set<Int>) -> Task<Void, Set<Int>, ErrorType> {
@@ -167,5 +158,34 @@ final class CoreDataComicPersistence: ComicPersistence, ComicPersistentDataSourc
                     }
                 }
         })
+    }
+    
+    /// MARK: Private
+    
+    private func loadComicsWithFetchRequestGenerator(fetchRequestGenerator: () -> NSFetchRequest) ->
+        Task<Void, KeyedCollection<Int, Comic>, ErrorType> {
+        return Task<Void, KeyedCollection<Int, Comic>, ErrorType>(weakified: false,
+            paused: true) { (progress, fulfill, reject, configure) -> Void in
+                configure.resume = {
+                    guard let readManagedObjectContext = self.readManagedObjectContext else {
+                        reject(Error.FailedToCreateReadManagedObjectContext)
+                        return
+                    }
+                    readManagedObjectContext.performBlock {
+                        let fetchRequest = fetchRequestGenerator()
+                        do {
+                            let coreDataComics = try readManagedObjectContext.executeFetchRequest(fetchRequest) as! [CoreDataComic]
+                            let comics = coreDataComics.map { $0.comic() }
+                            fulfill(KeyedCollection(comics))
+                        }
+                        catch let error as NSError {
+                            reject(error)
+                        }
+                        catch {
+                            fatalError()
+                        }
+                    }
+                }
+        }
     }
 }

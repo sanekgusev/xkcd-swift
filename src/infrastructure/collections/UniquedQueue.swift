@@ -74,10 +74,9 @@ public struct UniquedQueue <T where T: Hashable> : CollectionType {
     public mutating func popFront(count: Int) -> [T] {
         if !isEmpty {
             var counter: Int = 0
-            let poppedElements = split(_array,
-                maxSplit: 1,
+            let poppedElements = _array.split(1,
                 allowEmptySlices: true,
-                isSeparator: { element in
+                isSeparator: { (element) -> Bool in
                     return ++counter > count
             })[0]
             _set.subtractInPlace(poppedElements)
@@ -125,7 +124,7 @@ public struct UniquedQueue <T where T: Hashable> : CollectionType {
 }
 
 extension UniquedQueue : ArrayLiteralConvertible {
-    typealias Element = T
+    public typealias Element = T
     
     public init(arrayLiteral elements: Element...) {
         self.init(elements)

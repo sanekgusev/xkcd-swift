@@ -10,5 +10,5 @@ import Foundation
 import SwiftTask
 
 protocol ComicNetworkDataSource {
-    func downloadComicOfKind(kind: ComicKind) -> Task<Float, Comic, ErrorType>
+    func downloadComicOfKind(kind: ComicKind) -> Task<NormalizedProgressValue, Comic, ErrorType>
 }

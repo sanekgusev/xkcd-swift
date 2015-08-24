@@ -88,6 +88,6 @@ public class ObserverSet<Parameters>: CustomStringConvertible {
         }
         let joined = ", ".join(strings)
         
-        return "\(reflect(self).summary): (\(joined))"
+        return "\(Mirror(reflecting:self).description): (\(joined))"
     }
 }

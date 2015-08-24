@@ -11,5 +11,5 @@ import SwiftTask
 
 protocol ComicImageNetworkDataSource {
     func downloadImageForComic(comic: Comic,
-        imageKind: ComicImageKind) throws -> Task<Float, NSURL, ErrorType>
+        imageKind: ComicImageKind) throws -> Task<NormalizedProgressValue, FileURL, ErrorType>
 }

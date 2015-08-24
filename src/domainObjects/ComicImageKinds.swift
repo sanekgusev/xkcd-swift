@@ -6,6 +6,6 @@
 //
 //
 
-enum ComicImageKind {
+enum ComicImageKind : Int {
     case DefaultImage
 }

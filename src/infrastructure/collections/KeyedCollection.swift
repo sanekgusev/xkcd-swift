@@ -15,8 +15,8 @@ public protocol UniquelyIdentifiable {
 public struct KeyedCollection<Key: Hashable, Value where Value: UniquelyIdentifiable, Value.Identifier == Key> :
     CollectionType {
     
-    typealias Index = DictionaryIndex<Key, Value>
-    typealias Generator = DictionaryGenerator<Key, Value>
+    public typealias Index = DictionaryIndex<Key, Value>
+    public typealias Generator = DictionaryGenerator<Key, Value>
     
     // MARK: ivars
     
@@ -282,7 +282,7 @@ extension KeyedCollection : CustomStringConvertible, CustomDebugStringConvertibl
 }
 
 extension KeyedCollection: ArrayLiteralConvertible {
-    typealias Element = Value
+    public typealias Element = Value
     
     public init(arrayLiteral elements: Element...) {
         self.init(elements)

@@ -9,7 +9,7 @@
 import Foundation
 
 protocol ComicImagePersistence {
-    func persistComicImageAtURL(URL: NSURL,
+    func persistComicImageAtURL(URL: FileURL,
         forComic comic: Comic,
-        imageKind: ComicImageKind) throws
+        imageKind: ComicImageKind) throws -> FileURL
 }

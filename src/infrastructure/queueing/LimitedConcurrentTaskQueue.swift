@@ -18,7 +18,11 @@ public final class LimitedConcurrentTaskQueue<Progress, Value, Error> {
     
     // MARK: ivars
     
-    private lazy var operationQueue = NSOperationQueue()
+    private lazy var operationQueue: NSOperationQueue = {
+        let operationQueue = NSOperationQueue()
+        operationQueue.name = "com.sanekgusev.LimitedConcurrentTaskQueue"
+        return operationQueue
+    }()
     private lazy var taskTrackingQueue = [Task<Progress, Value, Error>]()
     private lazy var operationsForTasks = Dictionary<Task<Progress, Value, Error>, TaskOperation<Progress, Value, Error>>()
     private lazy var synchronizationQueue = dispatch_queue_create(nil, DISPATCH_QUEUE_SERIAL)
@@ -91,9 +95,10 @@ public final class LimitedConcurrentTaskQueue<Progress, Value, Error> {
                         if let value = value {
                             fulfill(value)
                         }
-                        if let error = errorInfo?.error {
+                        else if let error = errorInfo?.error {
                             reject(error)
                         }
+                        // TODO: handle cancellations of inner task?
                     })
                     task.progress({ (oldProgress, newProgress) -> Void in
                         progress(newProgress)

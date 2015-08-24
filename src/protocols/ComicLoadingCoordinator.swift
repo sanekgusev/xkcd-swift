@@ -11,7 +11,8 @@ import SwiftTask
 import Result
 
 protocol ComicLoadingCoordinator {
-    func downloadAndPersistComicOfKind(kind: ComicKind) -> Task<Float, Comic, ErrorType>
-    func loadOrDownloadAndPersistComicsWithNumbers(numbers: Set<Int>) -> Task<Result<Comic, ErrorType>, Void, Void>
-    func downloadAndPersistNotPersitedComicsWithNumbers(numbers: Set<Int>) -> Task<Result<Int, ErrorType>, Void, Void>
+    func downloadAndPersistComicOfKind(kind: ComicKind) -> Task<NormalizedProgressValue, Comic, ErrorType>
+    
+    func loadOrDownloadAndPersistComicsWithNumbers(numbers: Set<ComicNumber>) -> Task<Result<Comic, NSError>, Void, Void>
+    func downloadAndPersistNotPersitedComicsWithNumbers(numbers: Set<ComicNumber>) -> Task<Result<ComicNumber, NSError>, Void, Void>
 }

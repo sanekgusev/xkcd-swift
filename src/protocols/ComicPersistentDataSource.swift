@@ -10,6 +10,7 @@ import Foundation
 import SwiftTask
 
 protocol ComicPersistentDataSource {
-    func loadComicsWithNumbers(numbers: Set<Int>) -> Task<Void, KeyedCollection<Int, Comic>, ErrorType>
-    func fetchPersistedComicNumbers(numbers: Set<Int>) -> Task<Void, Set<Int>, ErrorType>
+    func loadAllPersistedComics() -> Task<Void, KeyedCollection<ComicNumber, Comic>, ErrorType>
+    func loadComicsWithNumbers(numbers: Set<Int>) -> Task<Void, KeyedCollection<ComicNumber, Comic>, ErrorType>
+    func fetchPersistedComicNumbers(numbers: Set<Int>) -> Task<Void, Set<ComicNumber>, ErrorType>
 }

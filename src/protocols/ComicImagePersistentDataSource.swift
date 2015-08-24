@@ -7,18 +7,10 @@
 //
 
 import Foundation
-import QuartzCore
 import SwiftTask
 
-enum ComicImagePersistentDataSourceSize {
-    case FullResolution
-    case Thumbnail(maxPizelSize: CGFloat)
-}
-
 protocol ComicImagePersistentDataSource {
-    func loadImageForComic(comic: Comic,
-        imageKind: ComicImageKind,
-        size: ComicImagePersistentDataSourceSize,
-        priority: NSOperationQueuePriority,
-        qualityOfService: NSQualityOfService) -> Task<Float, CGImage, ErrorType>
+    func getImageFileURLForComic(comic: Comic,
+            imageKind: ComicImageKind,
+            qualityOfService: NSQualityOfService) -> Task<Void, FileURL, ErrorType>
 }

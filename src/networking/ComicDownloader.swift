@@ -11,21 +11,17 @@ import SwiftTask
 
 final class ComicDownloader: NSObject, NSURLSessionDataDelegate, ComicNetworkDataSource {
     
-    // MARK: errors
-    
-    private enum Error: ErrorType {
-        case CannotCreateDataTask
-    }
-    
     // MARK: ivars
     
     private lazy var URLSessionGuardSemaphore = dispatch_semaphore_create(1)
     private let sessionConfiguration: NSURLSessionConfiguration
+    private let completionQueueQualityOfService: NSQualityOfService
 //    private lazy var progressHandlers = Dictionary<NSURLSessionDataTask, Float -> Void>()
     
     private lazy var URLSession : NSURLSession = {
         let completionQueue = NSOperationQueue()
-        completionQueue.qualityOfService = NSQualityOfService.UserInitiated
+        completionQueue.qualityOfService = self.completionQueueQualityOfService
+        completionQueue.name = "som.sanekgusev.xkcd.ComicDownloader.completionQueue"
         completionQueue.maxConcurrentOperationCount = 1
         return NSURLSession(configuration: self.sessionConfiguration,
             delegate: self,
@@ -34,8 +30,10 @@ final class ComicDownloader: NSObject, NSURLSessionDataDelegate, ComicNetworkDat
     
     // MARK: init/deinit
     
-    init(sessionConfiguration: NSURLSessionConfiguration) {
+    init(sessionConfiguration: NSURLSessionConfiguration,
+        completionQueueQualityOfService: NSQualityOfService) {
         self.sessionConfiguration = sessionConfiguration
+        self.completionQueueQualityOfService = completionQueueQualityOfService
     }
     
     // MARK: ComicDataSource
@@ -54,7 +52,7 @@ final class ComicDownloader: NSObject, NSURLSessionDataDelegate, ComicNetworkDat
         
         return Task<Float, Comic, ErrorType>(weakified: false, paused: true, initClosure: { (progress, fulfill, reject, configure) -> Void in
             dispatch_semaphore_wait(self.URLSessionGuardSemaphore, DISPATCH_TIME_FOREVER)
-            guard let dataTask = self.URLSession.dataTaskWithRequest(URLRequest, completionHandler: { data, response, downloadError in
+            let dataTask = self.URLSession.dataTaskWithRequest(URLRequest, completionHandler: { data, response, downloadError in
                 guard let data = data else {
                     reject(downloadError!)
                     return
@@ -67,10 +65,7 @@ final class ComicDownloader: NSObject, NSURLSessionDataDelegate, ComicNetworkDat
                 } catch {
                     fatalError()
                 }
-            }) else {
-                reject(Error.CannotCreateDataTask)
-                return
-            }
+            })
             dispatch_semaphore_signal(self.URLSessionGuardSemaphore)
             configure.resume = {
                 dataTask.resume()
