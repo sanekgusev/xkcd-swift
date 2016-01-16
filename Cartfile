@@ -1,5 +1,0 @@
-github "antitypical/Result" >= 0.6
-github "jspahrsummers/xcconfigs"
-github "ReactKit/SwiftTask" "swift/2.0"
-#github "aleclarson/emitter-kit" >= 4.0
-#github "duemunk/Async" "feature/Swift_2.0"

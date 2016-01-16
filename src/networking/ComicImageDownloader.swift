@@ -7,32 +7,20 @@
 //
 
 import Foundation
-import SwiftTask
+import ReactiveCocoa
 
-final class ComicImageDownloader: NSObject, NSURLSessionDownloadDelegate, ComicImageNetworkDataSource {
+final class ComicImageDownloader: NSObject, ComicImageNetworkingService {
     
-    // MARK: Errors
-    
-    private enum Error: ErrorType {
-        case MissingImageURL
-    }
-    
-    // MARK: Ivars
-    
-    private lazy var semaphore = dispatch_semaphore_create(1);
     private let URLSessionConfiguration: NSURLSessionConfiguration
     private let completionQueueQualityOfService: NSQualityOfService
     private lazy var URLSession: NSURLSession = {
         let completionQueue = NSOperationQueue()
         completionQueue.qualityOfService = self.completionQueueQualityOfService
-        completionQueue.maxConcurrentOperationCount = 1
         completionQueue.name = "com.sanekgusev.xkcd.ComicImageDownloader.completionQueue"
         return NSURLSession(configuration: self.URLSessionConfiguration,
-            delegate: self,
+            delegate: nil,
             delegateQueue: completionQueue)
     }()
-    
-    // MARK: Init
     
     init(URLSessionConfiguration: NSURLSessionConfiguration,
         completionQueueQualityOfService: NSQualityOfService) {
@@ -40,57 +28,35 @@ final class ComicImageDownloader: NSObject, NSURLSessionDownloadDelegate, ComicI
             self.completionQueueQualityOfService = completionQueueQualityOfService
     }
     
-    // MARK: ComicImageDataSource
-    
     func downloadImageForComic(comic: Comic,
-        imageKind: ComicImageKind) throws -> Task<Float, NSURL, ErrorType> {
-        var URLFromComic: NSURL?
-        switch imageKind {
+        imageKind: ComicImageKind) -> SignalProducer<FileURL, ComicImageNetworkingServiceError> {
+            var URLFromComic: NSURL?
+            switch imageKind {
             case .DefaultImage:
                 URLFromComic = comic.imageURL
-        }
-        guard let URL = URLFromComic else {
-            throw Error.MissingImageURL
-        }
-        let URLRequest = NSURLRequest(URL:URL)
-        
-        return Task(weakified: false, paused: true,
-            initClosure: { (progress, fulfill, reject, configure) -> Void in
-                dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER)
+            }
+            guard let URL = URLFromComic else {
+                return SignalProducer(error: .MissingImageURLError)
+            }
+            let URLRequest = NSURLRequest(URL:URL)
+            
+            return SignalProducer { observer, disposable in
                 let downloadTask = self.URLSession.downloadTaskWithRequest(URLRequest,
-                    completionHandler: { (url: NSURL?, response: NSURLResponse?, error: NSError?) -> Void in
-                        guard let url = url else {
-                            reject(error!)
-                            return
+                    completionHandler: { url, response, error in
+                        switch (url, response, error) {
+                        case (let url?, _, _):
+                            observer.sendNext(url)
+                            observer.sendCompleted()
+                        case (_, _?, let error):
+                            observer.sendFailed(.ServerError(underlyingError:error))
+                        case (_, _, let error):
+                            observer.sendFailed(.NetworkError(underlyingError:error))
                         }
-                        fulfill(url)
                 })
-                dispatch_semaphore_signal(self.semaphore)
-                configure.resume = {
-                    downloadTask.resume()
-                }
-                configure.cancel = {
+                disposable += ActionDisposable {
                     downloadTask.cancel()
                 }
-        })
+                downloadTask.resume()
+            }
     }
-    
-    // MARK: NSURLSessionDownloadDelegate
-    
-    func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
-        // TODO
-    }
-    
-    func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
-        // TODO
-    }
-    
-    func URLSessionDidFinishEventsForBackgroundURLSession(session: NSURLSession) {
-        // TODO
-    }
-    
-    func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        // TODO
-    }
-    
 }

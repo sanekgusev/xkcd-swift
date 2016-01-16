@@ -8,19 +8,6 @@
 
 import UIKit
 
-extension NavigationCoordinator {
-    var rootViewController : UIViewController {
-        return self.splitViewController
-    }
-    
-    class var sharedCoordinator: NavigationCoordinator {
-        struct Static {
-            static let instance = NavigationCoordinator()
-        }
-        return Static.instance
-    }
-}
-
 class NavigationCoordinator : NSObject,
 UISplitViewControllerDelegate, UINavigationControllerDelegate {
     
@@ -35,7 +22,11 @@ UISplitViewControllerDelegate, UINavigationControllerDelegate {
     private lazy var detailViewController : UIViewController =
         self.createDetailViewController()
     
-    private override init() {
+    var rootViewController : UIViewController {
+        return self.splitViewController
+    }
+    
+    override init() {
         super.init()
     }
     

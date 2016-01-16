@@ -1,0 +1,6 @@
+framework module Pods_xkcd_swiftTests {
+  umbrella header "Pods-xkcd-swiftTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

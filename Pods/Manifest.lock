@@ -1,0 +1,31 @@
+PODS:
+  - ReactiveCocoa (4.0.4-alpha-4):
+    - ReactiveCocoa/UI (= 4.0.4-alpha-4)
+    - Result (~> 1.0)
+  - ReactiveCocoa/Core (4.0.4-alpha-4):
+    - ReactiveCocoa/no-arc
+    - Result (~> 1.0)
+  - ReactiveCocoa/no-arc (4.0.4-alpha-4):
+    - Result (~> 1.0)
+  - ReactiveCocoa/UI (4.0.4-alpha-4):
+    - ReactiveCocoa/Core
+    - Result (~> 1.0)
+  - Result (1.0.1)
+  - SwiftCollections/OrderedDictionary (0.1.0)
+
+DEPENDENCIES:
+  - ReactiveCocoa (= 4.0.4-alpha-4)
+  - SwiftCollections/OrderedDictionary (from `../SwiftCollections`)
+
+EXTERNAL SOURCES:
+  SwiftCollections:
+    :path: "../SwiftCollections"
+
+SPEC CHECKSUMS:
+  ReactiveCocoa: e459ea92099447802df20c4735e31e8139b06094
+  Result: caef80340451e1f07492fa1e89117f83613bce24
+  SwiftCollections: 8563475c183792522d979d66e337d5764242a017
+
+PODFILE CHECKSUM: f28d88b77213b980b81c3d9065dc22a92110f31f
+
+COCOAPODS: 1.0.0.beta.2

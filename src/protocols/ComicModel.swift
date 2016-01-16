@@ -7,34 +7,29 @@
 //
 
 import Foundation
-import SwiftTask
+import ReactiveCocoa
 
-enum ComicModelComicState {
-    case NotLoaded
-    case Loading
-    case Loaded(Comic)
-    case LoadFailed(ErrorType)
+struct ComicModelComicState {
+    enum ComicState {
+        case Invalid, NotLoaded, Loaded(Comic)
+    }
+    enum LoadingState {
+        case Idle, Loading, LastLoadFailed(ComicModelError)
+    }
+    
+    var comicState: ComicState
+    var loadingState: LoadingState
+}
+
+enum ComicModelError: ErrorType {
+    case ComicLoadFailed(underlyingError: ErrorType)
 }
 
 protocol ComicModel {
     
-    var latestAvailableComic: Comic? { get }
-    var isUpdatingLatestAvailableComic: Bool { get }
-    func updateLatestAvailableComic() -> Task<NormalizedProgressValue, Comic, ErrorType>
+    func updateComicWithIdentifier(identifier: ComicIdentifier) -> SignalProducer<Comic, ComicModelError>
     
-    func addLatestAvailableComicObserverWithHandler(handler: (comic: Comic?) -> ()) -> Any
-    func removeLatestAvailableComicObserver(observer: Any)
+    var viewedComicNumbers: MutableProperty<Set<Comic.Number>> { get }
     
-    func addUpdatingLatestAvailableComicObserverWithHandler(handler: (isUpdating: Bool) -> ()) -> Any
-    func removeUpdatingLatestAvailableComicObserver(observer: Any)
-    
-    func updateComicWithNumber(number: ComicNumber) -> Task<NormalizedProgressValue, Comic, ErrorType>
-    
-    var viewedComicNumbers: Set<ComicNumber>? { get set }
-    
-    func stateOfComicWithNumber(number: ComicNumber) -> ComicModelComicState
-    subscript (number: Int) -> Comic? { get }
-    
-    func addComicStateObserverWithHandler(handler: (comicNumbers: Set<ComicNumber>) -> ()) -> Any
-    func removeComicStateObserver(observer: Any)
+    subscript (identifier: ComicIdentifier) -> AnyProperty<ComicModelComicState> { get }
 }
