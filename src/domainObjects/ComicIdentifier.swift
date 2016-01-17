@@ -7,14 +7,14 @@
 //
 
 enum ComicIdentifier {
-    case Number(comicNumber: UInt)
+    case Number(Comic.Number)
     case Latest
 }
 
 extension ComicIdentifier : IntegerLiteralConvertible {
-    typealias IntegerLiteralType = UInt
+    typealias IntegerLiteralType = Comic.Number
     
-    init(integerLiteral value: ComicIdentifier.IntegerLiteralType) {
-        self = .Number(comicNumber: value)
+    init(integerLiteral value: IntegerLiteralType) {
+        self = .Number(value)
     }
 }

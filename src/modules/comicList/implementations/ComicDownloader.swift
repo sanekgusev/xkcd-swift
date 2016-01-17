@@ -11,20 +11,6 @@ import ReactiveCocoa
 
 final class ComicDownloader: NSObject, ComicNetworkingService {
     
-    enum Error : ErrorType {
-        case ServerError(NSError)
-        case NetworkError(NSError)
-        case UnknownError
-        
-        init(_ error: NSError?) {
-            guard let error = error else {
-                self = .UnknownError
-                return
-            }
-            self = error.isServerError ? .ServerError(error) : .NetworkError(error)
-        }
-    }
-    
     private let sessionConfiguration: NSURLSessionConfiguration
     private let completionQueueQualityOfService: NSQualityOfService
     
