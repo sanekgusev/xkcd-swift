@@ -1,5 +1,5 @@
 //
-//  ComicImageDownloader.swift
+//  ComicImageNetworkingServiceImpl.swift
 //  xkcd-swift
 //
 //  Created by Aleksandr Gusev on 2/17/15.
@@ -9,14 +9,14 @@
 import Foundation
 import ReactiveCocoa
 
-final class ComicImageDownloader: NSObject, ComicImageNetworkingService {
+final class ComicImageNetworkingServiceImpl: NSObject, ComicImageNetworkingService {
     
     private let URLSessionConfiguration: NSURLSessionConfiguration
     private let completionQueueQualityOfService: NSQualityOfService
     private lazy var URLSession: NSURLSession = {
         let completionQueue = NSOperationQueue()
         completionQueue.qualityOfService = self.completionQueueQualityOfService
-        completionQueue.name = "com.sanekgusev.xkcd.ComicImageDownloader.completionQueue"
+        completionQueue.name = "com.sanekgusev.xkcd.ComicImageNetworkingServiceImpl.completionQueue"
         return NSURLSession(configuration: self.URLSessionConfiguration,
             delegate: nil,
             delegateQueue: completionQueue)

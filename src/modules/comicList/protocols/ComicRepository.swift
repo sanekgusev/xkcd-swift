@@ -18,7 +18,7 @@ protocol ComicRepository {
 }
 
 extension ComicRepository {
-    func retrieveComics<S: SequenceType where S.Generator.Element == Comic.Number> (numbers: S) -> SignalProducer<(number: Comic.Number, result: Result<Comic, ComicRepositoryError>), NoError> {
+    func retrieveComics<S: SequenceType where S.Generator.Element == Comic.Number> (numbers: S) -> SignalProducer<(number: Comic.Number, result: Result<Comic, ComicRepositoryError>), ReactiveCocoa.NoError> {
         return SignalProducer(values: numbers).flatMap(.Merge, transform: { number in
             return self.retrieveComic(.Number(number))
                 .takeLast(1)

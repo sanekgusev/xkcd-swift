@@ -1,0 +1,6 @@
+framework module Anthology {
+  umbrella header "Anthology-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,4 +1,5 @@
 PODS:
+  - Anthology/OrderedDictionary (1.0.1)
   - ReactiveCocoa (4.0.4-alpha-4):
     - ReactiveCocoa/UI (= 4.0.4-alpha-4)
     - Result (~> 1.0)
@@ -10,22 +11,17 @@ PODS:
   - ReactiveCocoa/UI (4.0.4-alpha-4):
     - ReactiveCocoa/Core
     - Result (~> 1.0)
-  - Result (1.0.1)
-  - SwiftCollections/OrderedDictionary (0.1.0)
+  - Result (1.0.2)
 
 DEPENDENCIES:
+  - Anthology/OrderedDictionary
   - ReactiveCocoa (= 4.0.4-alpha-4)
-  - SwiftCollections/OrderedDictionary (from `../SwiftCollections`)
-
-EXTERNAL SOURCES:
-  SwiftCollections:
-    :path: "../SwiftCollections"
 
 SPEC CHECKSUMS:
+  Anthology: 8f0857edf3a143c61418fbbc0e8b459b22218815
   ReactiveCocoa: e459ea92099447802df20c4735e31e8139b06094
-  Result: caef80340451e1f07492fa1e89117f83613bce24
-  SwiftCollections: 8563475c183792522d979d66e337d5764242a017
+  Result: dd3dd71af3fa2e262f1a999e14fba2c25ec14f16
 
-PODFILE CHECKSUM: f28d88b77213b980b81c3d9065dc22a92110f31f
+PODFILE CHECKSUM: e52250ffc5731715673f9842601060687897d706
 
-COCOAPODS: 1.0.0.beta.2
+COCOAPODS: 1.0.0.rc.1

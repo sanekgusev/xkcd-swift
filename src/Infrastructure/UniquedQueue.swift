@@ -77,10 +77,11 @@ public struct UniquedQueue <T where T: Hashable> : CollectionType {
             let poppedElements = _array.split(1,
                 allowEmptySlices: true,
                 isSeparator: { (element) -> Bool in
-                    return ++counter > count
+                    counter += 1;
+                    return counter > count
             })[0]
             _set.subtractInPlace(poppedElements)
-            _array.removeRange(Range(start: 0, end: poppedElements.count))
+            _array.removeRange(0..<poppedElements.count)
             return [T](poppedElements)
         }
         return []

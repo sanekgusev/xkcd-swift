@@ -1,5 +1,5 @@
 //
-//  ComicDownloader.swift
+//  ComicNetworkingServiceImpl.swift
 //  xkcd-swift
 //
 //  Created by Aleksandr Gusev on 2/19/15.
@@ -9,7 +9,7 @@
 import Foundation
 import ReactiveCocoa
 
-final class ComicDownloader: NSObject, ComicNetworkingService {
+final class ComicNetworkingServiceImpl: NSObject, ComicNetworkingService {
     
     private let sessionConfiguration: NSURLSessionConfiguration
     private let completionQueueQualityOfService: NSQualityOfService
@@ -17,7 +17,7 @@ final class ComicDownloader: NSObject, ComicNetworkingService {
     private lazy var URLSession : NSURLSession = {
         let completionQueue = NSOperationQueue()
         completionQueue.qualityOfService = self.completionQueueQualityOfService
-        completionQueue.name = "com.sanekgusev.xkcd.ComicDownloader.completionQueue"
+        completionQueue.name = "com.sanekgusev.xkcd.ComicNetworkingServiceImpl.completionQueue"
         return NSURLSession(configuration: self.sessionConfiguration,
             delegate: nil,
             delegateQueue: completionQueue)
@@ -48,14 +48,18 @@ final class ComicDownloader: NSObject, ComicNetworkingService {
                     observer.sendNext(data)
                     observer.sendCompleted()
                 case (_, _?, let error):
-                    observer.sendFailed(.ServerError(underlyingError:error))
+                    if !disposable.disposed {
+                        observer.sendFailed(.ServerError(underlyingError:error))
+                    }
                 case (_, _, let error):
-                    observer.sendFailed(.NetworkError(underlyingError:error))
+                    if !disposable.disposed {
+                        observer.sendFailed(.NetworkError(underlyingError:error))
+                    }
                 }
             })
-            disposable += ActionDisposable {
-              dataTask.cancel()
-            };
+            disposable += ActionDisposable { [weak dataTask] in
+              dataTask?.cancel()
+            }
             dataTask.resume()
         };
     }

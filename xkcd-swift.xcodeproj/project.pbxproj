@@ -8,25 +8,33 @@
 
 /* Begin PBXBuildFile section */
 		1C586A989A13CB7771E6F8B9 /* Pods_xkcd_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F13A51CFA5C0FDE69001E42 /* Pods_xkcd_swift.framework */; };
+		BB7660FF1CD660F200543547 /* Comic.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660E31CD660F200543547 /* Comic.swift */; };
+		BB7661001CD660F200543547 /* ComicIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660E41CD660F200543547 /* ComicIdentifier.swift */; };
+		BB7661011CD660F200543547 /* ComicImageKinds.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660E51CD660F200543547 /* ComicImageKinds.swift */; };
+		BB7661021CD660F200543547 /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660E71CD660F200543547 /* Typealiases.swift */; };
+		BB7661031CD660F200543547 /* UniquedQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660E81CD660F200543547 /* UniquedQueue.swift */; };
+		BB7661041CD660F200543547 /* ComicInteractorImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660EC1CD660F200543547 /* ComicInteractorImpl.swift */; };
+		BB7661051CD660F200543547 /* ComicRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660ED1CD660F200543547 /* ComicRepositoryImpl.swift */; };
+		BB7661061CD660F200543547 /* ComicInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660EF1CD660F200543547 /* ComicInteractor.swift */; };
+		BB7661071CD660F200543547 /* ComicRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660F01CD660F200543547 /* ComicRepository.swift */; };
+		BB7661081CD660F200543547 /* ComicImageNetworkingServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660F31CD660F200543547 /* ComicImageNetworkingServiceImpl.swift */; };
+		BB7661091CD660F200543547 /* ComicNetworkingServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660F41CD660F200543547 /* ComicNetworkingServiceImpl.swift */; };
+		BB76610A1CD660F200543547 /* ComicParsingServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660F51CD660F200543547 /* ComicParsingServiceImpl.swift */; };
+		BB76610B1CD660F200543547 /* ImageLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660F61CD660F200543547 /* ImageLoading.swift */; };
+		BB76610C1CD660F200543547 /* ComicImageNetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660F81CD660F200543547 /* ComicImageNetworkingService.swift */; };
+		BB76610D1CD660F200543547 /* ComicNetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660F91CD660F200543547 /* ComicNetworkingService.swift */; };
+		BB76610E1CD660F200543547 /* ComicParsingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660FA1CD660F200543547 /* ComicParsingService.swift */; };
+		BB7661101CD6614500543547 /* MainWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB76610F1CD6614500543547 /* MainWireframe.swift */; };
+		BB7661121CD6615500543547 /* MainWireframeImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7661111CD6615500543547 /* MainWireframeImpl.swift */; };
+		BB7661141CD661C500543547 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7661131CD661C500543547 /* AppConfiguration.swift */; };
+		BB7661161CD661E600543547 /* AppConfigurationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7661151CD661E600543547 /* AppConfigurationImpl.swift */; };
+		BB7661181CD6627300543547 /* ComicListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7661171CD6627300543547 /* ComicListRouter.swift */; };
+		BB76611A1CD6632E00543547 /* ComicPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7661191CD6632E00543547 /* ComicPresenter.swift */; };
+		BB76611C1CD6634B00543547 /* ComicPresenterImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB76611B1CD6634B00543547 /* ComicPresenterImpl.swift */; };
 		D91CAA48B9EBC10648B14204 /* Pods_xkcd_swiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6B4C226EFBC72468E994241 /* Pods_xkcd_swiftTests.framework */; };
 		F31634031A6B0D7400B8FBAC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F31633FA1A6B0D7400B8FBAC /* LaunchScreen.xib */; };
 		F31634041A6B0D7400B8FBAC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F31633FC1A6B0D7400B8FBAC /* Images.xcassets */; };
 		F31634061A6B0D7400B8FBAC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31633FF1A6B0D7400B8FBAC /* AppDelegate.swift */; };
-		F31AE82C1C4C2656007629D0 /* Comic.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31AE8141C4C2656007629D0 /* Comic.swift */; };
-		F31AE82D1C4C2656007629D0 /* ComicIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31AE8151C4C2656007629D0 /* ComicIdentifier.swift */; };
-		F31AE82E1C4C2656007629D0 /* ComicImageKinds.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31AE8161C4C2656007629D0 /* ComicImageKinds.swift */; };
-		F31AE82F1C4C2656007629D0 /* UniquedQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31AE81A1C4C2656007629D0 /* UniquedQueue.swift */; };
-		F31AE8301C4C2656007629D0 /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31AE81B1C4C2656007629D0 /* Typealiases.swift */; };
-		F31AE8311C4C2656007629D0 /* ComicDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31AE81F1C4C2656007629D0 /* ComicDownloader.swift */; };
-		F31AE8321C4C2656007629D0 /* ComicImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31AE8201C4C2656007629D0 /* ComicImageDownloader.swift */; };
-		F31AE8331C4C2656007629D0 /* ComicParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31AE8211C4C2656007629D0 /* ComicParser.swift */; };
-		F31AE8341C4C2656007629D0 /* NavigationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31AE8221C4C2656007629D0 /* NavigationCoordinator.swift */; };
-		F31AE8351C4C2656007629D0 /* ComicImageNetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31AE8241C4C2656007629D0 /* ComicImageNetworkingService.swift */; };
-		F31AE8361C4C2656007629D0 /* ComicModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31AE8251C4C2656007629D0 /* ComicModel.swift */; };
-		F31AE8371C4C2656007629D0 /* ComicNetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31AE8261C4C2656007629D0 /* ComicNetworkingService.swift */; };
-		F31AE8381C4C2656007629D0 /* ComicParsingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31AE8271C4C2656007629D0 /* ComicParsingService.swift */; };
-		F31AE8391C4C2656007629D0 /* ImageLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31AE82A1C4C2656007629D0 /* ImageLoading.swift */; };
-		F31AE83B1C4C26AA007629D0 /* ComicRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31AE83A1C4C26AA007629D0 /* ComicRepository.swift */; };
 		F3C4C4731A6B0B6500F8F15E /* xkcd_swiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C4C4721A6B0B6500F8F15E /* xkcd_swiftTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -113,27 +121,35 @@
 /* Begin PBXFileReference section */
 		14DE5CFF3290DFF8DFA54059 /* Pods-xkcd-swiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xkcd-swiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-xkcd-swiftTests/Pods-xkcd-swiftTests.release.xcconfig"; sourceTree = "<group>"; };
 		4F13A51CFA5C0FDE69001E42 /* Pods_xkcd_swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_xkcd_swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB7660E31CD660F200543547 /* Comic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comic.swift; sourceTree = "<group>"; };
+		BB7660E41CD660F200543547 /* ComicIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicIdentifier.swift; sourceTree = "<group>"; };
+		BB7660E51CD660F200543547 /* ComicImageKinds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicImageKinds.swift; sourceTree = "<group>"; };
+		BB7660E71CD660F200543547 /* Typealiases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Typealiases.swift; sourceTree = "<group>"; };
+		BB7660E81CD660F200543547 /* UniquedQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UniquedQueue.swift; sourceTree = "<group>"; };
+		BB7660EC1CD660F200543547 /* ComicInteractorImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicInteractorImpl.swift; sourceTree = "<group>"; };
+		BB7660ED1CD660F200543547 /* ComicRepositoryImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicRepositoryImpl.swift; sourceTree = "<group>"; };
+		BB7660EF1CD660F200543547 /* ComicInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicInteractor.swift; sourceTree = "<group>"; };
+		BB7660F01CD660F200543547 /* ComicRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicRepository.swift; sourceTree = "<group>"; };
+		BB7660F31CD660F200543547 /* ComicImageNetworkingServiceImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicImageNetworkingServiceImpl.swift; sourceTree = "<group>"; };
+		BB7660F41CD660F200543547 /* ComicNetworkingServiceImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicNetworkingServiceImpl.swift; sourceTree = "<group>"; };
+		BB7660F51CD660F200543547 /* ComicParsingServiceImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicParsingServiceImpl.swift; sourceTree = "<group>"; };
+		BB7660F61CD660F200543547 /* ImageLoading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoading.swift; sourceTree = "<group>"; };
+		BB7660F81CD660F200543547 /* ComicImageNetworkingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicImageNetworkingService.swift; sourceTree = "<group>"; };
+		BB7660F91CD660F200543547 /* ComicNetworkingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicNetworkingService.swift; sourceTree = "<group>"; };
+		BB7660FA1CD660F200543547 /* ComicParsingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicParsingService.swift; sourceTree = "<group>"; };
+		BB76610F1CD6614500543547 /* MainWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWireframe.swift; sourceTree = "<group>"; };
+		BB7661111CD6615500543547 /* MainWireframeImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWireframeImpl.swift; sourceTree = "<group>"; };
+		BB7661131CD661C500543547 /* AppConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
+		BB7661151CD661E600543547 /* AppConfigurationImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfigurationImpl.swift; sourceTree = "<group>"; };
+		BB7661171CD6627300543547 /* ComicListRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicListRouter.swift; sourceTree = "<group>"; };
+		BB7661191CD6632E00543547 /* ComicPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicPresenter.swift; sourceTree = "<group>"; };
+		BB76611B1CD6634B00543547 /* ComicPresenterImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicPresenterImpl.swift; sourceTree = "<group>"; };
 		D235D8B61CE77F44D2D53A1D /* Pods-xkcd-swiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xkcd-swiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-xkcd-swiftTests/Pods-xkcd-swiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E03BBA655CEEEF8CE4DAA395 /* Pods-xkcd-swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xkcd-swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-xkcd-swift/Pods-xkcd-swift.release.xcconfig"; sourceTree = "<group>"; };
 		F31633FB1A6B0D7400B8FBAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		F31633FC1A6B0D7400B8FBAC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F31633FD1A6B0D7400B8FBAC /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F31633FF1A6B0D7400B8FBAC /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F31AE8141C4C2656007629D0 /* Comic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comic.swift; sourceTree = "<group>"; };
-		F31AE8151C4C2656007629D0 /* ComicIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicIdentifier.swift; sourceTree = "<group>"; };
-		F31AE8161C4C2656007629D0 /* ComicImageKinds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicImageKinds.swift; sourceTree = "<group>"; };
-		F31AE81A1C4C2656007629D0 /* UniquedQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UniquedQueue.swift; sourceTree = "<group>"; };
-		F31AE81B1C4C2656007629D0 /* Typealiases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Typealiases.swift; sourceTree = "<group>"; };
-		F31AE81F1C4C2656007629D0 /* ComicDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicDownloader.swift; sourceTree = "<group>"; };
-		F31AE8201C4C2656007629D0 /* ComicImageDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicImageDownloader.swift; sourceTree = "<group>"; };
-		F31AE8211C4C2656007629D0 /* ComicParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicParser.swift; sourceTree = "<group>"; };
-		F31AE8221C4C2656007629D0 /* NavigationCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationCoordinator.swift; sourceTree = "<group>"; };
-		F31AE8241C4C2656007629D0 /* ComicImageNetworkingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicImageNetworkingService.swift; sourceTree = "<group>"; };
-		F31AE8251C4C2656007629D0 /* ComicModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicModel.swift; sourceTree = "<group>"; };
-		F31AE8261C4C2656007629D0 /* ComicNetworkingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicNetworkingService.swift; sourceTree = "<group>"; };
-		F31AE8271C4C2656007629D0 /* ComicParsingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicParsingService.swift; sourceTree = "<group>"; };
-		F31AE82A1C4C2656007629D0 /* ImageLoading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoading.swift; sourceTree = "<group>"; };
-		F31AE83A1C4C26AA007629D0 /* ComicRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicRepository.swift; sourceTree = "<group>"; };
 		F3A6CC941B5984BE009D1870 /* SwiftTask.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftTask.xcodeproj; path = Carthage/Checkouts/SwiftTask/SwiftTask.xcodeproj; sourceTree = "<group>"; };
 		F3C4C4571A6B0B6500F8F15E /* xkcd-swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "xkcd-swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3C4C46C1A6B0B6500F8F15E /* xkcd-swiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "xkcd-swiftTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -190,6 +206,150 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		BB7660DF1CD660F200543547 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				BB7660E01CD660F200543547 /* Implementations */,
+				BB7660E11CD660F200543547 /* Protocols */,
+			);
+			path = Configurations;
+			sourceTree = "<group>";
+		};
+		BB7660E01CD660F200543547 /* Implementations */ = {
+			isa = PBXGroup;
+			children = (
+				BB7661151CD661E600543547 /* AppConfigurationImpl.swift */,
+			);
+			path = Implementations;
+			sourceTree = "<group>";
+		};
+		BB7660E11CD660F200543547 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				BB7661131CD661C500543547 /* AppConfiguration.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		BB7660E21CD660F200543547 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				BB7660E31CD660F200543547 /* Comic.swift */,
+				BB7660E41CD660F200543547 /* ComicIdentifier.swift */,
+				BB7660E51CD660F200543547 /* ComicImageKinds.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		BB7660E61CD660F200543547 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				BB7660E71CD660F200543547 /* Typealiases.swift */,
+				BB7660E81CD660F200543547 /* UniquedQueue.swift */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		BB7660E91CD660F200543547 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				BB7660EA1CD660F200543547 /* ComicList */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		BB7660EA1CD660F200543547 /* ComicList */ = {
+			isa = PBXGroup;
+			children = (
+				BB7660EB1CD660F200543547 /* Implementations */,
+				BB7660EE1CD660F200543547 /* Protocols */,
+			);
+			path = ComicList;
+			sourceTree = "<group>";
+		};
+		BB7660EB1CD660F200543547 /* Implementations */ = {
+			isa = PBXGroup;
+			children = (
+				BB7660EC1CD660F200543547 /* ComicInteractorImpl.swift */,
+				BB7660ED1CD660F200543547 /* ComicRepositoryImpl.swift */,
+				BB76611B1CD6634B00543547 /* ComicPresenterImpl.swift */,
+			);
+			path = Implementations;
+			sourceTree = "<group>";
+		};
+		BB7660EE1CD660F200543547 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				BB7660EF1CD660F200543547 /* ComicInteractor.swift */,
+				BB7660F01CD660F200543547 /* ComicRepository.swift */,
+				BB7661171CD6627300543547 /* ComicListRouter.swift */,
+				BB7661191CD6632E00543547 /* ComicPresenter.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		BB7660F11CD660F200543547 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				BB7660F21CD660F200543547 /* Implementations */,
+				BB7660F71CD660F200543547 /* Protocols */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		BB7660F21CD660F200543547 /* Implementations */ = {
+			isa = PBXGroup;
+			children = (
+				BB7660F31CD660F200543547 /* ComicImageNetworkingServiceImpl.swift */,
+				BB7660F41CD660F200543547 /* ComicNetworkingServiceImpl.swift */,
+				BB7660F51CD660F200543547 /* ComicParsingServiceImpl.swift */,
+				BB7660F61CD660F200543547 /* ImageLoading.swift */,
+			);
+			path = Implementations;
+			sourceTree = "<group>";
+		};
+		BB7660F71CD660F200543547 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				BB7660F81CD660F200543547 /* ComicImageNetworkingService.swift */,
+				BB7660F91CD660F200543547 /* ComicNetworkingService.swift */,
+				BB7660FA1CD660F200543547 /* ComicParsingService.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		BB7660FB1CD660F200543547 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		BB7660FC1CD660F200543547 /* Wireframes */ = {
+			isa = PBXGroup;
+			children = (
+				BB7660FD1CD660F200543547 /* Implementations */,
+				BB7660FE1CD660F200543547 /* Protocols */,
+			);
+			path = Wireframes;
+			sourceTree = "<group>";
+		};
+		BB7660FD1CD660F200543547 /* Implementations */ = {
+			isa = PBXGroup;
+			children = (
+				BB7661111CD6615500543547 /* MainWireframeImpl.swift */,
+			);
+			path = Implementations;
+			sourceTree = "<group>";
+		};
+		BB7660FE1CD660F200543547 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				BB76610F1CD6614500543547 /* MainWireframe.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		F31633F91A6B0D7400B8FBAC /* resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -203,112 +363,16 @@
 		F31633FE1A6B0D7400B8FBAC /* src */ = {
 			isa = PBXGroup;
 			children = (
-				F31AE8131C4C2656007629D0 /* domainObjects */,
-				F31AE8171C4C2656007629D0 /* infrastructure */,
-				F31AE81C1C4C2656007629D0 /* modules */,
-				F31AE8281C4C2656007629D0 /* services */,
+				BB7660DF1CD660F200543547 /* Configurations */,
+				BB7660E21CD660F200543547 /* Entities */,
+				BB7660E61CD660F200543547 /* Infrastructure */,
+				BB7660E91CD660F200543547 /* Modules */,
+				BB7660F11CD660F200543547 /* Services */,
+				BB7660FB1CD660F200543547 /* UI */,
+				BB7660FC1CD660F200543547 /* Wireframes */,
 				F31633FF1A6B0D7400B8FBAC /* AppDelegate.swift */,
 			);
 			path = src;
-			sourceTree = "<group>";
-		};
-		F31AE8131C4C2656007629D0 /* domainObjects */ = {
-			isa = PBXGroup;
-			children = (
-				F31AE8141C4C2656007629D0 /* Comic.swift */,
-				F31AE8151C4C2656007629D0 /* ComicIdentifier.swift */,
-				F31AE8161C4C2656007629D0 /* ComicImageKinds.swift */,
-			);
-			path = domainObjects;
-			sourceTree = "<group>";
-		};
-		F31AE8171C4C2656007629D0 /* infrastructure */ = {
-			isa = PBXGroup;
-			children = (
-				F31AE8181C4C2656007629D0 /* categories */,
-				F31AE8191C4C2656007629D0 /* collections */,
-				F31AE81B1C4C2656007629D0 /* Typealiases.swift */,
-			);
-			path = infrastructure;
-			sourceTree = "<group>";
-		};
-		F31AE8181C4C2656007629D0 /* categories */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = categories;
-			sourceTree = "<group>";
-		};
-		F31AE8191C4C2656007629D0 /* collections */ = {
-			isa = PBXGroup;
-			children = (
-				F31AE81A1C4C2656007629D0 /* UniquedQueue.swift */,
-			);
-			path = collections;
-			sourceTree = "<group>";
-		};
-		F31AE81C1C4C2656007629D0 /* modules */ = {
-			isa = PBXGroup;
-			children = (
-				F31AE81D1C4C2656007629D0 /* comicList */,
-			);
-			path = modules;
-			sourceTree = "<group>";
-		};
-		F31AE81D1C4C2656007629D0 /* comicList */ = {
-			isa = PBXGroup;
-			children = (
-				F31AE81E1C4C2656007629D0 /* implementations */,
-				F31AE8231C4C2656007629D0 /* protocols */,
-			);
-			path = comicList;
-			sourceTree = "<group>";
-		};
-		F31AE81E1C4C2656007629D0 /* implementations */ = {
-			isa = PBXGroup;
-			children = (
-				F31AE81F1C4C2656007629D0 /* ComicDownloader.swift */,
-				F31AE8201C4C2656007629D0 /* ComicImageDownloader.swift */,
-				F31AE8211C4C2656007629D0 /* ComicParser.swift */,
-				F31AE8221C4C2656007629D0 /* NavigationCoordinator.swift */,
-			);
-			path = implementations;
-			sourceTree = "<group>";
-		};
-		F31AE8231C4C2656007629D0 /* protocols */ = {
-			isa = PBXGroup;
-			children = (
-				F31AE8241C4C2656007629D0 /* ComicImageNetworkingService.swift */,
-				F31AE8251C4C2656007629D0 /* ComicModel.swift */,
-				F31AE8261C4C2656007629D0 /* ComicNetworkingService.swift */,
-				F31AE8271C4C2656007629D0 /* ComicParsingService.swift */,
-				F31AE83A1C4C26AA007629D0 /* ComicRepository.swift */,
-			);
-			path = protocols;
-			sourceTree = "<group>";
-		};
-		F31AE8281C4C2656007629D0 /* services */ = {
-			isa = PBXGroup;
-			children = (
-				F31AE8291C4C2656007629D0 /* implementations */,
-				F31AE82B1C4C2656007629D0 /* protocols */,
-			);
-			path = services;
-			sourceTree = "<group>";
-		};
-		F31AE8291C4C2656007629D0 /* implementations */ = {
-			isa = PBXGroup;
-			children = (
-				F31AE82A1C4C2656007629D0 /* ImageLoading.swift */,
-			);
-			path = implementations;
-			sourceTree = "<group>";
-		};
-		F31AE82B1C4C2656007629D0 /* protocols */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = protocols;
 			sourceTree = "<group>";
 		};
 		F3A6CC951B5984BE009D1870 /* Products */ = {
@@ -380,12 +444,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F3C4C4761A6B0B6500F8F15E /* Build configuration list for PBXNativeTarget "xkcd-swift" */;
 			buildPhases = (
-				9A538E402EE1C4028876D03A /* Check Pods Manifest.lock */,
+				9A538E402EE1C4028876D03A /* 📦 Check Pods Manifest.lock */,
 				F3C4C4531A6B0B6500F8F15E /* Sources */,
 				F3C4C4541A6B0B6500F8F15E /* Frameworks */,
 				F3C4C4551A6B0B6500F8F15E /* Resources */,
-				8BFD10545B4C8F2BD837C88D /* Embed Pods Frameworks */,
-				AF1466D7F6B67577D3689AAA /* Copy Pods Resources */,
+				8BFD10545B4C8F2BD837C88D /* 📦 Embed Pods Frameworks */,
+				AF1466D7F6B67577D3689AAA /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -400,12 +464,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F3C4C4791A6B0B6500F8F15E /* Build configuration list for PBXNativeTarget "xkcd-swiftTests" */;
 			buildPhases = (
-				2845AA9D8DECDA397A092B5E /* Check Pods Manifest.lock */,
+				2845AA9D8DECDA397A092B5E /* 📦 Check Pods Manifest.lock */,
 				F3C4C4681A6B0B6500F8F15E /* Sources */,
 				F3C4C4691A6B0B6500F8F15E /* Frameworks */,
 				F3C4C46A1A6B0B6500F8F15E /* Resources */,
-				9A25061F86E65BF334E9B9EA /* Embed Pods Frameworks */,
-				B195865A9A4A8122F634E598 /* Copy Pods Resources */,
+				9A25061F86E65BF334E9B9EA /* 📦 Embed Pods Frameworks */,
+				B195865A9A4A8122F634E598 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -557,14 +621,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2845AA9D8DECDA397A092B5E /* Check Pods Manifest.lock */ = {
+		2845AA9D8DECDA397A092B5E /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -572,14 +636,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		8BFD10545B4C8F2BD837C88D /* Embed Pods Frameworks */ = {
+		8BFD10545B4C8F2BD837C88D /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "📦 Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -587,14 +651,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-xkcd-swift/Pods-xkcd-swift-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9A25061F86E65BF334E9B9EA /* Embed Pods Frameworks */ = {
+		9A25061F86E65BF334E9B9EA /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "📦 Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -602,14 +666,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-xkcd-swiftTests/Pods-xkcd-swiftTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9A538E402EE1C4028876D03A /* Check Pods Manifest.lock */ = {
+		9A538E402EE1C4028876D03A /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -617,14 +681,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		AF1466D7F6B67577D3689AAA /* Copy Pods Resources */ = {
+		AF1466D7F6B67577D3689AAA /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -632,14 +696,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-xkcd-swift/Pods-xkcd-swift-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B195865A9A4A8122F634E598 /* Copy Pods Resources */ = {
+		B195865A9A4A8122F634E598 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -654,22 +718,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BB7661061CD660F200543547 /* ComicInteractor.swift in Sources */,
+				BB76610A1CD660F200543547 /* ComicParsingServiceImpl.swift in Sources */,
+				BB7661181CD6627300543547 /* ComicListRouter.swift in Sources */,
 				F31634061A6B0D7400B8FBAC /* AppDelegate.swift in Sources */,
-				F31AE8331C4C2656007629D0 /* ComicParser.swift in Sources */,
-				F31AE82C1C4C2656007629D0 /* Comic.swift in Sources */,
-				F31AE8321C4C2656007629D0 /* ComicImageDownloader.swift in Sources */,
-				F31AE8381C4C2656007629D0 /* ComicParsingService.swift in Sources */,
-				F31AE8301C4C2656007629D0 /* Typealiases.swift in Sources */,
-				F31AE82F1C4C2656007629D0 /* UniquedQueue.swift in Sources */,
-				F31AE8311C4C2656007629D0 /* ComicDownloader.swift in Sources */,
-				F31AE8351C4C2656007629D0 /* ComicImageNetworkingService.swift in Sources */,
-				F31AE82D1C4C2656007629D0 /* ComicIdentifier.swift in Sources */,
-				F31AE8341C4C2656007629D0 /* NavigationCoordinator.swift in Sources */,
-				F31AE83B1C4C26AA007629D0 /* ComicRepository.swift in Sources */,
-				F31AE82E1C4C2656007629D0 /* ComicImageKinds.swift in Sources */,
-				F31AE8391C4C2656007629D0 /* ImageLoading.swift in Sources */,
-				F31AE8361C4C2656007629D0 /* ComicModel.swift in Sources */,
-				F31AE8371C4C2656007629D0 /* ComicNetworkingService.swift in Sources */,
+				BB7661101CD6614500543547 /* MainWireframe.swift in Sources */,
+				BB7661051CD660F200543547 /* ComicRepositoryImpl.swift in Sources */,
+				BB76610B1CD660F200543547 /* ImageLoading.swift in Sources */,
+				BB7661141CD661C500543547 /* AppConfiguration.swift in Sources */,
+				BB76611C1CD6634B00543547 /* ComicPresenterImpl.swift in Sources */,
+				BB7661031CD660F200543547 /* UniquedQueue.swift in Sources */,
+				BB76610E1CD660F200543547 /* ComicParsingService.swift in Sources */,
+				BB7660FF1CD660F200543547 /* Comic.swift in Sources */,
+				BB7661021CD660F200543547 /* Typealiases.swift in Sources */,
+				BB7661091CD660F200543547 /* ComicNetworkingServiceImpl.swift in Sources */,
+				BB7661001CD660F200543547 /* ComicIdentifier.swift in Sources */,
+				BB7661071CD660F200543547 /* ComicRepository.swift in Sources */,
+				BB76610D1CD660F200543547 /* ComicNetworkingService.swift in Sources */,
+				BB76610C1CD660F200543547 /* ComicImageNetworkingService.swift in Sources */,
+				BB7661041CD660F200543547 /* ComicInteractorImpl.swift in Sources */,
+				BB7661121CD6615500543547 /* MainWireframeImpl.swift in Sources */,
+				BB7661161CD661E600543547 /* AppConfigurationImpl.swift in Sources */,
+				BB7661011CD660F200543547 /* ComicImageKinds.swift in Sources */,
+				BB76611A1CD6632E00543547 /* ComicPresenter.swift in Sources */,
+				BB7661081CD660F200543547 /* ComicImageNetworkingServiceImpl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

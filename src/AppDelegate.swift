@@ -7,21 +7,25 @@
 //
 
 import UIKit
-import SwiftCollections
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    @objc internal lazy var window: UIWindow? = {
-        return UIWindow(frame: UIScreen.mainScreen().bounds)
-    }()
-
+    
+    var window: UIWindow?
+    
+    var wireframe: MainWireframe!
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        window!.rootViewController = NavigationCoordinator().rootViewController
-        window!.makeKeyAndVisible()
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        
+        if let window = window {
+            wireframe = AppConfigurationImpl().wireframe
+            wireframe.setupInitialUIWithWindow(window)
+            window.makeKeyAndVisible()
+        }
         
         return true
     }
-
+    
 }
 
