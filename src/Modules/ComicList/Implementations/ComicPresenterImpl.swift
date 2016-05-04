@@ -20,13 +20,24 @@ final class ComicPresenterImpl: ComicPresenter {
     }
     
     var comicCount: AnyProperty<UInt?> {
-        return AnyProperty(initialValue: interactor[.Latest].comic.value?.number,
-                           producer: interactor[.Latest].comic.producer.map({ $0?.number }))
+        let reactiveLatestComic = interactor[.Latest].comic
+        return AnyProperty(initialValue: reactiveLatestComic.value?.number,
+                           producer: reactiveLatestComic.producer.map({ $0?.number }))
     }
-    var refreshing: AnyProperty<Bool> { get }
-    var lastRefreshError: AnyProperty<ComicInteractorError?> { get }
+    var refreshing: AnyProperty<Bool> {
+        return interactor[.Latest].loading
+    }
+    var lastRefreshError: AnyProperty<ComicRepositoryError?> {
+        return interactor[.Latest].lastLoadError
+    }
     
-    subscript (index: UInt) -> ComicInteractorComicState { get }
-    func selectComicAtIndex(index: UInt)
+    subscript (index: UInt) -> ReactiveComicWrapper {
+        return interactor[.Number(index + 1)]
+    }
+    
+    func selectComicAtIndex(index: UInt) {
+        let reactiveComic = interactor[.Number(index + 1)]
+        self.router.handleComicSelected(reactiveComic)
+    }
     
 }

@@ -31,6 +31,7 @@
 		BB7661181CD6627300543547 /* ComicListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7661171CD6627300543547 /* ComicListRouter.swift */; };
 		BB76611A1CD6632E00543547 /* ComicPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7661191CD6632E00543547 /* ComicPresenter.swift */; };
 		BB76611C1CD6634B00543547 /* ComicPresenterImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB76611B1CD6634B00543547 /* ComicPresenterImpl.swift */; };
+		BB990B971CDA8F3700F162DF /* ReactiveComicWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB990B961CDA8F3700F162DF /* ReactiveComicWrapper.swift */; };
 		D91CAA48B9EBC10648B14204 /* Pods_xkcd_swiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6B4C226EFBC72468E994241 /* Pods_xkcd_swiftTests.framework */; };
 		F31634031A6B0D7400B8FBAC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F31633FA1A6B0D7400B8FBAC /* LaunchScreen.xib */; };
 		F31634041A6B0D7400B8FBAC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F31633FC1A6B0D7400B8FBAC /* Images.xcassets */; };
@@ -144,6 +145,7 @@
 		BB7661171CD6627300543547 /* ComicListRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicListRouter.swift; sourceTree = "<group>"; };
 		BB7661191CD6632E00543547 /* ComicPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicPresenter.swift; sourceTree = "<group>"; };
 		BB76611B1CD6634B00543547 /* ComicPresenterImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicPresenterImpl.swift; sourceTree = "<group>"; };
+		BB990B961CDA8F3700F162DF /* ReactiveComicWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactiveComicWrapper.swift; sourceTree = "<group>"; };
 		D235D8B61CE77F44D2D53A1D /* Pods-xkcd-swiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xkcd-swiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-xkcd-swiftTests/Pods-xkcd-swiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E03BBA655CEEEF8CE4DAA395 /* Pods-xkcd-swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xkcd-swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-xkcd-swift/Pods-xkcd-swift.release.xcconfig"; sourceTree = "<group>"; };
 		F31633FB1A6B0D7400B8FBAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 				BB7660E31CD660F200543547 /* Comic.swift */,
 				BB7660E41CD660F200543547 /* ComicIdentifier.swift */,
 				BB7660E51CD660F200543547 /* ComicImageKinds.swift */,
+				BB990B961CDA8F3700F162DF /* ReactiveComicWrapper.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -731,6 +734,7 @@
 				BB76610E1CD660F200543547 /* ComicParsingService.swift in Sources */,
 				BB7660FF1CD660F200543547 /* Comic.swift in Sources */,
 				BB7661021CD660F200543547 /* Typealiases.swift in Sources */,
+				BB990B971CDA8F3700F162DF /* ReactiveComicWrapper.swift in Sources */,
 				BB7661091CD660F200543547 /* ComicNetworkingServiceImpl.swift in Sources */,
 				BB7661001CD660F200543547 /* ComicIdentifier.swift in Sources */,
 				BB7661071CD660F200543547 /* ComicRepository.swift in Sources */,

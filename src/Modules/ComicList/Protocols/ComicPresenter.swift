@@ -12,8 +12,8 @@ protocol ComicPresenter {
     
     var comicCount: AnyProperty<UInt?> { get }
     var refreshing: AnyProperty<Bool> { get }
-    var lastRefreshError: AnyProperty<ComicInteractorError?> { get }
+    var lastRefreshError: AnyProperty<ComicRepositoryError?> { get }
     
-    subscript (index: UInt) -> ComicInteractorComicState { get }
+    subscript (index: UInt) -> ReactiveComicWrapper { get }
     func selectComicAtIndex(index: UInt)
 }

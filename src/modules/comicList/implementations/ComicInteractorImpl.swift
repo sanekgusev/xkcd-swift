@@ -9,14 +9,14 @@
 import Foundation
 import ReactiveCocoa
 
-final class ComicInteractorComicStateImpl: ComicInteractorComicState {
+final class ReactiveComicWrapperImpl: ReactiveComicWrapper {
     
     let comicIdentifier: ComicIdentifier
     private let comicRepository: ComicRepository
     
     private let mutableComic: MutableProperty<Comic?>
     private let mutableLoading = MutableProperty<Bool>(false)
-    private let mutableLastLoadError = MutableProperty<ComicInteractorError?>(nil)
+    private let mutableLastLoadError = MutableProperty<ComicRepositoryError?>(nil)
     
     private var retrieveDisposable = SerialDisposable(nil)
     
@@ -28,7 +28,7 @@ final class ComicInteractorComicStateImpl: ComicInteractorComicState {
         return AnyProperty(mutableLoading)
     }
     
-    var lastLoadError: AnyProperty<ComicInteractorError?> {
+    var lastLoadError: AnyProperty<ComicRepositoryError?> {
         return AnyProperty(mutableLastLoadError)
     }
     
@@ -40,16 +40,16 @@ final class ComicInteractorComicStateImpl: ComicInteractorComicState {
     }
     
     deinit {
-        cancelRetrieve()
+        retrieveDisposable.innerDisposable = nil
     }
     
-    func retrieveComic() {
-        retrieveDisposable.innerDisposable = comicRepository.retrieveComic(comicIdentifier).on(started: {
+    func retrieveComicWithSignal(@noescape setUp: (Signal<Comic, ComicRepositoryError>, Disposable) -> ()) {
+        comicRepository.retrieveComic(comicIdentifier).on(started: {
             self.mutableLoading.value = true
             }, event: { event in
                 //
             }, failed: { error in
-                self.mutableLastLoadError.value = ComicInteractorError(underlyingError: error)
+                self.mutableLastLoadError.value = error
             }, completed: { 
                 //
             }, interrupted: { 
@@ -60,11 +60,10 @@ final class ComicInteractorComicStateImpl: ComicInteractorComicState {
                 //
             }, next: { comic in
                 self.mutableComic.value = comic
-            }).start()
-    }
-    
-    func cancelRetrieve() {
-        retrieveDisposable.innerDisposable = nil
+        }).startWithSignal { signal, disposable in
+            retrieveDisposable.innerDisposable = disposable
+            setUp(signal, disposable)
+        }
     }
 }
 
@@ -74,24 +73,24 @@ final class ComicInteractorImpl: ComicInteractor {
     
     private let comicRepository: ComicRepository
     private var comicStatesCache: NSCache
-    private let latestComicEntry: ComicInteractorComicState
+    private let latestComicEntry: ReactiveComicWrapper
     
     init(comicRepository: ComicRepository) {
         self.comicRepository = comicRepository
-        latestComicEntry = ComicInteractorComicStateImpl(comicRepository: comicRepository,
+        latestComicEntry = ReactiveComicWrapperImpl(comicRepository: comicRepository,
                                                          comicIdentifier: .Latest)
         comicStatesCache = NSCache()
         comicStatesCache.countLimit = ComicInteractorImpl.cacheCountLimit
     }
     
-    subscript (identifier: ComicIdentifier) -> ComicInteractorComicState {
+    subscript (identifier: ComicIdentifier) -> ReactiveComicWrapper {
         switch identifier {
         case .Latest: return latestComicEntry
         case let .Number(number):
-            if let entry = comicStatesCache.objectForKey(number) as! ComicInteractorComicState? {
+            if let entry = comicStatesCache.objectForKey(number) as! ReactiveComicWrapper? {
                 return entry
             }
-            let entry = ComicInteractorComicStateImpl(comicRepository: comicRepository,
+            let entry = ReactiveComicWrapperImpl(comicRepository: comicRepository,
                                                       comicIdentifier: identifier)
             comicStatesCache.setObject(entry, forKey: number)
             return entry
