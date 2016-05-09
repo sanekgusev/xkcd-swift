@@ -43,18 +43,17 @@ final class ComicNetworkingServiceImpl: NSObject, ComicNetworkingService {
         
         return SignalProducer { observer, disposable in
             let dataTask = self.URLSession.dataTaskWithRequest(URLRequest, completionHandler: { data, response, error in
+                guard !disposable.disposed else {
+                    return
+                }
                 switch (data, response, error) {
                 case (let data?, _, _):
                     observer.sendNext(data)
                     observer.sendCompleted()
                 case (_, _?, let error):
-                    if !disposable.disposed {
-                        observer.sendFailed(.ServerError(underlyingError:error))
-                    }
+                    observer.sendFailed(.ServerError(underlyingError:error))
                 case (_, _, let error):
-                    if !disposable.disposed {
-                        observer.sendFailed(.NetworkError(underlyingError:error))
-                    }
+                    observer.sendFailed(.NetworkError(underlyingError:error))
                 }
             })
             disposable += ActionDisposable { [weak dataTask] in

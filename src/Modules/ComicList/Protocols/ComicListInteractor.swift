@@ -1,11 +1,11 @@
 //
-//  ComicInteractor.swift
+//  ComicListInteractor.swift
 //  xkcd-swift
 //
 //  Created by Aleksandr Gusev on 3/6/15.
 //
 //
 
-protocol ComicInteractor {
+protocol ComicListInteractor {
     subscript (identifier: ComicIdentifier) -> ReactiveComicWrapper { get }
 }

@@ -12,16 +12,15 @@
 		BB7661001CD660F200543547 /* ComicIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660E41CD660F200543547 /* ComicIdentifier.swift */; };
 		BB7661011CD660F200543547 /* ComicImageKinds.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660E51CD660F200543547 /* ComicImageKinds.swift */; };
 		BB7661021CD660F200543547 /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660E71CD660F200543547 /* Typealiases.swift */; };
-		BB7661031CD660F200543547 /* UniquedQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660E81CD660F200543547 /* UniquedQueue.swift */; };
-		BB7661041CD660F200543547 /* ComicInteractorImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660EC1CD660F200543547 /* ComicInteractorImpl.swift */; };
+		BB7661041CD660F200543547 /* ComicListInteractorImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660EC1CD660F200543547 /* ComicListInteractorImpl.swift */; };
 		BB7661051CD660F200543547 /* ComicRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660ED1CD660F200543547 /* ComicRepositoryImpl.swift */; };
-		BB7661061CD660F200543547 /* ComicInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660EF1CD660F200543547 /* ComicInteractor.swift */; };
+		BB7661061CD660F200543547 /* ComicListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660EF1CD660F200543547 /* ComicListInteractor.swift */; };
 		BB7661071CD660F200543547 /* ComicRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660F01CD660F200543547 /* ComicRepository.swift */; };
-		BB7661081CD660F200543547 /* ComicImageNetworkingServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660F31CD660F200543547 /* ComicImageNetworkingServiceImpl.swift */; };
+		BB7661081CD660F200543547 /* ImageNetworkingServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660F31CD660F200543547 /* ImageNetworkingServiceImpl.swift */; };
 		BB7661091CD660F200543547 /* ComicNetworkingServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660F41CD660F200543547 /* ComicNetworkingServiceImpl.swift */; };
 		BB76610A1CD660F200543547 /* ComicParsingServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660F51CD660F200543547 /* ComicParsingServiceImpl.swift */; };
-		BB76610B1CD660F200543547 /* ImageLoading.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660F61CD660F200543547 /* ImageLoading.swift */; };
-		BB76610C1CD660F200543547 /* ComicImageNetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660F81CD660F200543547 /* ComicImageNetworkingService.swift */; };
+		BB76610B1CD660F200543547 /* ImageLoadingServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660F61CD660F200543547 /* ImageLoadingServiceImpl.swift */; };
+		BB76610C1CD660F200543547 /* ImageNetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660F81CD660F200543547 /* ImageNetworkingService.swift */; };
 		BB76610D1CD660F200543547 /* ComicNetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660F91CD660F200543547 /* ComicNetworkingService.swift */; };
 		BB76610E1CD660F200543547 /* ComicParsingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660FA1CD660F200543547 /* ComicParsingService.swift */; };
 		BB7661101CD6614500543547 /* MainWireframe.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB76610F1CD6614500543547 /* MainWireframe.swift */; };
@@ -29,8 +28,13 @@
 		BB7661141CD661C500543547 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7661131CD661C500543547 /* AppConfiguration.swift */; };
 		BB7661161CD661E600543547 /* AppConfigurationImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7661151CD661E600543547 /* AppConfigurationImpl.swift */; };
 		BB7661181CD6627300543547 /* ComicListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7661171CD6627300543547 /* ComicListRouter.swift */; };
-		BB76611A1CD6632E00543547 /* ComicPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7661191CD6632E00543547 /* ComicPresenter.swift */; };
-		BB76611C1CD6634B00543547 /* ComicPresenterImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB76611B1CD6634B00543547 /* ComicPresenterImpl.swift */; };
+		BB76611A1CD6632E00543547 /* ComicListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7661191CD6632E00543547 /* ComicListPresenter.swift */; };
+		BB76611C1CD6634B00543547 /* ComicListPresenterImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB76611B1CD6634B00543547 /* ComicListPresenterImpl.swift */; };
+		BB8C40D51CE12A2300183073 /* ComicListLoadingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8C40D41CE12A2300183073 /* ComicListLoadingPresenter.swift */; };
+		BB8C40D71CE12AF600183073 /* ComicListLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8C40D61CE12AF600183073 /* ComicListLoadingViewController.swift */; };
+		BB8C40D91CE12C5E00183073 /* ComicListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8C40D81CE12C5E00183073 /* ComicListViewController.swift */; };
+		BB8C40DB1CE12DAC00183073 /* UINavigationController+RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8C40DA1CE12DAC00183073 /* UINavigationController+RootViewController.swift */; };
+		BB8C40DD1CE1315E00183073 /* ComicListLoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB8C40DC1CE1315E00183073 /* ComicListLoadingViewController.xib */; };
 		BB990B971CDA8F3700F162DF /* ReactiveComicWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB990B961CDA8F3700F162DF /* ReactiveComicWrapper.swift */; };
 		D91CAA48B9EBC10648B14204 /* Pods_xkcd_swiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6B4C226EFBC72468E994241 /* Pods_xkcd_swiftTests.framework */; };
 		F31634031A6B0D7400B8FBAC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F31633FA1A6B0D7400B8FBAC /* LaunchScreen.xib */; };
@@ -126,16 +130,15 @@
 		BB7660E41CD660F200543547 /* ComicIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicIdentifier.swift; sourceTree = "<group>"; };
 		BB7660E51CD660F200543547 /* ComicImageKinds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicImageKinds.swift; sourceTree = "<group>"; };
 		BB7660E71CD660F200543547 /* Typealiases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Typealiases.swift; sourceTree = "<group>"; };
-		BB7660E81CD660F200543547 /* UniquedQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UniquedQueue.swift; sourceTree = "<group>"; };
-		BB7660EC1CD660F200543547 /* ComicInteractorImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicInteractorImpl.swift; sourceTree = "<group>"; };
+		BB7660EC1CD660F200543547 /* ComicListInteractorImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicListInteractorImpl.swift; sourceTree = "<group>"; };
 		BB7660ED1CD660F200543547 /* ComicRepositoryImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicRepositoryImpl.swift; sourceTree = "<group>"; };
-		BB7660EF1CD660F200543547 /* ComicInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicInteractor.swift; sourceTree = "<group>"; };
+		BB7660EF1CD660F200543547 /* ComicListInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicListInteractor.swift; sourceTree = "<group>"; };
 		BB7660F01CD660F200543547 /* ComicRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicRepository.swift; sourceTree = "<group>"; };
-		BB7660F31CD660F200543547 /* ComicImageNetworkingServiceImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicImageNetworkingServiceImpl.swift; sourceTree = "<group>"; };
+		BB7660F31CD660F200543547 /* ImageNetworkingServiceImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageNetworkingServiceImpl.swift; sourceTree = "<group>"; };
 		BB7660F41CD660F200543547 /* ComicNetworkingServiceImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicNetworkingServiceImpl.swift; sourceTree = "<group>"; };
 		BB7660F51CD660F200543547 /* ComicParsingServiceImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicParsingServiceImpl.swift; sourceTree = "<group>"; };
-		BB7660F61CD660F200543547 /* ImageLoading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoading.swift; sourceTree = "<group>"; };
-		BB7660F81CD660F200543547 /* ComicImageNetworkingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicImageNetworkingService.swift; sourceTree = "<group>"; };
+		BB7660F61CD660F200543547 /* ImageLoadingServiceImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoadingServiceImpl.swift; sourceTree = "<group>"; };
+		BB7660F81CD660F200543547 /* ImageNetworkingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageNetworkingService.swift; sourceTree = "<group>"; };
 		BB7660F91CD660F200543547 /* ComicNetworkingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicNetworkingService.swift; sourceTree = "<group>"; };
 		BB7660FA1CD660F200543547 /* ComicParsingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicParsingService.swift; sourceTree = "<group>"; };
 		BB76610F1CD6614500543547 /* MainWireframe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWireframe.swift; sourceTree = "<group>"; };
@@ -143,8 +146,13 @@
 		BB7661131CD661C500543547 /* AppConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		BB7661151CD661E600543547 /* AppConfigurationImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfigurationImpl.swift; sourceTree = "<group>"; };
 		BB7661171CD6627300543547 /* ComicListRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicListRouter.swift; sourceTree = "<group>"; };
-		BB7661191CD6632E00543547 /* ComicPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicPresenter.swift; sourceTree = "<group>"; };
-		BB76611B1CD6634B00543547 /* ComicPresenterImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicPresenterImpl.swift; sourceTree = "<group>"; };
+		BB7661191CD6632E00543547 /* ComicListPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicListPresenter.swift; sourceTree = "<group>"; };
+		BB76611B1CD6634B00543547 /* ComicListPresenterImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicListPresenterImpl.swift; sourceTree = "<group>"; };
+		BB8C40D41CE12A2300183073 /* ComicListLoadingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicListLoadingPresenter.swift; sourceTree = "<group>"; };
+		BB8C40D61CE12AF600183073 /* ComicListLoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicListLoadingViewController.swift; sourceTree = "<group>"; };
+		BB8C40D81CE12C5E00183073 /* ComicListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicListViewController.swift; sourceTree = "<group>"; };
+		BB8C40DA1CE12DAC00183073 /* UINavigationController+RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+RootViewController.swift"; sourceTree = "<group>"; };
+		BB8C40DC1CE1315E00183073 /* ComicListLoadingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ComicListLoadingViewController.xib; sourceTree = "<group>"; };
 		BB990B961CDA8F3700F162DF /* ReactiveComicWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactiveComicWrapper.swift; sourceTree = "<group>"; };
 		D235D8B61CE77F44D2D53A1D /* Pods-xkcd-swiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xkcd-swiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-xkcd-swiftTests/Pods-xkcd-swiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E03BBA655CEEEF8CE4DAA395 /* Pods-xkcd-swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xkcd-swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-xkcd-swift/Pods-xkcd-swift.release.xcconfig"; sourceTree = "<group>"; };
@@ -248,7 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				BB7660E71CD660F200543547 /* Typealiases.swift */,
-				BB7660E81CD660F200543547 /* UniquedQueue.swift */,
+				BB8C40DA1CE12DAC00183073 /* UINavigationController+RootViewController.swift */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -273,9 +281,9 @@
 		BB7660EB1CD660F200543547 /* Implementations */ = {
 			isa = PBXGroup;
 			children = (
-				BB7660EC1CD660F200543547 /* ComicInteractorImpl.swift */,
+				BB7660EC1CD660F200543547 /* ComicListInteractorImpl.swift */,
 				BB7660ED1CD660F200543547 /* ComicRepositoryImpl.swift */,
-				BB76611B1CD6634B00543547 /* ComicPresenterImpl.swift */,
+				BB76611B1CD6634B00543547 /* ComicListPresenterImpl.swift */,
 			);
 			path = Implementations;
 			sourceTree = "<group>";
@@ -283,10 +291,11 @@
 		BB7660EE1CD660F200543547 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				BB7660EF1CD660F200543547 /* ComicInteractor.swift */,
+				BB7660EF1CD660F200543547 /* ComicListInteractor.swift */,
 				BB7660F01CD660F200543547 /* ComicRepository.swift */,
 				BB7661171CD6627300543547 /* ComicListRouter.swift */,
-				BB7661191CD6632E00543547 /* ComicPresenter.swift */,
+				BB7661191CD6632E00543547 /* ComicListPresenter.swift */,
+				BB8C40D41CE12A2300183073 /* ComicListLoadingPresenter.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -303,10 +312,10 @@
 		BB7660F21CD660F200543547 /* Implementations */ = {
 			isa = PBXGroup;
 			children = (
-				BB7660F31CD660F200543547 /* ComicImageNetworkingServiceImpl.swift */,
+				BB7660F31CD660F200543547 /* ImageNetworkingServiceImpl.swift */,
 				BB7660F41CD660F200543547 /* ComicNetworkingServiceImpl.swift */,
 				BB7660F51CD660F200543547 /* ComicParsingServiceImpl.swift */,
-				BB7660F61CD660F200543547 /* ImageLoading.swift */,
+				BB7660F61CD660F200543547 /* ImageLoadingServiceImpl.swift */,
 			);
 			path = Implementations;
 			sourceTree = "<group>";
@@ -314,7 +323,7 @@
 		BB7660F71CD660F200543547 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				BB7660F81CD660F200543547 /* ComicImageNetworkingService.swift */,
+				BB7660F81CD660F200543547 /* ImageNetworkingService.swift */,
 				BB7660F91CD660F200543547 /* ComicNetworkingService.swift */,
 				BB7660FA1CD660F200543547 /* ComicParsingService.swift */,
 			);
@@ -324,6 +333,9 @@
 		BB7660FB1CD660F200543547 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				BB8C40D61CE12AF600183073 /* ComicListLoadingViewController.swift */,
+				BB8C40DC1CE1315E00183073 /* ComicListLoadingViewController.xib */,
+				BB8C40D81CE12C5E00183073 /* ComicListViewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -610,6 +622,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F31634031A6B0D7400B8FBAC /* LaunchScreen.xib in Resources */,
+				BB8C40DD1CE1315E00183073 /* ComicListLoadingViewController.xib in Resources */,
 				F31634041A6B0D7400B8FBAC /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -721,31 +734,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB7661061CD660F200543547 /* ComicInteractor.swift in Sources */,
+				BB7661061CD660F200543547 /* ComicListInteractor.swift in Sources */,
 				BB76610A1CD660F200543547 /* ComicParsingServiceImpl.swift in Sources */,
 				BB7661181CD6627300543547 /* ComicListRouter.swift in Sources */,
 				F31634061A6B0D7400B8FBAC /* AppDelegate.swift in Sources */,
 				BB7661101CD6614500543547 /* MainWireframe.swift in Sources */,
+				BB8C40D51CE12A2300183073 /* ComicListLoadingPresenter.swift in Sources */,
 				BB7661051CD660F200543547 /* ComicRepositoryImpl.swift in Sources */,
-				BB76610B1CD660F200543547 /* ImageLoading.swift in Sources */,
+				BB76610B1CD660F200543547 /* ImageLoadingServiceImpl.swift in Sources */,
 				BB7661141CD661C500543547 /* AppConfiguration.swift in Sources */,
-				BB76611C1CD6634B00543547 /* ComicPresenterImpl.swift in Sources */,
-				BB7661031CD660F200543547 /* UniquedQueue.swift in Sources */,
+				BB76611C1CD6634B00543547 /* ComicListPresenterImpl.swift in Sources */,
 				BB76610E1CD660F200543547 /* ComicParsingService.swift in Sources */,
 				BB7660FF1CD660F200543547 /* Comic.swift in Sources */,
 				BB7661021CD660F200543547 /* Typealiases.swift in Sources */,
 				BB990B971CDA8F3700F162DF /* ReactiveComicWrapper.swift in Sources */,
+				BB8C40D91CE12C5E00183073 /* ComicListViewController.swift in Sources */,
 				BB7661091CD660F200543547 /* ComicNetworkingServiceImpl.swift in Sources */,
 				BB7661001CD660F200543547 /* ComicIdentifier.swift in Sources */,
 				BB7661071CD660F200543547 /* ComicRepository.swift in Sources */,
+				BB8C40D71CE12AF600183073 /* ComicListLoadingViewController.swift in Sources */,
 				BB76610D1CD660F200543547 /* ComicNetworkingService.swift in Sources */,
-				BB76610C1CD660F200543547 /* ComicImageNetworkingService.swift in Sources */,
-				BB7661041CD660F200543547 /* ComicInteractorImpl.swift in Sources */,
+				BB76610C1CD660F200543547 /* ImageNetworkingService.swift in Sources */,
+				BB7661041CD660F200543547 /* ComicListInteractorImpl.swift in Sources */,
+				BB8C40DB1CE12DAC00183073 /* UINavigationController+RootViewController.swift in Sources */,
 				BB7661121CD6615500543547 /* MainWireframeImpl.swift in Sources */,
 				BB7661161CD661E600543547 /* AppConfigurationImpl.swift in Sources */,
 				BB7661011CD660F200543547 /* ComicImageKinds.swift in Sources */,
-				BB76611A1CD6632E00543547 /* ComicPresenter.swift in Sources */,
-				BB7661081CD660F200543547 /* ComicImageNetworkingServiceImpl.swift in Sources */,
+				BB76611A1CD6632E00543547 /* ComicListPresenter.swift in Sources */,
+				BB7661081CD660F200543547 /* ImageNetworkingServiceImpl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

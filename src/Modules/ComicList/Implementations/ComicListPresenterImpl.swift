@@ -1,5 +1,5 @@
 //
-//  ComicPresenterImpl.swift
+//  ComicListPresenterImpl.swift
 //  xkcd-swift
 //
 //  Created by Aleksandr Gusev on 01/05/16.
@@ -8,12 +8,12 @@
 
 import ReactiveCocoa
 
-final class ComicPresenterImpl: ComicPresenter {
+final class ComicListPresenterImpl: ComicListPresenter {
     
-    let interactor: ComicInteractor
+    let interactor: ComicListInteractor
     let router: ComicListRouter
     
-    init(interactor: ComicInteractor,
+    init(interactor: ComicListInteractor,
          router: ComicListRouter) {
         self.interactor = interactor
         self.router = router
@@ -37,7 +37,12 @@ final class ComicPresenterImpl: ComicPresenter {
     
     func selectComicAtIndex(index: UInt) {
         let reactiveComic = interactor[.Number(index + 1)]
-        self.router.handleComicSelected(reactiveComic)
+        router.handleComicSelected(reactiveComic)
     }
     
+    func refreshComicCountWithSignal(@noescape setUp: (Signal<UInt, ComicRepositoryError>, Disposable) -> ()) {
+        interactor[.Latest].retrieveComicWithSignal({ signal, disposable in
+            setUp(signal.map({ $0.number }), disposable)
+        })
+    }
 }

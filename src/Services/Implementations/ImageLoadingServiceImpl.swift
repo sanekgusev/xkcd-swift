@@ -11,7 +11,7 @@ import MobileCoreServices
 import ImageIO
 import CoreGraphics
 
-final class ImageLoading {
+final class ImageLoadingServiceImpl {
     
     enum LoadingMode {
         case FullResolution
@@ -25,7 +25,7 @@ final class ImageLoading {
         case ImageCreationFailed
     }
     
-    class func loadImage(fileURL: NSURL, loadingMode: LoadingMode, shouldCache: Bool = true) throws -> CGImage {
+    func loadImage(fileURL: NSURL, loadingMode: LoadingMode, shouldCache: Bool = true) throws -> CGImage {
         guard fileURL.fileURL, let pathExtension = fileURL.pathExtension else {
             throw ImageLoadingError.NotAFileURL
         }

@@ -9,7 +9,7 @@
 import Foundation
 import ReactiveCocoa
 
-final class ComicImageNetworkingServiceImpl: NSObject, ComicImageNetworkingService {
+final class ImageNetworkingServiceImpl: NSObject, ImageNetworkingService {
     
     private let URLSessionConfiguration: NSURLSessionConfiguration
     private let completionQueueQualityOfService: NSQualityOfService
@@ -28,21 +28,15 @@ final class ComicImageNetworkingServiceImpl: NSObject, ComicImageNetworkingServi
             self.completionQueueQualityOfService = completionQueueQualityOfService
     }
     
-    func downloadImageForComic(comic: Comic,
-        imageKind: ComicImageKind) -> SignalProducer<FileURL, ComicImageNetworkingServiceError> {
-            var URLFromComic: NSURL?
-            switch imageKind {
-            case .DefaultImage:
-                URLFromComic = comic.imageURL
-            }
-            guard let URL = URLFromComic else {
-                return SignalProducer(error: .MissingImageURLError)
-            }
-            let URLRequest = NSURLRequest(URL:URL)
+    func downloadImageForURL(imageURL: NSURL) -> SignalProducer<FileURL, ImageNetworkingServiceError> {
+            let URLRequest = NSURLRequest(URL:imageURL)
             
             return SignalProducer { observer, disposable in
                 let downloadTask = self.URLSession.downloadTaskWithRequest(URLRequest,
                     completionHandler: { url, response, error in
+                        guard !disposable.disposed else {
+                            return
+                        }
                         switch (url, response, error) {
                         case (let url?, _, _):
                             observer.sendNext(url)
@@ -53,8 +47,8 @@ final class ComicImageNetworkingServiceImpl: NSObject, ComicImageNetworkingServi
                             observer.sendFailed(.NetworkError(underlyingError:error))
                         }
                 })
-                disposable += ActionDisposable {
-                    downloadTask.cancel()
+                disposable += ActionDisposable { [weak downloadTask] in
+                    downloadTask?.cancel()
                 }
                 downloadTask.resume()
             }

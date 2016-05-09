@@ -1,5 +1,5 @@
 //
-//  ComicInteractorImpl.swift
+//  ComicListInteractorImpl.swift
 //  xkcd-swift
 //
 //  Created by Aleksandr Gusev on 01/05/16.
@@ -67,7 +67,7 @@ final class ReactiveComicWrapperImpl: ReactiveComicWrapper {
     }
 }
 
-final class ComicInteractorImpl: ComicInteractor {
+final class ComicListInteractorImpl: ComicListInteractor {
     
     private static let cacheCountLimit = 100
     
@@ -80,7 +80,7 @@ final class ComicInteractorImpl: ComicInteractor {
         latestComicEntry = ReactiveComicWrapperImpl(comicRepository: comicRepository,
                                                          comicIdentifier: .Latest)
         comicStatesCache = NSCache()
-        comicStatesCache.countLimit = ComicInteractorImpl.cacheCountLimit
+        comicStatesCache.countLimit = ComicListInteractorImpl.cacheCountLimit
     }
     
     subscript (identifier: ComicIdentifier) -> ReactiveComicWrapper {
