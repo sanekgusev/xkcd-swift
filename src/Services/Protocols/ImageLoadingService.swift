@@ -15,15 +15,22 @@ enum ImageLoadingServiceLoadingMode {
     case Thumbnail(maxDimension: CGFloat)
 }
 
-enum ImageLoadingServiceError: ErrorType {
+enum ImageLoadingServiceLoadError: ErrorType {
     case NotAFileURL
-    case UTICreationFailed
     case ImageSourceCreationFailed
     case ImageCreationFailed
 }
 
+enum ImageLoadingServiceUncompressionError : ErrorType {
+    case ColorSpaceCreationFailed
+    case ContextCreationFailed
+    case ImageCreationFailed
+}
+
 protocol ImageLoadingService {
-    func loadImage(fileURL: FileURL, loadingMode: ImageLoadingServiceLoadingMode, shouldCache: Bool) -> SignalProducer<CGImage, ImageLoadingServiceError>
+    func loadImage(fileURL: FileURL, loadingMode: ImageLoadingServiceLoadingMode, shouldCache: Bool) -> SignalProducer<CGImage, ImageLoadingServiceLoadError>
+    
+    func uncompressImage(image: CGImage) -> SignalProducer<CGImage, ImageLoadingServiceUncompressionError>
 }
 
 
