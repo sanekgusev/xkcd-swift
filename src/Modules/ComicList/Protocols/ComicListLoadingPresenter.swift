@@ -15,3 +15,9 @@ protocol ComicListLoadingPresenter {
     
     func refreshComicCountWithSignal(@noescape setUp: (Signal<UInt, ComicRepositoryError>, Disposable) -> ())
 }
+
+extension ComicListLoadingPresenter {
+    func refreshComicCount() {
+        refreshComicCountWithSignal { _,_ in  }
+    }
+}

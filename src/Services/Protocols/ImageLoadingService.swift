@@ -33,4 +33,14 @@ protocol ImageLoadingService {
     func uncompressImage(image: CGImage) -> SignalProducer<CGImage, ImageLoadingServiceUncompressionError>
 }
 
+extension ImageLoadingService {
+    func loadImage(fileURL: FileURL, loadingMode: ImageLoadingServiceLoadingMode) -> SignalProducer<CGImage, ImageLoadingServiceLoadError> {
+        return loadImage(fileURL, loadingMode: loadingMode, shouldCache: true)
+    }
+    
+    func loadImage(fileURL: FileURL) -> SignalProducer<CGImage, ImageLoadingServiceLoadError> {
+        return loadImage(fileURL, loadingMode: .FullResolution)
+    }
+}
+
 

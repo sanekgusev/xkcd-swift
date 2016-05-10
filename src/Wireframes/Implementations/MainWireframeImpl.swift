@@ -28,6 +28,7 @@ final class MainWireframeImpl: NSObject, MainWireframe {
         window.rootViewController = navigationController
         listPresenter.comicCount.producer.startWithNext { $0 == nil ?
             self.handleNoComicsLoaded() : self.handleComicsLoaded() }
+        listPresenter.refreshComicCount()
     }
 
 }

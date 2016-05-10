@@ -78,7 +78,7 @@ final class ComicListInteractorImpl: ComicListInteractor {
     init(comicRepository: ComicRepository) {
         self.comicRepository = comicRepository
         latestComicEntry = ReactiveComicWrapperImpl(comicRepository: comicRepository,
-                                                         comicIdentifier: .Latest)
+                                                    comicIdentifier: .Latest)
         comicStatesCache = NSCache()
         comicStatesCache.countLimit = ComicListInteractorImpl.cacheCountLimit
     }
@@ -91,7 +91,7 @@ final class ComicListInteractorImpl: ComicListInteractor {
                 return entry
             }
             let entry = ReactiveComicWrapperImpl(comicRepository: comicRepository,
-                                                      comicIdentifier: identifier)
+                                                 comicIdentifier: identifier)
             comicStatesCache.setObject(entry, forKey: number)
             return entry
         }
