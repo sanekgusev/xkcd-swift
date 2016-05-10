@@ -30,6 +30,8 @@
 		BB7661181CD6627300543547 /* ComicListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7661171CD6627300543547 /* ComicListRouter.swift */; };
 		BB76611A1CD6632E00543547 /* ComicListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7661191CD6632E00543547 /* ComicListPresenter.swift */; };
 		BB76611C1CD6634B00543547 /* ComicListPresenterImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB76611B1CD6634B00543547 /* ComicListPresenterImpl.swift */; };
+		BB78866B1CE2805600F9EB41 /* ComicListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB78866A1CE2805600F9EB41 /* ComicListTableViewCell.swift */; };
+		BB78866D1CE2806B00F9EB41 /* ComicListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB78866C1CE2806B00F9EB41 /* ComicListTableViewCell.xib */; };
 		BB8C40D51CE12A2300183073 /* ComicListLoadingPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8C40D41CE12A2300183073 /* ComicListLoadingPresenter.swift */; };
 		BB8C40D71CE12AF600183073 /* ComicListLoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8C40D61CE12AF600183073 /* ComicListLoadingViewController.swift */; };
 		BB8C40D91CE12C5E00183073 /* ComicListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8C40D81CE12C5E00183073 /* ComicListViewController.swift */; };
@@ -149,6 +151,8 @@
 		BB7661171CD6627300543547 /* ComicListRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicListRouter.swift; sourceTree = "<group>"; };
 		BB7661191CD6632E00543547 /* ComicListPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicListPresenter.swift; sourceTree = "<group>"; };
 		BB76611B1CD6634B00543547 /* ComicListPresenterImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicListPresenterImpl.swift; sourceTree = "<group>"; };
+		BB78866A1CE2805600F9EB41 /* ComicListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicListTableViewCell.swift; sourceTree = "<group>"; };
+		BB78866C1CE2806B00F9EB41 /* ComicListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ComicListTableViewCell.xib; sourceTree = "<group>"; };
 		BB8C40D41CE12A2300183073 /* ComicListLoadingPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicListLoadingPresenter.swift; sourceTree = "<group>"; };
 		BB8C40D61CE12AF600183073 /* ComicListLoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicListLoadingViewController.swift; sourceTree = "<group>"; };
 		BB8C40D81CE12C5E00183073 /* ComicListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicListViewController.swift; sourceTree = "<group>"; };
@@ -339,6 +343,8 @@
 				BB8C40D61CE12AF600183073 /* ComicListLoadingViewController.swift */,
 				BB8C40DC1CE1315E00183073 /* ComicListLoadingViewController.xib */,
 				BB8C40D81CE12C5E00183073 /* ComicListViewController.swift */,
+				BB78866A1CE2805600F9EB41 /* ComicListTableViewCell.swift */,
+				BB78866C1CE2806B00F9EB41 /* ComicListTableViewCell.xib */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -625,6 +631,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F31634031A6B0D7400B8FBAC /* LaunchScreen.xib in Resources */,
+				BB78866D1CE2806B00F9EB41 /* ComicListTableViewCell.xib in Resources */,
 				BB8C40DD1CE1315E00183073 /* ComicListLoadingViewController.xib in Resources */,
 				F31634041A6B0D7400B8FBAC /* Images.xcassets in Resources */,
 			);
@@ -760,6 +767,7 @@
 				BB76610D1CD660F200543547 /* ComicNetworkingService.swift in Sources */,
 				BB76610C1CD660F200543547 /* ImageNetworkingService.swift in Sources */,
 				BB7661041CD660F200543547 /* ComicListInteractorImpl.swift in Sources */,
+				BB78866B1CE2805600F9EB41 /* ComicListTableViewCell.swift in Sources */,
 				BB8C40DB1CE12DAC00183073 /* UINavigationController+RootViewController.swift in Sources */,
 				BB7661121CD6615500543547 /* MainWireframeImpl.swift in Sources */,
 				BB7661161CD661E600543547 /* AppConfigurationImpl.swift in Sources */,
