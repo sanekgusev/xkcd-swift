@@ -7,50 +7,47 @@
 //
 
 import Foundation
+import ReactiveCocoa
 import MobileCoreServices
 import ImageIO
 import CoreGraphics
 
-final class ImageLoadingServiceImpl {
+final class ImageLoadingServiceImpl: ImageLoadingService {
     
-    enum LoadingMode {
-        case FullResolution
-        case Thumbnail(maxDimension: CGFloat)
+    private let scheduler: QueueScheduler
+    
+    init(qos: dispatch_qos_class_t = QOS_CLASS_DEFAULT) {
+        scheduler = QueueScheduler(qos: qos, name: "com.sanekgusev.xkcd.ImageLoadingServiceImpl.queue")
     }
     
-    enum ImageLoadingError : ErrorType {
-        case NotAFileURL
-        case UTICreationFailed
-        case ImageSourceCreationFailed
-        case ImageCreationFailed
-    }
-    
-    func loadImage(fileURL: NSURL, loadingMode: LoadingMode, shouldCache: Bool = true) throws -> CGImage {
-        guard fileURL.fileURL, let pathExtension = fileURL.pathExtension else {
-            throw ImageLoadingError.NotAFileURL
-        }
-        guard let UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
-            pathExtension,
-            nil)?.takeRetainedValue() as? String else {
-            throw ImageLoadingError.UTICreationFailed
-        }
-        guard let imageSource = CGImageSourceCreateWithURL(fileURL,
-            [ kCGImageSourceTypeIdentifierHint as String : UTI ]) else {
-                throw ImageLoadingError.ImageSourceCreationFailed
-        }
-        var options: [String: AnyObject] = [ kCGImageSourceShouldCache as String: shouldCache,
-            kCGImageSourceCreateThumbnailFromImageAlways as String: true,
-            kCGImageSourceCreateThumbnailWithTransform as String: true ]
-        switch loadingMode {
+    func loadImage(fileURL: FileURL, loadingMode: ImageLoadingServiceLoadingMode, shouldCache: Bool) -> SignalProducer<CGImage, ImageLoadingServiceError> {
+        return SignalProducer { observer, disposable in
+            guard fileURL.fileURL, let pathExtension = fileURL.pathExtension else {
+                observer.sendFailed(ImageLoadingError.NotAFileURL)
+                return
+            }
+            guard let UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
+                pathExtension,
+                nil)?.takeRetainedValue() as? String else {
+                    throw ImageLoadingError.UTICreationFailed
+            }
+            guard let imageSource = CGImageSourceCreateWithURL(fileURL,
+                [ kCGImageSourceTypeIdentifierHint as String : UTI ]) else {
+                    throw ImageLoadingError.ImageSourceCreationFailed
+            }
+            var options: [String: AnyObject] = [ kCGImageSourceShouldCache as String: shouldCache,
+                kCGImageSourceCreateThumbnailFromImageAlways as String: true,
+                kCGImageSourceCreateThumbnailWithTransform as String: true ]
+            switch loadingMode {
             case .Thumbnail(maxDimension: let maxDimension):
                 options[kCGImageSourceThumbnailMaxPixelSize as String] = maxDimension
             default:()
-        }
-
-        guard let image = CGImageSourceCreateImageAtIndex(imageSource, 0, options) else {
-            throw ImageLoadingError.ImageCreationFailed
-        }
-        return image
+            }
+            
+            guard let image = CGImageSourceCreateImageAtIndex(imageSource, 0, options) else {
+                throw ImageLoadingError.ImageCreationFailed
+            }
+        }.startOn(scheduler)
     }
     
     enum ImageUncompressionError : ErrorType {

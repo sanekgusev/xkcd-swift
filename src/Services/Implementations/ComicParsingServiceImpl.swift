@@ -13,8 +13,8 @@ final class ComicParsingServiceImpl: ComicParsingService {
     
     private let scheduler: QueueScheduler
     
-    init(qos: dispatch_qos_class_t) {
-        scheduler = QueueScheduler(qos: qos, name: "com.sanekgusev.xkcd.ComicParsingService.queue")
+    init(qos: dispatch_qos_class_t = QOS_CLASS_DEFAULT) {
+        scheduler = QueueScheduler(qos: qos, name: "com.sanekgusev.xkcd.ComicParsingServiceImpl.queue")
     }
     
     func comicFromData(data: NSData) -> SignalProducer<Comic, ComicParsingServiceError> {
