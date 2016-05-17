@@ -33,9 +33,12 @@ final class ComicParsingServiceImpl: ComicParsingService {
                     observer.sendFailed(.MalformedPayloadError(underlyingError:nil))
                     return
                 }
-                guard let day = comicDict["day"] as? UInt8,
-                    month = comicDict["month"] as? UInt8,
-                    year = comicDict["year"] as? UInt16 else {
+                guard let dayString = comicDict["day"] as? String,
+                    monthString = comicDict["month"] as? String,
+                    yearString = comicDict["year"] as? String,
+                    day = UInt8(dayString),
+                    month = UInt8(monthString),
+                    year = UInt16(yearString) else {
                         observer.sendFailed(.MalformedPayloadError(underlyingError:nil))
                         return
                 }
@@ -59,6 +62,7 @@ final class ComicParsingServiceImpl: ComicParsingService {
                     transcript: comicDict["transcript"] as? String,
                     alt: alt)
                 observer.sendNext(comic)
+                observer.sendCompleted()
             }
             catch (let e) {
                 observer.sendFailed(.MalformedEncodingError(underlyingError:e))

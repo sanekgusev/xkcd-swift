@@ -16,7 +16,7 @@ final class ComicListViewController: UITableViewController {
     
     required init(presenter: ComicListPresenter) {
         self.presenter = presenter
-        super.init(nibName: nil, bundle: nil)
+        super.init(style: .Plain)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -25,8 +25,10 @@ final class ComicListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.registerClass(ComicListTableViewCell.self,
-                                forCellReuseIdentifier: self.dynamicType.reuseIdentifier)
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 100.0
+        tableView.registerNib(UINib(nibName: "ComicListTableViewCell", bundle: nil),
+            forCellReuseIdentifier: self.dynamicType.reuseIdentifier)
     }
 }
 
@@ -38,22 +40,19 @@ extension ComicListViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(self.dynamicType.reuseIdentifier,
                                                                forIndexPath: indexPath) as! ComicListTableViewCell
-        
-        cell.reactiveComic = presenter[UInt(indexPath.row)]
-//        var text = ""
-//        
-//        if case let .Number(number) = reactiveComic.comicIdentifier {
-//            text.appendContentsOf("\(number).")
-//        }
-//        if let comic = reactiveComic.comic.value {
-//            text.appendContentsOf(comic.title)
-//        }
-//        
-//        cell.textLabel?.text = text
+        let reactiveComic = presenter[UInt(indexPath.row)]
+        cell.reactiveComic = reactiveComic
+        if let reactiveComic = reactiveComic where
+            reactiveComic.comic.value == nil &&
+            !reactiveComic.loading.value {
+            reactiveComic.retrieveComic()
+        }
         return cell
     }
 }
 
 extension ComicListViewController {
-    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        //
+    }
 }

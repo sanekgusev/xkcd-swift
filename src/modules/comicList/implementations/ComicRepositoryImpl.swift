@@ -30,7 +30,8 @@ final class ComicRepositoryImpl: ComicRepository {
                     return ComicRepositoryError.ServerError
                 }
             })
-            .flatMap(.Merge, transform: { self.parsingService.comicFromData($0).mapError({ _ in ComicRepositoryError.ServerError })
+            .flatMap(.Merge, transform: {
+                self.parsingService.comicFromData($0).mapError({ _ in ComicRepositoryError.ServerError })
             })
     }
 }

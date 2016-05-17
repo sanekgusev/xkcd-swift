@@ -27,7 +27,7 @@ final class ReactiveComicWrapperImpl: ReactiveComicWrapper {
     var loading: AnyProperty<Bool> {
         return AnyProperty(mutableLoading)
     }
-    
+
     var lastLoadError: AnyProperty<ComicRepositoryError?> {
         return AnyProperty(mutableLastLoadError)
     }
@@ -46,18 +46,10 @@ final class ReactiveComicWrapperImpl: ReactiveComicWrapper {
     func retrieveComicWithSignal(@noescape setUp: (Signal<Comic, ComicRepositoryError>, Disposable) -> ()) {
         comicRepository.retrieveComic(comicIdentifier).on(started: {
             self.mutableLoading.value = true
-            }, event: { event in
-                //
             }, failed: { error in
                 self.mutableLastLoadError.value = error
-            }, completed: { 
-                //
-            }, interrupted: { 
-                //
-            }, terminated: { 
+            },terminated: {
                 self.mutableLoading.value = false
-            }, disposed: { 
-                //
             }, next: { comic in
                 self.mutableComic.value = comic
         }).startWithSignal { signal, disposable in

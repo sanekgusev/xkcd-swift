@@ -20,7 +20,7 @@ final class ComicListLoadingViewController: UIViewController {
     
     required init(presenter: ComicListLoadingPresenter) {
         self.presenter = presenter
-        super.init(nibName: NSStringFromClass(self.dynamicType), bundle: nil)
+        super.init(nibName: "ComicListLoadingViewController", bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -30,7 +30,9 @@ final class ComicListLoadingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        refreshingDisposable = ScopedDisposable(presenter.refreshing.producer.startWithNext({ [weak self] refreshing in
+        refreshingDisposable = ScopedDisposable(presenter.refreshing.producer
+            .observeOn(UIScheduler())
+            .startWithNext({ [weak self] refreshing in
             refreshing ?
                 self?.activityIndicator.startAnimating() : self?.activityIndicator.stopAnimating()
             }))

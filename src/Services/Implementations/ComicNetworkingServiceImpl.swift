@@ -31,7 +31,7 @@ final class ComicNetworkingServiceImpl: NSObject, ComicNetworkingService {
     
     func downloadComic(identifier: ComicIdentifier) -> SignalProducer<NSData, ComicNetworkingServiceError> {
         let URLComponents = NSURLComponents()
-        URLComponents.scheme = "http"
+        URLComponents.scheme = "https"
         URLComponents.host = "xkcd.com"
         switch identifier {
         case .Latest:

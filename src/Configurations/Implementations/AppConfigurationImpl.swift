@@ -11,8 +11,9 @@ import Foundation
 final class AppConfigurationImpl: AppConfiguration {
     
     var wireframe: MainWireframe {
-        return MainWireframeImpl(listInteractor: comicListInteractor,
-                                 listPresenterFactory: { ComicListPresenterImpl(interactor: self.comicListInteractor, router: $0) })
+        let interactor = comicListInteractor
+        return MainWireframeImpl(listInteractor: interactor,
+                                 listPresenterFactory: { ComicListPresenterImpl(interactor: interactor, router: $0) })
     }
 
 }

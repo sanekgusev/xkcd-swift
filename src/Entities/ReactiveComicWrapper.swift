@@ -33,3 +33,9 @@ protocol ReactiveComicWrapper {
     
     func retrieveComicWithSignal(@noescape setUp: (Signal<Comic, ComicRepositoryError>, Disposable) -> ())
 }
+
+extension ReactiveComicWrapper {
+    func retrieveComic() {
+        retrieveComicWithSignal { _,_ in }
+    }
+}

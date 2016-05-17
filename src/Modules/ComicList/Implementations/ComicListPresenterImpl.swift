@@ -21,18 +21,26 @@ final class ComicListPresenterImpl: ComicListPresenter {
     
     var comicCount: AnyProperty<UInt?> {
         let reactiveLatestComic = interactor[.Latest].comic
-        return AnyProperty(initialValue: reactiveLatestComic.value?.number,
-                           producer: reactiveLatestComic.producer.map({ $0?.number }))
+        
+        let mutableComicCount = MutableProperty(reactiveLatestComic.value?.number)
+        reactiveLatestComic.producer.startWithNext({ comic in
+            mutableComicCount.value = comic?.number
+        })
+        
+        return AnyProperty(mutableComicCount)
     }
     var refreshing: AnyProperty<Bool> {
-        return interactor[.Latest].loading
+        return AnyProperty(interactor[.Latest].loading)
     }
     var lastRefreshError: AnyProperty<ComicRepositoryError?> {
-        return interactor[.Latest].lastLoadError
+        return AnyProperty(interactor[.Latest].lastLoadError)
     }
     
-    subscript (index: UInt) -> ReactiveComicWrapper {
-        return interactor[.Number(index + 1)]
+    subscript (index: UInt) -> ReactiveComicWrapper? {
+        guard let latestComicNumber = interactor[.Latest].comic.value?.number else {
+            return nil
+        }
+        return interactor[.Number(latestComicNumber - index)]
     }
     
     func selectComicAtIndex(index: UInt) {

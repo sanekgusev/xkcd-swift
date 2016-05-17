@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ComicListLoadingViewController" customModule="xkcd_swift" customModuleProvider="target">
             <connections>
+                <outlet property="activityIndicator" destination="lKT-g1-BlP" id="rIc-nh-Xyj"/>
                 <outlet property="view" destination="iN0-l3-epB" id="2df-T7-si9"/>
             </connections>
         </placeholder>

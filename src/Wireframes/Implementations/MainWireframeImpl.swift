@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ReactiveCocoa
 
 final class MainWireframeImpl: NSObject, MainWireframe {
     
@@ -26,8 +27,9 @@ final class MainWireframeImpl: NSObject, MainWireframe {
         self.window = window
         setupAppearance()
         window.rootViewController = navigationController
-        listPresenter.comicCount.producer.startWithNext { $0 == nil ?
-            self.handleNoComicsLoaded() : self.handleComicsLoaded() }
+        listPresenter.comicCount.producer.observeOn(UIScheduler()).startWithNext { comicCount in
+            comicCount == nil ? self.handleNoComicsLoaded() : self.handleComicsLoaded()
+        }
         listPresenter.refreshComicCount()
     }
 
