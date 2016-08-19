@@ -13,6 +13,17 @@ final class ComicListPresenterImpl: ComicListPresenter {
     let interactor: ComicListInteractor
     let router: ComicListRouter
     
+    lazy var mutableComicCount: MutableProperty<UInt?> = {
+        let reactiveLatestComic = self.interactor[.Latest].comic
+        let mutableComicCount = MutableProperty(reactiveLatestComic.value?.number)
+        
+        let mappedProducer = reactiveLatestComic.producer.map({ $0?.number })
+        
+        mutableComicCount <~ mappedProducer
+        
+        return mutableComicCount
+    }()
+    
     init(interactor: ComicListInteractor,
          router: ComicListRouter) {
         self.interactor = interactor
@@ -20,13 +31,6 @@ final class ComicListPresenterImpl: ComicListPresenter {
     }
     
     var comicCount: AnyProperty<UInt?> {
-        let reactiveLatestComic = interactor[.Latest].comic
-        
-        let mutableComicCount = MutableProperty(reactiveLatestComic.value?.number)
-        reactiveLatestComic.producer.startWithNext({ comic in
-            mutableComicCount.value = comic?.number
-        })
-        
         return AnyProperty(mutableComicCount)
     }
     var refreshing: AnyProperty<Bool> {
@@ -36,7 +40,7 @@ final class ComicListPresenterImpl: ComicListPresenter {
         return AnyProperty(interactor[.Latest].lastLoadError)
     }
     
-    subscript (index: UInt) -> ReactiveComicWrapper? {
+    subscript (index: UInt) -> ReactiveComicType? {
         guard let latestComicNumber = interactor[.Latest].comic.value?.number else {
             return nil
         }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1C586A989A13CB7771E6F8B9 /* Pods_xkcd_swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F13A51CFA5C0FDE69001E42 /* Pods_xkcd_swift.framework */; };
+		BB4558BD1D15D5F00045D77E /* ReactiveEntityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4558BC1D15D5F00045D77E /* ReactiveEntityType.swift */; };
 		BB7660FF1CD660F200543547 /* Comic.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660E31CD660F200543547 /* Comic.swift */; };
 		BB7661001CD660F200543547 /* ComicIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660E41CD660F200543547 /* ComicIdentifier.swift */; };
 		BB7661011CD660F200543547 /* ComicImageKinds.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB7660E51CD660F200543547 /* ComicImageKinds.swift */; };
@@ -38,7 +39,11 @@
 		BB8C40DB1CE12DAC00183073 /* UINavigationController+RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8C40DA1CE12DAC00183073 /* UINavigationController+RootViewController.swift */; };
 		BB8C40DD1CE1315E00183073 /* ComicListLoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BB8C40DC1CE1315E00183073 /* ComicListLoadingViewController.xib */; };
 		BB8C40DF1CE1324500183073 /* ImageLoadingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB8C40DE1CE1324500183073 /* ImageLoadingService.swift */; };
-		BB990B971CDA8F3700F162DF /* ReactiveComicWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB990B961CDA8F3700F162DF /* ReactiveComicWrapper.swift */; };
+		BB916C121D2AE31D00C69B72 /* AnyReactiveEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB916C111D2AE31D00C69B72 /* AnyReactiveEntity.swift */; };
+		BB916C141D2AF53D00C69B72 /* ReactiveEntityFetcherAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB916C131D2AF53D00C69B72 /* ReactiveEntityFetcherAdapter.swift */; };
+		BB916C161D2AFA0000C69B72 /* EntityRepositoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB916C151D2AFA0000C69B72 /* EntityRepositoryType.swift */; };
+		BB990B971CDA8F3700F162DF /* ReactiveComic.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB990B961CDA8F3700F162DF /* ReactiveComic.swift */; };
+		BBA7C1E41D2C481700090F4B /* AnyEntityRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBA7C1E31D2C481700090F4B /* AnyEntityRepository.swift */; };
 		D91CAA48B9EBC10648B14204 /* Pods_xkcd_swiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6B4C226EFBC72468E994241 /* Pods_xkcd_swiftTests.framework */; };
 		F31634031A6B0D7400B8FBAC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F31633FA1A6B0D7400B8FBAC /* LaunchScreen.xib */; };
 		F31634041A6B0D7400B8FBAC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F31633FC1A6B0D7400B8FBAC /* Images.xcassets */; };
@@ -129,6 +134,7 @@
 /* Begin PBXFileReference section */
 		14DE5CFF3290DFF8DFA54059 /* Pods-xkcd-swiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xkcd-swiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-xkcd-swiftTests/Pods-xkcd-swiftTests.release.xcconfig"; sourceTree = "<group>"; };
 		4F13A51CFA5C0FDE69001E42 /* Pods_xkcd_swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_xkcd_swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB4558BC1D15D5F00045D77E /* ReactiveEntityType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactiveEntityType.swift; sourceTree = "<group>"; };
 		BB7660E31CD660F200543547 /* Comic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comic.swift; sourceTree = "<group>"; };
 		BB7660E41CD660F200543547 /* ComicIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicIdentifier.swift; sourceTree = "<group>"; };
 		BB7660E51CD660F200543547 /* ComicImageKinds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComicImageKinds.swift; sourceTree = "<group>"; };
@@ -159,7 +165,11 @@
 		BB8C40DA1CE12DAC00183073 /* UINavigationController+RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+RootViewController.swift"; sourceTree = "<group>"; };
 		BB8C40DC1CE1315E00183073 /* ComicListLoadingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ComicListLoadingViewController.xib; sourceTree = "<group>"; };
 		BB8C40DE1CE1324500183073 /* ImageLoadingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoadingService.swift; sourceTree = "<group>"; };
-		BB990B961CDA8F3700F162DF /* ReactiveComicWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactiveComicWrapper.swift; sourceTree = "<group>"; };
+		BB916C111D2AE31D00C69B72 /* AnyReactiveEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyReactiveEntity.swift; sourceTree = "<group>"; };
+		BB916C131D2AF53D00C69B72 /* ReactiveEntityFetcherAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactiveEntityFetcherAdapter.swift; sourceTree = "<group>"; };
+		BB916C151D2AFA0000C69B72 /* EntityRepositoryType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityRepositoryType.swift; sourceTree = "<group>"; };
+		BB990B961CDA8F3700F162DF /* ReactiveComic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactiveComic.swift; sourceTree = "<group>"; };
+		BBA7C1E31D2C481700090F4B /* AnyEntityRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyEntityRepository.swift; sourceTree = "<group>"; };
 		D235D8B61CE77F44D2D53A1D /* Pods-xkcd-swiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xkcd-swiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-xkcd-swiftTests/Pods-xkcd-swiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E03BBA655CEEEF8CE4DAA395 /* Pods-xkcd-swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-xkcd-swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-xkcd-swift/Pods-xkcd-swift.release.xcconfig"; sourceTree = "<group>"; };
 		F31633FB1A6B0D7400B8FBAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -253,7 +263,7 @@
 				BB7660E31CD660F200543547 /* Comic.swift */,
 				BB7660E41CD660F200543547 /* ComicIdentifier.swift */,
 				BB7660E51CD660F200543547 /* ComicImageKinds.swift */,
-				BB990B961CDA8F3700F162DF /* ReactiveComicWrapper.swift */,
+				BB990B961CDA8F3700F162DF /* ReactiveComic.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -263,6 +273,11 @@
 			children = (
 				BB7660E71CD660F200543547 /* Typealiases.swift */,
 				BB8C40DA1CE12DAC00183073 /* UINavigationController+RootViewController.swift */,
+				BB916C151D2AFA0000C69B72 /* EntityRepositoryType.swift */,
+				BBA7C1E31D2C481700090F4B /* AnyEntityRepository.swift */,
+				BB4558BC1D15D5F00045D77E /* ReactiveEntityType.swift */,
+				BB916C111D2AE31D00C69B72 /* AnyReactiveEntity.swift */,
+				BB916C131D2AF53D00C69B72 /* ReactiveEntityFetcherAdapter.swift */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -468,12 +483,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F3C4C4761A6B0B6500F8F15E /* Build configuration list for PBXNativeTarget "xkcd-swift" */;
 			buildPhases = (
-				9A538E402EE1C4028876D03A /* 📦 Check Pods Manifest.lock */,
+				9A538E402EE1C4028876D03A /* [CP] Check Pods Manifest.lock */,
 				F3C4C4531A6B0B6500F8F15E /* Sources */,
 				F3C4C4541A6B0B6500F8F15E /* Frameworks */,
 				F3C4C4551A6B0B6500F8F15E /* Resources */,
-				8BFD10545B4C8F2BD837C88D /* 📦 Embed Pods Frameworks */,
-				AF1466D7F6B67577D3689AAA /* 📦 Copy Pods Resources */,
+				8BFD10545B4C8F2BD837C88D /* [CP] Embed Pods Frameworks */,
+				AF1466D7F6B67577D3689AAA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -488,12 +503,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F3C4C4791A6B0B6500F8F15E /* Build configuration list for PBXNativeTarget "xkcd-swiftTests" */;
 			buildPhases = (
-				2845AA9D8DECDA397A092B5E /* 📦 Check Pods Manifest.lock */,
+				2845AA9D8DECDA397A092B5E /* [CP] Check Pods Manifest.lock */,
 				F3C4C4681A6B0B6500F8F15E /* Sources */,
 				F3C4C4691A6B0B6500F8F15E /* Frameworks */,
 				F3C4C46A1A6B0B6500F8F15E /* Resources */,
-				9A25061F86E65BF334E9B9EA /* 📦 Embed Pods Frameworks */,
-				B195865A9A4A8122F634E598 /* 📦 Copy Pods Resources */,
+				9A25061F86E65BF334E9B9EA /* [CP] Embed Pods Frameworks */,
+				B195865A9A4A8122F634E598 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -647,14 +662,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2845AA9D8DECDA397A092B5E /* 📦 Check Pods Manifest.lock */ = {
+		2845AA9D8DECDA397A092B5E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -662,14 +677,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		8BFD10545B4C8F2BD837C88D /* 📦 Embed Pods Frameworks */ = {
+		8BFD10545B4C8F2BD837C88D /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -677,14 +692,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-xkcd-swift/Pods-xkcd-swift-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9A25061F86E65BF334E9B9EA /* 📦 Embed Pods Frameworks */ = {
+		9A25061F86E65BF334E9B9EA /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -692,14 +707,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-xkcd-swiftTests/Pods-xkcd-swiftTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9A538E402EE1C4028876D03A /* 📦 Check Pods Manifest.lock */ = {
+		9A538E402EE1C4028876D03A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -707,14 +722,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		AF1466D7F6B67577D3689AAA /* 📦 Copy Pods Resources */ = {
+		AF1466D7F6B67577D3689AAA /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -722,14 +737,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-xkcd-swift/Pods-xkcd-swift-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B195865A9A4A8122F634E598 /* 📦 Copy Pods Resources */ = {
+		B195865A9A4A8122F634E598 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -751,25 +766,30 @@
 				BB7661101CD6614500543547 /* MainWireframe.swift in Sources */,
 				BB8C40D51CE12A2300183073 /* ComicListLoadingPresenter.swift in Sources */,
 				BB7661051CD660F200543547 /* ComicRepositoryImpl.swift in Sources */,
+				BB4558BD1D15D5F00045D77E /* ReactiveEntityType.swift in Sources */,
 				BB76610B1CD660F200543547 /* ImageLoadingServiceImpl.swift in Sources */,
+				BB916C141D2AF53D00C69B72 /* ReactiveEntityFetcherAdapter.swift in Sources */,
 				BB7661141CD661C500543547 /* AppConfiguration.swift in Sources */,
+				BB916C121D2AE31D00C69B72 /* AnyReactiveEntity.swift in Sources */,
 				BB76611C1CD6634B00543547 /* ComicListPresenterImpl.swift in Sources */,
 				BB76610E1CD660F200543547 /* ComicParsingService.swift in Sources */,
 				BB7660FF1CD660F200543547 /* Comic.swift in Sources */,
 				BB7661021CD660F200543547 /* Typealiases.swift in Sources */,
 				BB8C40DF1CE1324500183073 /* ImageLoadingService.swift in Sources */,
-				BB990B971CDA8F3700F162DF /* ReactiveComicWrapper.swift in Sources */,
+				BB990B971CDA8F3700F162DF /* ReactiveComic.swift in Sources */,
 				BB8C40D91CE12C5E00183073 /* ComicListViewController.swift in Sources */,
 				BB7661091CD660F200543547 /* ComicNetworkingServiceImpl.swift in Sources */,
 				BB7661001CD660F200543547 /* ComicIdentifier.swift in Sources */,
 				BB7661071CD660F200543547 /* ComicRepository.swift in Sources */,
 				BB8C40D71CE12AF600183073 /* ComicListLoadingViewController.swift in Sources */,
 				BB76610D1CD660F200543547 /* ComicNetworkingService.swift in Sources */,
+				BB916C161D2AFA0000C69B72 /* EntityRepositoryType.swift in Sources */,
 				BB76610C1CD660F200543547 /* ImageNetworkingService.swift in Sources */,
 				BB7661041CD660F200543547 /* ComicListInteractorImpl.swift in Sources */,
 				BB78866B1CE2805600F9EB41 /* ComicListTableViewCell.swift in Sources */,
 				BB8C40DB1CE12DAC00183073 /* UINavigationController+RootViewController.swift in Sources */,
 				BB7661121CD6615500543547 /* MainWireframeImpl.swift in Sources */,
+				BBA7C1E41D2C481700090F4B /* AnyEntityRepository.swift in Sources */,
 				BB7661161CD661E600543547 /* AppConfigurationImpl.swift in Sources */,
 				BB7661011CD660F200543547 /* ComicImageKinds.swift in Sources */,
 				BB76611A1CD6632E00543547 /* ComicListPresenter.swift in Sources */,

@@ -1,27 +1,30 @@
 PODS:
   - Anthology/OrderedDictionary (1.0.1)
-  - ReactiveCocoa (4.0.4-alpha-4):
-    - ReactiveCocoa/UI (= 4.0.4-alpha-4)
-    - Result (~> 1.0)
-  - ReactiveCocoa/Core (4.0.4-alpha-4):
+  - BidirectionalMap (1.0.4)
+  - ReactiveCocoa (4.1.0):
+    - ReactiveCocoa/UI (= 4.1.0)
+    - Result (~> 2.0)
+  - ReactiveCocoa/Core (4.1.0):
     - ReactiveCocoa/no-arc
-    - Result (~> 1.0)
-  - ReactiveCocoa/no-arc (4.0.4-alpha-4):
-    - Result (~> 1.0)
-  - ReactiveCocoa/UI (4.0.4-alpha-4):
+    - Result (~> 2.0)
+  - ReactiveCocoa/no-arc (4.1.0):
+    - Result (~> 2.0)
+  - ReactiveCocoa/UI (4.1.0):
     - ReactiveCocoa/Core
-    - Result (~> 1.0)
-  - Result (1.0.2)
+    - Result (~> 2.0)
+  - Result (2.0.0)
 
 DEPENDENCIES:
   - Anthology/OrderedDictionary
-  - ReactiveCocoa (= 4.0.4-alpha-4)
+  - BidirectionalMap (~> 1.0.0)
+  - ReactiveCocoa (~> 4.1.0)
 
 SPEC CHECKSUMS:
   Anthology: 8f0857edf3a143c61418fbbc0e8b459b22218815
-  ReactiveCocoa: e459ea92099447802df20c4735e31e8139b06094
-  Result: dd3dd71af3fa2e262f1a999e14fba2c25ec14f16
+  BidirectionalMap: 8c11174e286276568ed6c26a7b94a04d9d06a99c
+  ReactiveCocoa: d70004d7a366a7b8e87e60ce2347182c77701949
+  Result: 9e75e1111c774c6ac594e14907b15057053a7959
 
-PODFILE CHECKSUM: e52250ffc5731715673f9842601060687897d706
+PODFILE CHECKSUM: e5fce48dfacd94c95c5922c2a82a3b2e6dd04a61
 
-COCOAPODS: 1.0.0.rc.1
+COCOAPODS: 1.0.1

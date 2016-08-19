@@ -12,7 +12,7 @@ protocol ComicListPresenter: ComicListLoadingPresenter {
     
     var comicCount: AnyProperty<UInt?> { get }
     
-    subscript (index: UInt) -> ReactiveComicWrapper? { get }
+    subscript (index: UInt) -> ReactiveComic? { get }
     func selectComicAtIndex(index: UInt)
     
     // TODO: manage selected state

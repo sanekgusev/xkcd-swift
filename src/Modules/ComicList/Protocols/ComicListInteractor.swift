@@ -7,5 +7,5 @@
 //
 
 protocol ComicListInteractor {
-    subscript (identifier: ComicIdentifier) -> ReactiveComicWrapper { get }
+    subscript (identifier: ComicIdentifier) -> ReactiveComic { get }
 }

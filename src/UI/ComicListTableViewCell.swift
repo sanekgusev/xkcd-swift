@@ -27,7 +27,7 @@ final class ComicListTableViewCell: UITableViewCell {
     @IBOutlet
     private var refreshIndicator: UIActivityIndicatorView!
 
-    var reactiveComic: ReactiveComicWrapper? {
+    var reactiveComic: ReactiveComicType? {
         didSet {
             if let identifier = reactiveComic?.comicIdentifier,
                 case let .Number(number) = identifier {

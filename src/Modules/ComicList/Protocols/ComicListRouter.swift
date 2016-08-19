@@ -7,5 +7,5 @@
 //
 
 protocol ComicListRouter {
-    func handleComicSelected(comic: ReactiveComicWrapper)
+    func handleComicSelected(comic: ReactiveComic)
 }

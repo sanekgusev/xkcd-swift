@@ -44,7 +44,7 @@ extension MainWireframeImpl: ComicListRouter {
         navigationController.rootViewController = ComicListLoadingViewController(presenter: listPresenter)
     }
     
-    func handleComicSelected(comic: ReactiveComicWrapper) {
+    func handleComicSelected(comic: ReactiveComic) {
         // TODO: create detail VC and push
     }
 }

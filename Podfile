@@ -1,11 +1,12 @@
-platform :ios, '9.0'
+platform :ios, '9.3'
 use_frameworks!
 
 target 'xkcd-swift' do
-  pod 'ReactiveCocoa', '4.0.4-alpha-4'
+  pod 'ReactiveCocoa', '~> 4.1.0'
   pod 'Anthology/OrderedDictionary'
-end
+  pod 'BidirectionalMap', '~> 1.0.0'
 
-target 'xkcd-swiftTests' do
-
+  target 'xkcd-swiftTests' do
+    inherit! :search_paths
+  end
 end
